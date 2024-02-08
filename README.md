@@ -1,6 +1,5 @@
 # Project-Shelter
 
-
 ## ✈️ Project Convention
 
 아래의 모든 컨벤션은 프로젝트 협업에 있어 가독성 및 협업의 편의를 위해 제시된 컨벤션입니다.
