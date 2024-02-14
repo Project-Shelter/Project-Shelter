@@ -4,25 +4,25 @@ using UnityEngine;
 // MonoBehaviour를 상속받지 않은 클래스에서 Coroutine 사용을 돕는 클래스
 public class CoroutineHandler : MonoBehaviour
 {
-    static protected CoroutineHandler m_Instance;
+    static protected CoroutineHandler instance;
     static public CoroutineHandler Instance
     {
         get
         {
-            if (m_Instance == null)
+            if (instance == null)
             {
                 GameObject o = new GameObject("CoroutineHandler");
-                m_Instance = o.AddComponent<CoroutineHandler>();
+                instance = o.AddComponent<CoroutineHandler>();
             }
 
-            return m_Instance;
+            return instance;
         }
     }
 
     public void OnDisable()
     {
-        if (m_Instance)
-            Destroy(m_Instance.gameObject);
+        if (instance)
+            Destroy(instance.gameObject);
     }
 
     static public Coroutine StartStaticCoroutine(IEnumerator coroutine)

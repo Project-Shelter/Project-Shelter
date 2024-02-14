@@ -30,7 +30,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
                 obj = _instance.gameObject;
             }
             
-            //DontDestroyOnLoad(obj);
+            DontDestroyOnLoad(obj);
         }
     }
 }
