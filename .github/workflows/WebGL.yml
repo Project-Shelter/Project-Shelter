@@ -22,7 +22,7 @@ jobs:
         run: exit 1
         
   buildWebGL:
-    name: Build WebGL&Release Github
+    name: Build WebGL 🔨
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
