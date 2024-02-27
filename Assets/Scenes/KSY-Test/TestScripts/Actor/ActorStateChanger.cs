@@ -35,9 +35,10 @@ public class ActorStateChanger
 
     public static void InitState(in Actor actor)
     {
-        if (actor.IsDead) { actor.StateMachine.SetState(ActorState.Die); }
-        else if (actor.OnLadder) { actor.StateMachine.SetState(ActorState.OnLadder); }
-        else { actor.StateMachine.SetState(ActorState.Idle); }
+        actor.StateMachine.SetState(actor.StateMachine.StateBeforeSwitch);
+        //if (actor.IsDead) { actor.StateMachine.SetState(ActorState.Die); }
+        //else if (actor.OnLadder) { actor.StateMachine.SetState(ActorState.OnLadder); }
+        //else { actor.StateMachine.SetState(ActorState.Idle); }
     }
 
     private static void ChangeFromAny(in Actor actor)

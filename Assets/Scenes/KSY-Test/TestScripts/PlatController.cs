@@ -21,12 +21,13 @@ public class PlatController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W) && !actor.OnLadder)
         {
-            if(ignoreCollisionCoroutine != null){
+            if(ignoreCollisionCoroutine != null)
+            {
                 canIgnore = false;
                 ignoreCollisionCoroutine = null;
             }
         }
-        if ((Input.GetKey(KeyCode.S)) && (actor.CanGoDown && actor.OnGround))
+        if (Input.GetKey(KeyCode.S) && (actor.CanGoDown && actor.OnGround))
         {
             if(ignoreCollisionCoroutine == null)
             {

@@ -38,6 +38,7 @@ public class Actor : MonoBehaviour
 
     public Transform Tr { get; private set; }
     public Rigidbody2D Rigid { get; private set; }
+    public PlatformerBody Body { get; private set; }
     public Collider2D Coll { get; private set; }
     public Animator Anim { get; private set; }
     public ActorStat Stat { get; private set; } // = new ActorStat(); //추후 부활 (인스펙터에서 수치변동용)
@@ -54,7 +55,6 @@ public class Actor : MonoBehaviour
     
     public void ActorUpdate()
     {
-
         UpdateBehavior();
         StateMachine.StateUpdate();
         ActorStateChanger.ChangeState(this);
@@ -81,13 +81,15 @@ public class Actor : MonoBehaviour
     private void InitVariables()
     {
         Tr = transform;
-        Rigid = Util.GetOrAddComponent<Rigidbody2D>(gameObject);
+        //Rigid = Util.GetOrAddComponent<Rigidbody2D>(gameObject);
+        Body = Util.GetOrAddComponent<PlatformerBody>(gameObject);
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Anim = Util.GetOrAddComponent<Animator>(gameObject);
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         StateMachine = new ActorStateMachine(this);
         ActorAnim = new ActorAnimController(Anim);
     }
+
     private void UpdateBehavior()
     {
         if (InputHandler.ButtonD) GoRight = true;
@@ -147,19 +149,20 @@ public class Actor : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.layer == (int)Define.Layer.Ground) {
+        if (other.gameObject.layer == (int)Define.Layer.Ground)
+        {
             OnGround = true;
             CurrentGround = other.gameObject;
         }
     }
-    
+
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.layer == (int)Define.Layer.Ground) {
+        if (other.gameObject.layer == (int)Define.Layer.Ground)
+        {
             OnGround = false;
-            //CurrentGround = null;
         }
     }
 

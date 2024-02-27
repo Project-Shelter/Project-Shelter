@@ -57,12 +57,14 @@ public class ActorController : MonoSingleton<ActorController>
         if (CurrentActor.GoRight)
         {            
             CurrentActor.Tr.rotation = CurrentActor.Left;
-            CurrentActor.Rigid.velocity = new Vector2(speed * 1.0f, CurrentActor.Rigid.velocity.y);
+            CurrentActor.Body.Velocity = new Vector2(speed * 1.0f, CurrentActor.Body.Velocity.y);
+            //CurrentActor.Rigid.velocity = new Vector2(speed * 1.0f, CurrentActor.Rigid.velocity.y);
         }
         else
         {
             CurrentActor.Tr.rotation = CurrentActor.Right;
-            CurrentActor.Rigid.velocity = new Vector2(speed * -1.0f, CurrentActor.Rigid.velocity.y);
+            CurrentActor.Body.Velocity = new Vector2(speed * -1.0f, CurrentActor.Body.Velocity.y);
+            //CurrentActor.Rigid.velocity = new Vector2(speed * -1.0f, CurrentActor.Rigid.velocity.y);
         }
     }
     public void Move()
@@ -79,13 +81,15 @@ public class ActorController : MonoSingleton<ActorController>
     {
         if (CurrentActor.StateMachine.CurrentState != ActorState.OnAir)
         {
-            CurrentActor.Rigid.velocity = new Vector2(0f, 1f);
-            CurrentActor.Rigid.AddForce(Vector2.up * CurrentActor.Stat.jumpForce.GetValue(), ForceMode2D.Impulse);
+            CurrentActor.Body.Jump();
+            //CurrentActor.Rigid.velocity = new Vector2(0f, 1f);
+            //CurrentActor.Rigid.AddForce(Vector2.up * CurrentActor.Stat.jumpForce.GetValue(), ForceMode2D.Impulse);
         }
     }
     public void Stop()
     {
-        CurrentActor.Rigid.velocity = Vector2.zero;
+        CurrentActor.Body.Velocity = Vector2.zero;
+        //CurrentActor.Rigid.velocity = Vector2.zero;
     }
 
     public void GoUp()
@@ -103,15 +107,12 @@ public class ActorController : MonoSingleton<ActorController>
 
     public void NoGravity()
     {
-        CurrentActor.Rigid.gravityScale = 0;
-    }
-    private void SetGravity(float gravity)
+        CurrentActor.Body.gravityCheck = false;
+        //CurrentActor.Rigid.gravityScale = 0;
+    }    public void SetGravity()
     {
-        CurrentActor.Rigid.gravityScale = CurrentActor.Stat.defaultGravity.GetValue();
-    }
-    public void SetGravity()
-    {
-        SetGravity(CurrentActor.Stat.defaultGravity.GetValue());
+        CurrentActor.Body.gravityCheck = true;
+        //CurrentActor.Rigid.gravityScale = CurrentActor.Stat.defaultGravity.GetValue();
     }
 
     #endregion

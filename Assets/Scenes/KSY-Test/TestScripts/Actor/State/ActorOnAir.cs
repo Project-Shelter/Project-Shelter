@@ -23,6 +23,6 @@ public class ActorOnAir : ActorBaseState
     }
     public override void ExitState()
     {
-        Actor.Rigid.velocity = Vector2.zero;
+        ActorController.Instance.Stop();
     }
 }

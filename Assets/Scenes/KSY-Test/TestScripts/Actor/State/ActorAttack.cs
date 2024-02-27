@@ -10,7 +10,8 @@ public class ActorAttack : ActorBaseState
 
     public override void EnterState()
     {
-        Actor.Rigid.velocity = new(0f, Actor.Rigid.velocity.y);
+        //Actor.Rigid.velocity = new(0f, Actor.Rigid.velocity.y);
+        Actor.Body.Velocity = new(0f, Actor.Body.Velocity.y);
         Actor.Anim.speed = Actor.Stat.attackSpeed.GetValue();
         Actor.Anim.Play("Player Attack");
     }

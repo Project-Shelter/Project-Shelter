@@ -6,10 +6,10 @@ public class ActorNoControl : ActorBaseState
     
     public override void EnterState()
     {
-        Actor.Rigid.velocity = Vector2.zero;
+        ActorController.Instance.Stop();
         Actor.Stat.ActorChangeEffect.Play();
 
-        if (Actor.OnLadder)
+        if (Actor.StateMachine.StateBeforeSwitch == ActorState.OnLadder)
         {
             ActorController.Instance.NoGravity();
             Actor.Anim.speed = 0;

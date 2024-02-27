@@ -32,8 +32,6 @@ public class ActorStat : MonoBehaviour, IHPStat
     [Header("Move")]
     public Stat moveSpeed;
     public Stat moveOnLadderSpeed;
-    public Stat jumpForce;
-    public Stat defaultGravity;
 
     [Header("Attack")] 
     public Stat attackSpeed;

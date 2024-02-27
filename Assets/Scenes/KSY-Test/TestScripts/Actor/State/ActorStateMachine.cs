@@ -6,6 +6,7 @@ public class ActorStateMachine
 {
     private Dictionary<ActorState, ActorBaseState> stateDict = new Dictionary<ActorState, ActorBaseState>();
     public ActorState CurrentState { get; private set; }
+    public ActorState StateBeforeSwitch { get; private set; }
     public ActorStateMachine(Actor actor)
     {
         InitState(actor);
@@ -22,11 +23,12 @@ public class ActorStateMachine
     {
         if (CurrentState == state)
             return;
-
+        if (state == ActorState.NoControl) StateBeforeSwitch = CurrentState;
+        
         stateDict[CurrentState].ExitState();
         CurrentState = state;
+        Debug.Log(state);
         stateDict[state].EnterState();
-        
     }
 
     private void InitState(Actor actor)

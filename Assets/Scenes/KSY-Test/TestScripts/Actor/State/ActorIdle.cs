@@ -9,7 +9,7 @@ public class ActorIdle : ActorBaseState
     
     public override void EnterState()
     {
-        Actor.Rigid.velocity = Vector2.zero;
+        ActorController.Instance.Stop();
         Actor.Anim.Play("Player Idle");
     }
 

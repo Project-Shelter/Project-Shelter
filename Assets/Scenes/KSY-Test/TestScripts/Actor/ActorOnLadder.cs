@@ -28,7 +28,7 @@ public class ActorOnLadder : ActorBaseState
     public override void ExitState()
     {
         Actor.Anim.speed = 1;
-        Actor.Rigid.velocity = Vector2.zero;
+        ActorController.Instance.Stop();
         ActorController.Instance.SetGravity();
     }
 }
