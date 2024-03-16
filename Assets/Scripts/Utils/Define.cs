@@ -14,6 +14,9 @@ public class Define : MonoBehaviour
         Ground = 25,
         Enemy = 26,
         EnemyTrigger = 27,
+        CanEnterStairDown = 28,
+        CanEnterStairUp = 29,
+        Stair = 30,
     }
     
     public enum UIEvent

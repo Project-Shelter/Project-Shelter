@@ -63,14 +63,14 @@ public class ItemDummyData : MonoBehaviour
     // HP 30 회복
     private void UsePotion()
     {
-        ActorController.Instance.CurrentActor.Stat.RestoreHP(30f);
+        ActorController.Instance.CurrentActor.RestoreHP(30f);
         Debug.Log("포션을 사용했습니다. ");
     }
 
     // 포만감 50 회복
     private void UseMeat()
     {
-        ActorController.Instance.CurrentActor.Stat.satiety.RestoreSatiety(50f);
+        ActorController.Instance.CurrentActor.Satiety.RestoreSatiety(50f);
     }
     private void UseLove()
     {

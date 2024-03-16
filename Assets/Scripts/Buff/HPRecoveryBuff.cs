@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HPRecoveryBuff : IBuff
 {
-    private ActorStat stat;
+    private IRestoreable stat;
 
     private readonly float timeBetRecovery = 3.0f;
     private float currentTime;
@@ -12,7 +12,7 @@ public class HPRecoveryBuff : IBuff
     private Coroutine hpRecoveryCoroutine;
 
     public string Tag { get; set; }
-    public HPRecoveryBuff(ActorStat stat, float buffValue, string tag)
+    public HPRecoveryBuff(IRestoreable stat, float buffValue, string tag)
     {
         this.stat = stat;
         recoveryValue = buffValue;

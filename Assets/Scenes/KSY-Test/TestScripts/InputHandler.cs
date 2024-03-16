@@ -41,7 +41,7 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKey(KeyCode.D))             ButtonD = true;       else ButtonD = false;
         if (Input.GetKeyDown(KeyCode.LeftControl))             ButtonCtrl = true;    else ButtonCtrl = false;
         if (Input.GetKeyDown(KeyCode.R)) ButtonR = true; else ButtonR = false;
-        if (Input.GetKey(KeyCode.Space))         ButtonSpace = true;   else ButtonSpace = false;
+        if (Input.GetKeyDown(KeyCode.Space))     ButtonSpace = true; else ButtonSpace = false;
         if (Input.GetKey(KeyCode.KeypadEnter))   ButtonEnter = true;   else ButtonEnter = false;
         if (Input.GetKey(KeyCode.Escape))        ButtonESC = true;     else ButtonESC = false;
         if (Input.GetMouseButtonDown(0))             ClickLeft = true;     else ClickLeft = false;

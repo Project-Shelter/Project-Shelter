@@ -2,30 +2,24 @@ using UnityEngine;
 
 public class BleedingDebuff : IBuff
 {
-    private IHPStat bleeding;
-    private Coroutine bleedingCoroutine;
-
-    private float timeBetBleeding;
-    private float currentTime;
+    private ILivingEntity bleedingable;
+    private float bleedingTick;
 
     public string Tag { get; set; }
-
-    public BleedingDebuff(IHPStat bleedingable, float buffValue, string tag)
+    public BleedingDebuff(ILivingEntity bleedingable, float buffValue, string tag)
     {
-        bleeding = bleedingable;
-        timeBetBleeding = buffValue;
+        this.bleedingable = bleedingable;
+        bleedingTick = buffValue;
         Tag = tag;
-        currentTime = 0f;
     }
 
     public void TurnOn()
     {
-        currentTime = Time.time;
-        bleedingCoroutine = CoroutineHandler.StartStaticCoroutine(bleeding.BleedingCoroutine(currentTime, timeBetBleeding));
+        bleedingable.Bleeding(bleedingTick);
     }
 
     public void TurnOff()
     {
-        CoroutineHandler.StopStaticCoroutine(bleedingCoroutine);
+        bleedingable.StopBleeding();
     }
 }

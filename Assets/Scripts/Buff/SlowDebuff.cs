@@ -1,30 +1,25 @@
 public class SlowDebuff : IBuff
 {
-    private ActorStat stat;
+    private Stat moveSpeed;
     private float moveSpeedModifier;
-    private float ladderSpeedModifier;
     private float slowRatio;
 
     public string Tag { get; set; }
-    public SlowDebuff(ActorStat stat, float buffValue, string tag)
+    public SlowDebuff(Stat moveSpeed, float buffValue, string tag)
     {
-        this.stat = stat;
+        this.moveSpeed = moveSpeed;
         slowRatio = buffValue;
         Tag = tag;
     }
 
     public void TurnOn()
     {
-        moveSpeedModifier = -stat.moveSpeed.GetValue() * slowRatio;
-        ladderSpeedModifier = -stat.moveOnLadderSpeed.GetValue() * slowRatio;
-
-        stat.moveSpeed.AddModifier(moveSpeedModifier);
-        stat.moveOnLadderSpeed.AddModifier(ladderSpeedModifier);
+        moveSpeedModifier = -moveSpeed.GetValue() * slowRatio;
+        moveSpeed.AddModifier(moveSpeedModifier);
     }
 
     public void TurnOff()
     {
-        stat.moveSpeed.RemoveModifier(moveSpeedModifier);
-        stat.moveOnLadderSpeed.RemoveModifier(ladderSpeedModifier);
+        moveSpeed.RemoveModifier(moveSpeedModifier);
     }
 }

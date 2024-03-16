@@ -1,27 +1,27 @@
 public class DamageDecreaseDebuff : IBuff
 {
-    private ActorStat stat;
+    private Stat damage;
     private float damageModifier;
     private float decreaseRatio;
 
     public string Tag { get; set; }
 
-    public DamageDecreaseDebuff(ActorStat stat, float buffValue, string tag)
+    public DamageDecreaseDebuff(Stat damage, float buffValue, string tag)
     {
-        this.stat = stat;
+        this.damage = damage;
         decreaseRatio = buffValue;
         Tag = tag;
     }
 
     public void TurnOn()
     {
-        damageModifier = -stat.attackDamage.GetValue() * decreaseRatio;
-        stat.attackDamage.AddModifier(damageModifier);
+        damageModifier = -damage.GetValue() * decreaseRatio;
+        damage.AddModifier(damageModifier);
     }
 
     public void TurnOff()
     {
-        stat.attackDamage.RemoveModifier(damageModifier);
+        damage.RemoveModifier(damageModifier);
     }
 
 }
