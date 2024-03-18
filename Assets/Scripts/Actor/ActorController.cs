@@ -20,6 +20,13 @@ public class ActorController : MonoSingleton<ActorController>
     private void Update()
     {
         CurrentActor.ActorUpdate();
+        SetCursor();
+    }
+    
+    private void SetCursor()
+    {
+        if (InputHandler.ClickRight) Cursor.SetCursor(InputHandler.AimCursor, InputHandler.CursorHotspot, CursorMode.Auto);
+        else Cursor.SetCursor(InputHandler.DefaultCursor, InputHandler.CursorHotspot, CursorMode.Auto);
     }
 
     private void FixedUpdate()

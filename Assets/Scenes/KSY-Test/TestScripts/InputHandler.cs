@@ -5,6 +5,14 @@ using System;
 using TMPro;
 
 //Input 방식 변경... Delegate 혹은 새로운 입력 시스템 사용
+public enum MouseSection
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
+
 public class InputHandler : MonoSingleton<InputHandler>
 {
     #region KeyInput
@@ -30,10 +38,21 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     public static bool ClickRight { get; private set; } = false;
     public static bool ClickLeft { get; private set; } = false;
+    public static Vector2 MousePosition { get; private set; }
+    public static MouseSection MouseSection { get; private set; }
+    public static Texture2D DefaultCursor { get; private set; }
+    public static Texture2D AimCursor { get; private set; }
+    public static Vector2 CursorHotspot = new(16f, 16f);
 
     #endregion
 
-    void Update()
+    private void Awake()
+    {
+        DefaultCursor = Resources.Load<Texture2D>("Arts/Cursor/Default");
+        AimCursor = Resources.Load<Texture2D>("Arts/Cursor/Aim");
+    }
+
+    private void Update()
     {
         if (Input.GetKey(KeyCode.W))             ButtonW = true;       else ButtonW = false;
         if (Input.GetKey(KeyCode.S))             ButtonS = true;       else ButtonS = false;
@@ -45,7 +64,9 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKey(KeyCode.KeypadEnter))   ButtonEnter = true;   else ButtonEnter = false;
         if (Input.GetKey(KeyCode.Escape))        ButtonESC = true;     else ButtonESC = false;
         if (Input.GetMouseButtonDown(0))             ClickLeft = true;     else ClickLeft = false;
-        if (Input.GetMouseButtonDown(1))             ClickRight = true;    else ClickRight = false;
+        if (Input.GetMouseButton(1))             ClickRight = true;    else ClickRight = false;
+        MousePosition = Input.mousePosition;
+        MouseSection = GetMouseSection(MousePosition);
 
         if (Input.GetKey(KeyCode.Alpha1))        ButtonArray[1] = true;        else ButtonArray[1] = false;
         if (Input.GetKey(KeyCode.Alpha2))        ButtonArray[2] = true;        else ButtonArray[2] = false;
@@ -55,4 +76,34 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKey(KeyCode.Alpha6))        ButtonArray[6] = true;        else ButtonArray[6] = false;
     }
 
+    private MouseSection GetMouseSection(Vector2 mousePosition)
+    {
+        Vector2 screenSize = new(Screen.width, Screen.height);
+        float screenGradient = screenSize.y / screenSize.x;
+
+        if(screenGradient * mousePosition.x <= mousePosition.y)
+        {
+            // UP or LEFT
+            if((-screenGradient * mousePosition.x + screenSize.y) <= mousePosition.y)
+            {
+                return MouseSection.UP;
+            }
+            else
+            {
+                return MouseSection.LEFT;
+            }
+        }
+        else
+        {
+            // DOWN or RIGHT
+            if ((-screenGradient * mousePosition.x + screenSize.y) <= mousePosition.y)
+            {
+                return MouseSection.RIGHT;
+            }
+            else
+            {
+                return MouseSection.DOWN;
+            }
+        }
+    }
 }
