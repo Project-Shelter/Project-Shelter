@@ -67,6 +67,7 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetMouseButton(1))             ClickRight = true;    else ClickRight = false;
         MousePosition = Input.mousePosition;
         MouseSection = GetMouseSection(MousePosition);
+        print(MouseSection);
 
         if (Input.GetKey(KeyCode.Alpha1))        ButtonArray[1] = true;        else ButtonArray[1] = false;
         if (Input.GetKey(KeyCode.Alpha2))        ButtonArray[2] = true;        else ButtonArray[2] = false;
