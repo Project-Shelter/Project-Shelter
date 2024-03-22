@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum LookDirection
+{
+    Up, Down, Left, Right
+}
+
 public class ActorMoveBody
 {
     private Actor actor;
     private Rigidbody2D rigid;
 
-
     #region Movement States
 
     public bool CanMove { get { return ((HorizontalAxis != 0) || (VerticalAxis != 0)); } }
     public bool CanDash { get { return InputHandler.ButtonSpace && isPassedDashCool; } }
+    public LookDirection LookDirection { get; private set; }
 
     #endregion
 
@@ -63,8 +68,12 @@ public class ActorMoveBody
 
     public void Turn()
     {
+        // TODO - 오른쪽 마우스 누르고 있으면 LookDirection 방향, 아니면 axis 방향
         if (HorizontalAxis == -1) actor.Tr.rotation = left;
         if (HorizontalAxis == 1) actor.Tr.rotation = right;
+
+
+        //if (VerticalAxis == -1) actor.Anim.SetAnimParamter(ActorAnimParameter.LookDirection, (int)LookDirection);
     }
     public void Stop()
     {
