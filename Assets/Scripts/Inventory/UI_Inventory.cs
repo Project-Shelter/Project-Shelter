@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace ItemContainer
         private TextMeshProUGUI name;
         private TextMeshProUGUI weight;
         private TextMeshProUGUI comment;
+
         public override void Init()
         {
             base.Init();
@@ -25,23 +27,34 @@ namespace ItemContainer
             name = GetText((int)Texts.itemName);
             comment = GetText((int)Texts.itemComment);
             weight = GetText((int)Texts.itemWeight);
+            
+            for (int i = 0; i < maxCapacity; i++)
+            {
+                int slot = i;
+                slots[slot].slotBtn.onValueChanged.AddListener(delegate { ClickItem(slot); });
+            }
+
+            LoadWeight();
         }
         
         public void ClickItem(int slot)
         {
-            //base.ClickItem(slot);
             LoadData(slot);
         }
 
         private void LoadData(int slot)
         {
-            name.text = ItemDummyData.ItemDB.data[controller.container.slots[slot].id].name;
-            comment.text = ItemDummyData.ItemDB.data[controller.container.slots[slot].id].comment;
+            int id = LoadId(slot);
+            if (id is 0)
+                return;
+            
+            name.text = ItemDummyData.ItemDB.data[id].name;
+            comment.text = ItemDummyData.ItemDB.data[id].comment;
         }
         
         public void LoadWeight()
         {
-            weight.text = $"{controller.currentWeight}/{ItemDummyData.currentMaxWeight}";
+            weight.text = $"{ItemDummyData.currentWeight}/{ItemDummyData.currentMaxWeight}";
         }
     }
 }

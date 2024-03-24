@@ -13,6 +13,31 @@ namespace ItemContainer
 
         public const int countContainer = 10;
         public const int currentMaxWeight = 200;
+
+        public static int currentWeight
+        {
+            get
+            {
+                int weight = 0;
+                for (int i = 0; i < MaxCapacity[0]; i++)
+                {
+                    if (invenSlots[0].ContainsKey(i))
+                    {
+                        weight += invenSlots[0][i].Count * ItemDB.data[invenSlots[0][i].id].weight;
+                    }
+                }
+                
+                for (int i = 0; i < MaxCapacity[1]; i++)
+                {
+                    if (invenSlots[1].ContainsKey(i))
+                    {
+                        weight += invenSlots[1][i].Count * ItemDB.data[invenSlots[1][i].id].weight;
+                    }
+                }
+
+                return weight;
+            }
+        }
         
         public static Dictionary<int, ItemVO>[] invenSlots = new Dictionary<int, ItemVO>[countContainer];
         public static int[] MaxCapacity = new int[countContainer];

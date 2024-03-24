@@ -19,12 +19,10 @@ namespace ItemContainer
             GetItem(item);
         }
         
-        protected ContainerController controller;
+        public ContainerController controller { get; private set; }
 
-        protected UI_Slot[] slots;
-
-        //const...
-        private int maxCapacity;
+        public UI_Slot[] slots { get; private set; }
+        public int maxCapacity { get; private set; }
         private int number;
 
         public void Start()
@@ -64,7 +62,12 @@ namespace ItemContainer
 
             InitView();
         }
-        
+
+        public int LoadId(int slot)
+        {
+            return slots[slot].Item.id;
+        }
+
         //아이템 획득
         public void GetItem(ItemVO item)
         {

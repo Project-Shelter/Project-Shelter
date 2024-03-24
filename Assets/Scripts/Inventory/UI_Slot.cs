@@ -13,12 +13,10 @@ namespace ItemContainer
 public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Button subBtn;
-    private Toggle slotBtn;
+    public Toggle slotBtn { get; private set; }
     private TextMeshProUGUI countTxt;
 
     public int SlotNumber { get; private set; }
-    public Action ClickSub { private get; set; } = null;
-    public Action ClickItem { private get; set; } = null;
     public ItemVO Item { get; private set; } = new ItemVO();
 
     public bool IsOn { get { return slotBtn.isOn; } }
@@ -32,9 +30,6 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Start()
     {
-        if(subBtn != null)
-            subBtn.onClick.AddListener(delegate { ClickSub?.Invoke();});
-        slotBtn.onValueChanged.AddListener(delegate { ClickItem?.Invoke();});
         SlotNumber = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
     }
 
