@@ -21,8 +21,8 @@ namespace ItemContainer
             PlainImage = Managers.Resources.Load<Sprite>("Arts/Items/plain");
 
             InitItemDB();
-            InitInventory();
             InitInvenBar();
+            InitInventory();
         }
 
         private void InitInventory()

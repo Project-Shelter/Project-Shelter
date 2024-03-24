@@ -16,7 +16,6 @@ namespace ItemContainer
             if (receiver != controller.number)
                 return;
             
-            Debug.Log(item.id);
             GetItem(item);
         }
         
@@ -26,23 +25,22 @@ namespace ItemContainer
 
         //const...
         private int maxCapacity;
-        
-        protected void Awake()
+        private int number;
+
+        public void Start()
         {
-            controller = new ContainerController(int.Parse(gameObject.name.Substring(gameObject.name.Length - 1)));
-        }
-        protected void Start()
-        {
-            maxCapacity = controller.container.maxCapacity;
+            number = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+            controller = new ContainerController(number);
+            maxCapacity = ItemDummyData.MaxCapacity[number];
             slots = new UI_Slot[maxCapacity];
             Init();
         }
 
-        protected void OnEnable()
+        public void OnEnable()
         {
             OpenInventory();
         }
-        protected void OnDisable()
+        public void OnDisable()
         {
             CloseInventory();
         }
@@ -74,12 +72,14 @@ namespace ItemContainer
 
             for (int i = 0; i < item.Count / overlapCount; i++)
             {
-                UpdateSlot(controller.AddItem(item.id, overlapCount));
-                
-                if (item.Count % overlapCount != 0)
-                {
-                    UpdateSlot(controller.AddItem(item.id, item.Count % overlapCount));
-                }
+                int slot = controller.AddItem(item.id, overlapCount);
+                UpdateSlot(slot);
+            }
+            
+            if (item.Count % overlapCount != 0)
+            {
+                int slot = controller.AddItem(item.id, item.Count % overlapCount);
+                UpdateSlot(slot);
             }
         }
 

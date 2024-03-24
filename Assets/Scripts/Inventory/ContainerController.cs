@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace ItemContainer
                 for (int i = 0; i < container.maxCapacity; i++)
                     if (!container.slots.ContainsKey(i))
                         return i;
+                
                 return -1;
             }
         }

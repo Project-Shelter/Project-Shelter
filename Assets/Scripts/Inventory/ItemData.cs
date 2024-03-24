@@ -74,7 +74,6 @@ namespace ItemContainer{
     //인벤토리(아이템 컨테이너) 데이터
     public class ContainerVO
     {
-
         public ContainerVO(int maxCapacity)
         {
             this.maxCapacity = maxCapacity;
