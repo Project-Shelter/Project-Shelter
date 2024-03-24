@@ -129,14 +129,14 @@ namespace ItemContainer
                 UpdateSlot(i);
             }
         }
-        protected void OpenInventory()
+        private void OpenInventory()
         {
             sendItem -= ReceiveItem;
             sendItem += ReceiveItem;
         }
         
         //인벤토리 닫기
-        protected void CloseInventory()
+        private void CloseInventory()
         {
             sendItem -= ReceiveItem;
             FlushItem();
