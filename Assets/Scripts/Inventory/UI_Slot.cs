@@ -10,10 +10,11 @@ using UnityEngine.UI;
 
 namespace ItemContainer
 {
-public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private Button subBtn;
     public Toggle slotBtn { get; private set; }
+    public Action<int> OnDoubleClick = null;
     private TextMeshProUGUI countTxt;
 
     public int SlotNumber { get; private set; }
@@ -52,6 +53,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     //슬롯 초기화
     private void ClearSlot()
     {
+        HideBtn();
         slotBtn.image.sprite = ItemDummyData.PlainImage;
         countTxt.text = "";
         slotBtn.isOn = false;
@@ -62,6 +64,14 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Item = item;
         countTxt.text = Item.Count.ToString();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.clickCount == 2)
+        {
+            OnDoubleClick?.Invoke(SlotNumber);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

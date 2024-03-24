@@ -32,12 +32,19 @@ namespace ItemContainer
             {
                 int slot = i;
                 slots[slot].slotBtn.onValueChanged.AddListener(delegate { ClickItem(slot); });
+                slots[slot].OnDoubleClick -= SlotDoubleClick;
+                slots[slot].OnDoubleClick += SlotDoubleClick;
             }
 
             LoadWeight();
         }
+
+        private void SlotDoubleClick(int slot)
+        {
+            GiveItem(controller.container.slots[slot].Count, slot, 1);
+        }
         
-        public void ClickItem(int slot)
+        private void ClickItem(int slot)
         {
             LoadData(slot);
         }
