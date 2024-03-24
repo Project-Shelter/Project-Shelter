@@ -48,6 +48,7 @@ namespace ItemContainer
             InitItemDB();
             InitInvenBar();
             InitInventory();
+            InitChests();
         }
 
         private void InitInventory()
@@ -75,6 +76,33 @@ namespace ItemContainer
             
             invenSlots[1].Add(0,
                 new ItemVO(1, 5));
+        }
+
+        private void InitChests()
+        {
+            invenSlots[2] = new Dictionary<int, ItemVO>();
+            invenSlots[3] = new Dictionary<int, ItemVO>();
+
+            MaxCapacity[2] = 12;
+            MaxCapacity[3] = 12;
+
+            invenSlots[2].Add(0,
+                new ItemVO(1, 5));
+            
+            invenSlots[2].Add(1,
+                new ItemVO(2, 8));
+            
+            invenSlots[2].Add(2,
+                new ItemVO(3, 1));
+            
+            invenSlots[2].Add(4,
+                new ItemVO(1, 3));
+            
+            invenSlots[3].Add(0,
+                new ItemVO(1, 5));
+            
+            invenSlots[3].Add(1,
+                new ItemVO(2, 8));
         }
 
         private void InitItemDB()

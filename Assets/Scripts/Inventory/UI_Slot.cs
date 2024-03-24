@@ -85,7 +85,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     private void ShowBtn()
     {
-        if (subBtn == null)
+        if (subBtn is null)
             return;
         
         if(slotBtn.image.sprite.name != "plain")
@@ -93,7 +93,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     private void HideBtn()
     {
-        if (subBtn == null)
+        if (subBtn is null)
             return;
         
         if(slotBtn.image.sprite.name != "plain")
