@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum LookDirection
+public enum Direction
 {
-    Up, Down, Left, Right
+    Up, Down, Left, Right, None
 }
 
 public class ActorMoveBody
@@ -16,7 +17,30 @@ public class ActorMoveBody
 
     public bool CanMove { get { return ((HorizontalAxis != 0) || (VerticalAxis != 0)); } }
     public bool CanDash { get { return InputHandler.ButtonSpace && isPassedDashCool; } }
-    public LookDirection LookDirection { get; private set; }
+    public Direction LookDir 
+    {
+        get { return lookDir; }
+        private set
+        {
+            if(value != lookDir)
+            {
+                lookDir = value;
+                OnLookDirChanged?.Invoke(value);
+            }
+        } 
+    }
+    public Direction MoveDir 
+    { 
+        get { return moveDir; } 
+        private set 
+        {
+            if (value != moveDir)
+            {
+                moveDir = value;
+                OnMoveDirChanged?.Invoke(value);
+            }
+        } 
+    }
 
     #endregion
 
@@ -24,9 +48,16 @@ public class ActorMoveBody
     
     private int HorizontalAxis { get { return (InputHandler.ButtonA ? -1 : 0) + (InputHandler.ButtonD ? 1 : 0); } }
     private int VerticalAxis { get { return (InputHandler.ButtonS ? -1 : 0) + (InputHandler.ButtonW ? 1 : 0); } }
+    private Direction lookDir;
+    private Direction moveDir;
     private bool isPassedDashCool = true;
-    private readonly Quaternion left = Quaternion.Euler(new Vector3(0f, 180f, 0f));
-    private readonly Quaternion right = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+
+    #endregion
+
+    #region Movement Events
+
+    public event Action<Direction> OnLookDirChanged;
+    public event Action<Direction> OnMoveDirChanged;
 
     #endregion
 
@@ -52,8 +83,14 @@ public class ActorMoveBody
         isPassedDashCool = false;
         float speed = actor.Stat.dashSpeed.GetValue();
 
-        if(CanMove) Move(speed);
-        else rigid.velocity = actor.Tr.right * speed; // 추후 서있는것이 4방향으로 가능해지면 교체
+        if (CanMove) Move(speed);
+        else 
+        {
+            if (LookDir == Direction.Up) rigid.velocity = Vector2.up * speed;
+            else if (LookDir == Direction.Down) rigid.velocity = Vector2.down * speed;
+            else if (LookDir == Direction.Left) rigid.velocity = Vector2.left * speed;
+            else if (LookDir == Direction.Right) rigid.velocity = Vector2.right * speed;
+        }
     }
 
     public void DashOnCool()
@@ -68,12 +105,14 @@ public class ActorMoveBody
 
     public void Turn()
     {
-        // TODO - 오른쪽 마우스 누르고 있으면 LookDirection 방향, 아니면 axis 방향
-        if (HorizontalAxis == -1) actor.Tr.rotation = left;
-        if (HorizontalAxis == 1) actor.Tr.rotation = right;
+        LookDir = InputHandler.MouseSection;
+        if(LookDir == Direction.None) LookDir = MoveDir;
 
-
-        //if (VerticalAxis == -1) actor.Anim.SetAnimParamter(ActorAnimParameter.LookDirection, (int)LookDirection);
+        if (HorizontalAxis == 0 && VerticalAxis == 0) MoveDir = LookDir;
+        else if (HorizontalAxis == 1) MoveDir = Direction.Right;
+        else if (HorizontalAxis == -1) MoveDir = Direction.Left;
+        else if (VerticalAxis == 1) MoveDir = Direction.Up;
+        else if (VerticalAxis == -1) MoveDir = Direction.Down;
     }
     public void Stop()
     {

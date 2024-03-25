@@ -5,14 +5,6 @@ using System;
 using TMPro;
 
 //Input 방식 변경... Delegate 혹은 새로운 입력 시스템 사용
-public enum MouseSection
-{
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-}
-
 public class InputHandler : MonoSingleton<InputHandler>
 {
     #region KeyInput
@@ -39,7 +31,7 @@ public class InputHandler : MonoSingleton<InputHandler>
     public static bool ClickRight { get; private set; } = false;
     public static bool ClickLeft { get; private set; } = false;
     public static Vector2 MousePosition { get; private set; }
-    public static MouseSection MouseSection { get; private set; }
+    public static Direction MouseSection { get; private set; }
     public static Texture2D DefaultCursor { get; private set; }
     public static Texture2D AimCursor { get; private set; }
     public static Vector2 CursorHotspot = new(16f, 16f);
@@ -67,7 +59,6 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetMouseButton(1))             ClickRight = true;    else ClickRight = false;
         MousePosition = Input.mousePosition;
         MouseSection = GetMouseSection(MousePosition);
-        print(MouseSection);
 
         if (Input.GetKey(KeyCode.Alpha1))        ButtonArray[1] = true;        else ButtonArray[1] = false;
         if (Input.GetKey(KeyCode.Alpha2))        ButtonArray[2] = true;        else ButtonArray[2] = false;
@@ -77,8 +68,10 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKey(KeyCode.Alpha6))        ButtonArray[6] = true;        else ButtonArray[6] = false;
     }
 
-    private MouseSection GetMouseSection(Vector2 mousePosition)
+    private Direction GetMouseSection(Vector2 mousePosition)
     {
+        if(!ClickRight) return Direction.None;
+
         Vector2 screenSize = new(Screen.width, Screen.height);
         float screenGradient = screenSize.y / screenSize.x;
 
@@ -87,11 +80,11 @@ public class InputHandler : MonoSingleton<InputHandler>
             // UP or LEFT
             if((-screenGradient * mousePosition.x + screenSize.y) <= mousePosition.y)
             {
-                return MouseSection.UP;
+                return Direction.Up;
             }
             else
             {
-                return MouseSection.LEFT;
+                return Direction.Left;
             }
         }
         else
@@ -99,11 +92,11 @@ public class InputHandler : MonoSingleton<InputHandler>
             // DOWN or RIGHT
             if ((-screenGradient * mousePosition.x + screenSize.y) <= mousePosition.y)
             {
-                return MouseSection.RIGHT;
+                return Direction.Right;
             }
             else
             {
-                return MouseSection.DOWN;
+                return Direction.Down;
             }
         }
     }

@@ -10,11 +10,11 @@ public class ActorIdle : ActorBaseState
     public override void UpdateState() 
     {
         base.UpdateState();
+        Actor.MoveBody.Turn();
     }
 
     public override void FixedUpdateState()
     {
-
     }
 
     public override void ExitState() { }

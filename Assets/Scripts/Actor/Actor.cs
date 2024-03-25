@@ -58,8 +58,8 @@ public partial class Actor : MonoBehaviour, ILivingEntity
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         StateMachine = new ActorStateMachine(this);
-        Anim = new ActorAnimController(this);
         MoveBody = new ActorMoveBody(this);
+        Anim = new ActorAnimController(this);
         Buff = new BuffAttacher(this);
         ActorSwitchEffect = Util.FindChild<ParticleSystem>(this.gameObject, "ActorSwitchEffect");
     }

@@ -10,12 +10,12 @@ public class ActorWalk : ActorBaseState
     public override void UpdateState()
     {
         base.UpdateState();
+        Actor.MoveBody.Turn();
     }
 
     public override void FixedUpdateState()
     {
         Actor.MoveBody.Move();
-        Actor.MoveBody.Turn();
     }
 
     public override void ExitState() 

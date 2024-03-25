@@ -32,8 +32,8 @@ public class ActorDash : ActorBaseState
 
     public override void ExitState()
     {
-        Actor.MoveBody.DashOnCool();
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsMoving, false);
+        Actor.MoveBody.DashOnCool();
     }
 
     protected override void ChangeFromState()

@@ -7,8 +7,8 @@ public enum ActorAnimParameter
     IsMoving,
     IsAttacking,
     IsDead,
+    LookDirection,
     MoveDirection,
-    LookDirection
 }
 public class ActorAnimController
 {
@@ -19,6 +19,8 @@ public class ActorAnimController
     {
         anim = Util.GetOrAddComponent<Animator>(actor.gameObject);
         InitAnimController();
+        actor.MoveBody.OnLookDirChanged += SetLookDirection;
+        actor.MoveBody.OnMoveDirChanged += SetMoveDirection;
     }
     
     private void InitAnimController()
@@ -31,44 +33,41 @@ public class ActorAnimController
         AnimParameters.Add(ActorAnimParameter.IsMoving, Animator.StringToHash("IsMoving"));
         AnimParameters.Add(ActorAnimParameter.IsAttacking, Animator.StringToHash("IsAttacking"));
         AnimParameters.Add(ActorAnimParameter.IsDead, Animator.StringToHash("IsDead"));
-        AnimParameters.Add(ActorAnimParameter.MoveDirection, Animator.StringToHash("MoveDirection"));
         AnimParameters.Add(ActorAnimParameter.LookDirection, Animator.StringToHash("LookDirection"));
+        AnimParameters.Add(ActorAnimParameter.MoveDirection, Animator.StringToHash("MoveDirection"));
     }
-    
+
+    #region Bind Functions
+
+    private void SetLookDirection(Direction dir)
+    {
+        SetAnimParamter(ActorAnimParameter.LookDirection, (float)dir);
+    }
+
+    private void SetMoveDirection(Direction dir)
+    {
+        SetAnimParamter(ActorAnimParameter.MoveDirection, (float)dir);
+    }
+
+    #endregion
+
     public void SetAnimParamter(ActorAnimParameter animParamter, bool value)
     {
-        SetAnimParamter(AnimParameters[animParamter], value);
-    }
-
-    private void SetAnimParamter(int animHash, bool value)
-    {
-        anim.SetBool(animHash, value);
-    }
-
-    public void SetAnimParamter(ActorAnimParameter animParamter, float value)
-    {
-        SetAnimParamter(AnimParameters[animParamter], value);
-    }
-    private void SetAnimParamter(int animHash, float value)
-    {
-        anim.SetFloat(animHash, value);
+        anim.SetBool(AnimParameters[animParamter], value);
     }
 
     public void SetAnimParamter(ActorAnimParameter animParamter, int value)
     {
-        SetAnimParamter(AnimParameters[animParamter], value);
-    }
-    private void SetAnimParamter(int animHash, int value)
-    {
-        anim.SetInteger(animHash, value);
+        anim.SetInteger(AnimParameters[animParamter], value);
     }
 
+    public void SetAnimParamter(ActorAnimParameter animParamter, float value)
+    {
+        anim.SetFloat(AnimParameters[animParamter], value);
+    }
+    
     public void SetAnimParamter(ActorAnimParameter animParamter)
     {
-        SetAnimParamter(AnimParameters[animParamter]);
-    }
-    private void SetAnimParamter(int animHash)
-    {
-        anim.SetTrigger(animHash);
+        anim.SetTrigger(AnimParameters[animParamter]);
     }
 }
