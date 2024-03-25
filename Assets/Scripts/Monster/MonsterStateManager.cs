@@ -15,7 +15,6 @@ public class MonsterStateManager : MonoBehaviour
 
     public MonsterStat Stat { get; private set; }
     public Rigidbody2D Rigid { get; private set; }
-    public PlatformerBody Body { get; private set; }
     public Animator Animator { get; private set; }
     public Collider2D Coll { get; private set; }
     public Actor ChasingTarget { get; set; }
@@ -83,8 +82,7 @@ public class MonsterStateManager : MonoBehaviour
             transform.localRotation = Right;
         }
 
-        Body.Velocity = new(moveVelocity.x, Body.Velocity.y);
-        //Rigid.velocity = new(moveVelocity.x, Rigid.velocity.y);
+        Rigid.velocity = new(moveVelocity.x, Rigid.velocity.y);
     }
 
     private void Awake()
@@ -97,7 +95,6 @@ public class MonsterStateManager : MonoBehaviour
     {
         Stat = GetComponent<MonsterStat>();
         Rigid = GetComponent<Rigidbody2D>();
-        Body = GetComponentInChildren<PlatformerBody>();
         Animator = GetComponentInChildren<Animator>();
         Coll = GetComponentInChildren<Collider2D>();
 

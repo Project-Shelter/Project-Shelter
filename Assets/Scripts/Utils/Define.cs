@@ -8,12 +8,8 @@ public class Define : MonoBehaviour
     {
         Wall = 3,
         Character = 21,
-        CanEnterLadderDown = 22,
-        CanEnterLadderUp = 23,
-        Ladder = 24,
-        Ground = 25,
-        Enemy = 26,
-        EnemyTrigger = 27,
+        Enemy = 22,
+        EnemyTrigger = 23,
     }
     
     public enum UIEvent

@@ -30,10 +30,21 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     public static bool ClickRight { get; private set; } = false;
     public static bool ClickLeft { get; private set; } = false;
+    public static Vector2 MousePosition { get; private set; }
+    public static Direction MouseSection { get; private set; }
+    public static Texture2D DefaultCursor { get; private set; }
+    public static Texture2D AimCursor { get; private set; }
+    public static Vector2 CursorHotspot = new(16f, 16f);
 
     #endregion
 
-    void Update()
+    private void Awake()
+    {
+        DefaultCursor = Resources.Load<Texture2D>("Arts/Cursor/Default");
+        AimCursor = Resources.Load<Texture2D>("Arts/Cursor/Aim");
+    }
+
+    private void Update()
     {
         if (Input.GetKey(KeyCode.W))             ButtonW = true;       else ButtonW = false;
         if (Input.GetKey(KeyCode.S))             ButtonS = true;       else ButtonS = false;
@@ -41,11 +52,13 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKey(KeyCode.D))             ButtonD = true;       else ButtonD = false;
         if (Input.GetKeyDown(KeyCode.LeftControl))             ButtonCtrl = true;    else ButtonCtrl = false;
         if (Input.GetKeyDown(KeyCode.R)) ButtonR = true; else ButtonR = false;
-        if (Input.GetKey(KeyCode.Space))         ButtonSpace = true;   else ButtonSpace = false;
+        if (Input.GetKeyDown(KeyCode.Space))     ButtonSpace = true; else ButtonSpace = false;
         if (Input.GetKey(KeyCode.KeypadEnter))   ButtonEnter = true;   else ButtonEnter = false;
         if (Input.GetKey(KeyCode.Escape))        ButtonESC = true;     else ButtonESC = false;
         if (Input.GetMouseButtonDown(0))             ClickLeft = true;     else ClickLeft = false;
-        if (Input.GetMouseButtonDown(1))             ClickRight = true;    else ClickRight = false;
+        if (Input.GetMouseButton(1))             ClickRight = true;    else ClickRight = false;
+        MousePosition = Input.mousePosition;
+        MouseSection = GetMouseSection(MousePosition);
 
         if (Input.GetKey(KeyCode.Alpha1))        ButtonArray[1] = true;        else ButtonArray[1] = false;
         if (Input.GetKey(KeyCode.Alpha2))        ButtonArray[2] = true;        else ButtonArray[2] = false;
@@ -55,4 +68,36 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKey(KeyCode.Alpha6))        ButtonArray[6] = true;        else ButtonArray[6] = false;
     }
 
+    private Direction GetMouseSection(Vector2 mousePosition)
+    {
+        if(!ClickRight) return Direction.None;
+
+        Vector2 screenSize = new(Screen.width, Screen.height);
+        float screenGradient = screenSize.y / screenSize.x;
+
+        if(screenGradient * mousePosition.x <= mousePosition.y)
+        {
+            // UP or LEFT
+            if((-screenGradient * mousePosition.x + screenSize.y) <= mousePosition.y)
+            {
+                return Direction.Up;
+            }
+            else
+            {
+                return Direction.Left;
+            }
+        }
+        else
+        {
+            // DOWN or RIGHT
+            if ((-screenGradient * mousePosition.x + screenSize.y) <= mousePosition.y)
+            {
+                return Direction.Right;
+            }
+            else
+            {
+                return Direction.Down;
+            }
+        }
+    }
 }
