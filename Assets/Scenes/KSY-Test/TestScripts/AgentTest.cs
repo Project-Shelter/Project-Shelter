@@ -11,11 +11,16 @@ public class AgentTest : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.autoTraverseOffMeshLink = false;
         target = ActorController.Instance.CurrentActor.gameObject;
     }
 
     void Update()
     {
         agent.SetDestination(target.transform.position);
+        if (agent.isOnOffMeshLink)
+        {
+            agent.Warp(agent.currentOffMeshLinkData.endPos);
+        }
     }
 }
