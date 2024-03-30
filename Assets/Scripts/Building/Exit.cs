@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Exit : MonoBehaviour
 {
-    private IFloor floor;
+    private IPathway pathway;
 
     private void Start()
     {
-        floor = transform.parent.GetComponent<IFloor>();
+        pathway = transform.parent.GetComponent<IPathway>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -16,16 +16,7 @@ public class Exit : MonoBehaviour
         IMovable movable = collision.GetComponent<IMovable>();
         if(movable != null)
         {
-            floor.PassExit(movable);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        IMovable movable = collision.GetComponent<IMovable>();
-        if (movable != null)
-        {
-            floor.PassExit(movable);
+            pathway.PassExit(movable);
         }
     }
 }
