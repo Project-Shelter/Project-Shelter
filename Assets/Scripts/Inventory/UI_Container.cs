@@ -10,10 +10,11 @@ namespace ItemContainer
 {
     public class UI_Container : UI_Section
     {
+        private static bool[] openContainer = new bool[3];
         private static Action<int, ItemVO> sendItem; //int : receive container
         private void ReceiveItem(int receiver, ItemVO item)
         {
-            if (receiver != controller.number)
+            if (receiver != sendNumber)
                 return;
             
             GetItem(item);
@@ -24,12 +25,17 @@ namespace ItemContainer
         public UI_Slot[] slots { get; private set; }
         public int maxCapacity { get; private set; }
         private int number;
+        private int sendNumber;
 
         public void Start()
         {
             number = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
             controller = new ContainerController(number);
             maxCapacity = ItemDummyData.MaxCapacity[number];
+
+            if (number < 2) sendNumber = number;
+            else sendNumber = 2;
+            
             slots = new UI_Slot[maxCapacity];
             Init();
         }
@@ -131,6 +137,8 @@ namespace ItemContainer
         }
         private void OpenInventory()
         {
+            InitView();
+            openContainer[sendNumber] = true;
             sendItem -= ReceiveItem;
             sendItem += ReceiveItem;
         }
@@ -138,6 +146,7 @@ namespace ItemContainer
         //인벤토리 닫기
         private void CloseInventory()
         {
+            openContainer[sendNumber] = false;
             sendItem -= ReceiveItem;
             FlushItem();
         }
