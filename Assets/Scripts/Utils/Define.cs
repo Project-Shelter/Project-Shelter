@@ -9,8 +9,9 @@ public class Define : MonoBehaviour
         Wall = 3,
 
         Ground = 10,
-        Floor2 = 11,
-        Floor3 = 12,
+        Floor1 = 11,
+        Floor2 = 12,
+        Floor3 = 13,
 
         Character = 21,
         Enemy = 22,
