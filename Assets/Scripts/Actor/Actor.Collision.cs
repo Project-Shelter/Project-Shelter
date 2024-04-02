@@ -39,32 +39,34 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         }
     }
 
-    public void EnterBuilding(GameObject roof, Define.Layer floor)
+    public void EnterBuilding(GameObject roof)
     {
         roof.SetActive(false);
         this.roof = roof;
-        Camera.main.cullingMask |= 1 << (int)floor;
     }
 
-    public void ExitBuilding(Define.Layer floor)
+    public void ExitBuilding()
     {
         roof.SetActive(true);
-        this.roof = null;
-        Camera.main.cullingMask &= ~(1 << (int)floor);
+        roof = null;
     }
 
     public void ChangeFloor(Define.Layer floor)
     {
-        int newZ;
-        if(floor == Define.Layer.Ground)
-        {
-            newZ = 0;
-        }
-        else
-        {
-            newZ = (int)Define.Layer.Floor1 - (int)floor;
-        }
-        Tr.position = new Vector3(Tr.position.x, Tr.position.y, newZ);
+        Tr.position = new Vector3(Tr.position.x, Tr.position.y, GetZPosition(floor));
+        SetViewByFloorChange(gameObject.layer, (int)floor);
         gameObject.layer = (int)floor;
+    }
+
+    private int GetZPosition(Define.Layer floor)
+    {
+        if (floor == Define.Layer.Ground) return 0;
+        else return (int)Define.Layer.Floor1 - (int)floor;
+    }
+
+    private void SetViewByFloorChange(int prevFloor, int nextFloor)
+    {
+        if (prevFloor != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << prevFloor);
+        Camera.main.cullingMask |= 1 << nextFloor;
     }
 }
