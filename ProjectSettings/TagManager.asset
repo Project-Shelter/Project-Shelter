@@ -16,10 +16,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Floor1
+  - Floor2
+  - Floor3
   - 
   - 
   - 
@@ -42,6 +42,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Building
+    uniqueID: 2754278123
+    locked: 0
+  - name: Player
+    uniqueID: 1266401475
+    locked: 0
   - name: Effect
     uniqueID: 1906851569
+    locked: 0
+  - name: Roof
+    uniqueID: 351799037
     locked: 0

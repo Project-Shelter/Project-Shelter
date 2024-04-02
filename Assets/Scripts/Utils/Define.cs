@@ -7,6 +7,12 @@ public class Define : MonoBehaviour
     public enum Layer
     {
         Wall = 3,
+
+        Ground = 10,
+        Floor1 = 11,
+        Floor2 = 12,
+        Floor3 = 13,
+
         Character = 21,
         Enemy = 22,
         EnemyTrigger = 23,
