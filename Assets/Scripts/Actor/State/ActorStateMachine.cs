@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+    
 public enum ActorState
 {
     Idle,
@@ -36,7 +36,6 @@ public class ActorStateMachine
         
         stateDict[CurrentState].ExitState();
         CurrentState = state;
-        Debug.Log(state);
         stateDict[state].EnterState();
     }
 

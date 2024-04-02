@@ -44,12 +44,19 @@ public partial class Actor : MonoBehaviour, ILivingEntity
         StateMachine.StateFixedUpdate();
     }
 
-    public void EnterControl() {  }
-
-    public void ExitControl() 
+    public void EnterControl() 
     {
-        if(!IsDead) StateMachine.SetState(ActorState.Idle);
+        Camera.main.cullingMask |= 1 << gameObject.layer;
+        if(roof != null) roof.SetActive(false);
+    }
+
+    public void ExitControl()
+    {
+        if (!IsDead) StateMachine.SetState(ActorState.Idle);
         else StateMachine.SetState(ActorState.Die);
+
+        if(gameObject.layer != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << gameObject.layer);
+        if(roof != null) roof.SetActive(true);
     }
 
     private void InitVariables()

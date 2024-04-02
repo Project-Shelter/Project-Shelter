@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Actor : MonoBehaviour, ILivingEntity
+public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
     #region CollisionVariables
 
     private int countCollidingEnemy;
     private SlowDebuff collidingEnemyDebuff;
+    private GameObject roof;
 
     #endregion
 
@@ -16,6 +17,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity
         countCollidingEnemy = 0;
         collidingEnemyDebuff = new SlowDebuff(Stat.moveSpeed, Stat.collidingEnemyDebuffVal.GetValue(), "CollidingEnemyDebuff");
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == (int)Define.Layer.EnemyTrigger)
@@ -35,5 +37,36 @@ public partial class Actor : MonoBehaviour, ILivingEntity
                 Buff.RemoveBuff(collidingEnemyDebuff);
             }
         }
+    }
+
+    public void EnterBuilding(GameObject roof)
+    {
+        roof.SetActive(false);
+        this.roof = roof;
+    }
+
+    public void ExitBuilding()
+    {
+        roof.SetActive(true);
+        roof = null;
+    }
+
+    public void ChangeFloor(Define.Layer floor)
+    {
+        Tr.position = new Vector3(Tr.position.x, Tr.position.y, GetZPosition(floor));
+        SetViewByFloorChange(gameObject.layer, (int)floor);
+        gameObject.layer = (int)floor;
+    }
+
+    private int GetZPosition(Define.Layer floor)
+    {
+        if (floor == Define.Layer.Ground) return 0;
+        else return (int)Define.Layer.Floor1 - (int)floor;
+    }
+
+    private void SetViewByFloorChange(int prevFloor, int nextFloor)
+    {
+        if (prevFloor != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << prevFloor);
+        Camera.main.cullingMask |= 1 << nextFloor;
     }
 }
