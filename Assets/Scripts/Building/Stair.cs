@@ -8,22 +8,22 @@ public class Stair : MonoBehaviour, IPathway
     private Define.Layer nowFloor;
     public Define.Layer linkedFloor;
 
-    public Direction enterDirection;
     private Entrance entrance;
+    public Direction enterDirection;
 
     private void Awake()
     {
-        entrance = new Entrance(this, enterDirection);
+        InitVariables();
+    }
+
+    private void InitVariables()
+    {
         nowFloor = (Define.Layer)gameObject.layer;
+        entrance = new Entrance(this, enterDirection);
     }
 
     public void PassEntrance(IMovable movable)
     {
-        if (movable == (IMovable)ActorController.Instance.CurrentActor)
-        {
-            Camera.main.cullingMask |= 1 << (int)linkedFloor;
-            if(nowFloor != Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << (int)nowFloor);   
-        }
         movable.ChangeFloor(linkedFloor);
     }
 
