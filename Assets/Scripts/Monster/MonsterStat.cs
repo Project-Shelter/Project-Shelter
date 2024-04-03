@@ -9,7 +9,7 @@ public class MonsterStat : MonoBehaviour
     #region HP
 
     public float minHP;
-    public MonsterHPStat HP;
+    public MonsterHealth HP;
     public float maxHP;
     public Stat stunTime;
     [field: SerializeField] public ParticleSystem OnDamageParticle { get; private set; }
@@ -110,7 +110,7 @@ public class MonsterStat : MonoBehaviour
 
     private void InitStat()
     {
-        HP = new MonsterHPStat(this, minHP, maxHP);
+        HP = new MonsterHealth(this, minHP, maxHP);
         moveSpeedModifier = Random.Range(-0.4f, 0.4f);
         dayMoveSpeed.AddModifier(moveSpeedModifier); nightMoveSpeed.AddModifier(moveSpeedModifier);
         dayChaseSpeed.AddModifier(moveSpeedModifier); nightChaseSpeed.AddModifier(moveSpeedModifier);

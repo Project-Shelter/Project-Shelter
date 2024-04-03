@@ -2,14 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MonsterBaseState
+public abstract class MonsterBaseState : BaseState<MonsterStateMachine>
 {
-    protected MonsterStateManager Manager { get; private set; }
-    protected MonsterBaseState(in MonsterStateManager manager)
-    {
-        Manager = manager;
-    }
-
+    protected MonsterBaseState(MonsterStateMachine stateMachine) : base(stateMachine) { }
     public abstract void OnStateEnter();
     public abstract void OnStateUpdate();
     public abstract void OnStateFixedUpdate();
