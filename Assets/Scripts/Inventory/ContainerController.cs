@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,11 +10,16 @@ namespace ItemContainer
     {
         public ContainerVO container { get; protected set; }
         public int number { get; protected set; }
-        public ContainerController(int number)
+        public ContainerController(int num)
         {
-            this.number = number;
-            container = new ContainerVO(ItemDummyData.MaxCapacity[number]);
-            container.slots = ItemDummyData.invenSlots[number];
+            container = new ContainerVO(ItemDummyData.MaxCapacity[num]);
+            SetContainer(num);
+        }
+
+        public void SetContainer(int num)
+        {
+            number = num;
+            container.slots = ItemDummyData.invenSlots[num];
         }
         
         private int emptySlot

@@ -15,13 +15,12 @@ public class UI_PopUI : MonoBehaviour
     public void Start(){
         popupBtn.onClick.AddListener(Open);
     }
-
-    public void Update()
+    
+    public virtual void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if(UIobj.activeSelf) Close();
-            else Open();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {

@@ -22,6 +22,11 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public bool IsOn { get { return slotBtn.isOn; } }
 
+    public void TurnOff()
+    {
+        slotBtn.isOn = false;
+    }
+
     void Awake()
     {
         countTxt = Util.FindChild<TextMeshProUGUI>(gameObject, "itemCount");

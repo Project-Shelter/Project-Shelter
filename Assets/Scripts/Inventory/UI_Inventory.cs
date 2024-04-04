@@ -19,6 +19,10 @@ namespace ItemContainer
         private TextMeshProUGUI weight;
         private TextMeshProUGUI comment;
 
+        public GameObject btn;
+        public GameObject btnFarming;
+        public GameObject btnFarmingClick;
+
         public override void Init()
         {
             base.Init();
@@ -37,6 +41,42 @@ namespace ItemContainer
             }
 
             LoadWeight();
+
+            pickItem -= ClickQuickBtn;
+            pickItem += ClickQuickBtn;
+        }
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            
+            Debug.Log("Enable");
+            OpenInventoryBtn();
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            FlushBtn();
+        }
+
+        private void OpenInventoryBtn()
+        {
+            if (openContainer[2]) btnFarming.SetActive(true);
+            else btn.SetActive(true);
+            
+        }
+        private void FlushBtn()
+        {
+            btn.SetActive(true);
+            btnFarming.SetActive(false);
+            btnFarmingClick.SetActive(false);
+        }
+
+        public void ClickQuickBtn(int sender)
+        {
+            if(pickedContainer == 1) btnFarmingClick.SetActive(true);
+            else btnFarmingClick.SetActive(false);
         }
 
         private void SlotDoubleClick(int slot)
