@@ -12,7 +12,7 @@ namespace ItemContainer
 {
 public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    private Button subBtn;
+    public Button subBtn;
     public Toggle slotBtn { get; private set; }
     public Action<int> OnDoubleClick = null;
     private TextMeshProUGUI countTxt;
@@ -26,7 +26,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         slotBtn.isOn = false;
     }
-
+    
     void Awake()
     {
         countTxt = Util.FindChild<TextMeshProUGUI>(gameObject, "itemCount");
@@ -81,7 +81,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ShowBtn();
+        if(UI_Container.openContainer[2]) ShowBtn();
     }
     public void OnPointerExit(PointerEventData eventData)
     {

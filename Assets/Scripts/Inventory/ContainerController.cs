@@ -54,6 +54,14 @@ namespace ItemContainer
         public int AddItem(int id, int count)
         {
             int slot = emptySlot;
+            foreach (var item in container.slots)
+            {
+                if (item.Value.id == id && item.Value.Count + count <= ItemDummyData.ItemDB.data[id].overlapCount)
+                {
+                    slot = item.Key;
+                    break;
+                }
+            }
             if (slot == -1)
                 return -1;
             AddItem(id, count, slot);

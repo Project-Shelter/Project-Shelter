@@ -11,7 +11,7 @@ namespace ItemContainer
 {
     public class UI_Container : UI_Section
     {
-        protected static bool[] openContainer { get; private set; } = new bool[3];
+        public static bool[] openContainer { get; private set; } = new bool[3];
         protected static int pickedContainer { get; private set; } = 0;
 
         private static Action<int, ItemVO> sendItem; //int : receive container
@@ -62,6 +62,7 @@ namespace ItemContainer
                 if (number < 2) sendNumber = number;
                 else sendNumber = 2;
             }
+            
             openContainer[sendNumber] = true;
             OpenInventory();
             
@@ -88,6 +89,7 @@ namespace ItemContainer
             Bind<UI_Slot>(slotStr);
             for (int i = 0; i < maxCapacity; i++)
             {
+                int slot = i;
                 slots[i] = Get<UI_Slot>(i);
                 slots[i].slotBtn.onValueChanged.AddListener((isOn) => {
                     if (isOn)
@@ -99,6 +101,12 @@ namespace ItemContainer
 
                         pickItem(sendNumber);
                     } });
+                slots[i].subBtn.onClick.AddListener(delegate
+                {
+                    int receiver = (sendNumber == 2) ? 0 : 2;
+                    if (controller.container.slots.Count == maxCapacity && receiver is 0) receiver = 1;
+                    GiveItem(1, slot, receiver);
+                });
             }
 
             InitView();
