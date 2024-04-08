@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class MonsterStat : MonoBehaviour
 {
-    public enum MoveType
-    {
-        Idle,
-        Patrol,
-        Random,
-    }
-
     #region Stat
 
     [Header("HP")]
@@ -19,9 +12,13 @@ public class MonsterStat : MonoBehaviour
     public Stat stunTime;
 
     [Header("Move")]
-    public MoveType initialMoveType = MoveType.Idle;
+    public MonsterMoveType moveType;
     public Stat dayMoveSpeed;
     public Stat nightMoveSpeed;
+
+    public Vector3[] patrolMovePos;
+    public float moveTime;
+
 
     [Header("Chase")]
     public Stat dayChaseSpeed;

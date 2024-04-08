@@ -9,5 +9,11 @@ public class MonsterStateMachine : StateMachine<MonsterStateMachine>
     public MonsterStateMachine(Monster owner)
     {
         Owner = owner;
+        InitState();
+    }
+
+    protected virtual void InitState()
+    { 
+        AddState("Move", new MonsterMove(this));
     }
 }

@@ -12,8 +12,8 @@ public abstract class StateMachine<T> where T : StateMachine<T>
         SetState(initState);
     }
 
-    public void StateUpdate() { stateDict[CurrentState].UpdateState(); }
-    public void StateFixedUpdate() { stateDict[CurrentState].FixedUpdateState(); }
+    public void StateUpdate() { if(CurrentState != null) stateDict[CurrentState].UpdateState(); }
+    public void StateFixedUpdate() { if (CurrentState != null) stateDict[CurrentState].FixedUpdateState(); }
 
     public void SetState(string state)
     {
@@ -24,7 +24,7 @@ public abstract class StateMachine<T> where T : StateMachine<T>
         }
 
         if (CurrentState == state) return;
-        stateDict[CurrentState].ExitState();
+        if (CurrentState != null) stateDict[CurrentState].ExitState();
         CurrentState = state;
         stateDict[state].EnterState();
     }

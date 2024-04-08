@@ -47,6 +47,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     public void ExitBuilding()
     {
+        if(roof == null) return;
         roof.SetActive(true);
         roof = null;
     }
