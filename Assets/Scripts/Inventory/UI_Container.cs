@@ -37,37 +37,23 @@ namespace ItemContainer
 
         public virtual void Start()
         {
-            if(number == -1) number = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
-            controller = new ContainerController(number);
-
-            if (number < 2) sendNumber = number;
-            else sendNumber = 2;
+            SetContainerNumber();
             
             maxCapacity = ItemDummyData.MaxCapacity[sendNumber];
-            
             slots = new UI_Slot[maxCapacity];
             
             Init();
-            
-            Debug.Log("Start" + sendNumber);
         }
 
         public virtual void OnEnable()
         {
             if (sendNumber is -1)
             {
-                if(number == -1) number = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
-                controller = new ContainerController(number);
-
-                if (number < 2) sendNumber = number;
-                else sendNumber = 2;
+                SetContainerNumber();
             }
             
             openContainer[sendNumber] = true;
             OpenInventory();
-            
-            Debug.Log("OnEnable" + sendNumber);
-
         }
         public virtual void OnDisable()
         {
@@ -91,6 +77,8 @@ namespace ItemContainer
             {
                 int slot = i;
                 slots[i] = Get<UI_Slot>(i);
+                
+                //아이템 선택
                 slots[i].slotBtn.onValueChanged.AddListener((isOn) => {
                     if (isOn)
                     {
@@ -101,6 +89,8 @@ namespace ItemContainer
 
                         pickItem(sendNumber);
                     } });
+                
+                //- 버튼
                 slots[i].subBtn.onClick.AddListener(delegate
                 {
                     int receiver = (sendNumber == 2) ? 0 : 2;
@@ -112,13 +102,22 @@ namespace ItemContainer
             InitView();
         }
 
-        public int LoadId(int slot)
+        private void SetContainerNumber()
+        {
+            if(number == -1) number = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+            controller = new ContainerController(number);
+
+            if (number < 2) sendNumber = number;
+            else sendNumber = 2;
+        }
+
+        protected int LoadId(int slot)
         {
             return slots[slot].Item.id;
         }
 
         //아이템 획득
-        public void GetItem(ItemVO item)
+        private void GetItem(ItemVO item)
         {
             int overlapCount = ItemDummyData.ItemDB.data[item.id].overlapCount;
 
@@ -154,7 +153,7 @@ namespace ItemContainer
         }
 
         //아이템 버리기
-        public void ThrowItem(int count, int slot){
+        private void ThrowItem(int count, int slot){
             controller.RemoveItem(slot, count);
             UpdateSlot(slot);
         }
@@ -204,6 +203,8 @@ namespace ItemContainer
         
         private void UpdateSlot(int slot)
         {
+            if (slot is -1) return;
+            
             if(controller.container.slots.ContainsKey(slot))
                 slots[slot].UpdateSlot(controller.container.slots[slot]);
             else slots[slot].UpdateSlot(ItemDummyData.NullItem);
