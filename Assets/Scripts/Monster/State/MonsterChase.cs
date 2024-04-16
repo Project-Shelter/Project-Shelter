@@ -46,7 +46,10 @@ public class MonsterChase : MonsterBaseState
     public override void UpdateState()
     {
         base.UpdateState();
-
+        if(StateMachine.Owner.Target == null)
+        {
+            return;
+        }
         Chase();
         CanKeepChasing();
     }
