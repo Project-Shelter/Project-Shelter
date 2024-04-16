@@ -11,6 +11,7 @@ public class ActorSwitch : ActorBaseState
     public override void UpdateState()
     {
         base.UpdateState();
+        Actor.ActionRadius.AlertForMonstersInRadius();
         if (!Actor.ActorSwitchEffect.IsAlive(true))
         {
             ActorController.Instance.SwitchActor();

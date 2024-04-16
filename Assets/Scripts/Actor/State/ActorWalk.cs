@@ -11,6 +11,7 @@ public class ActorWalk : ActorBaseState
     {
         base.UpdateState();
         Actor.MoveBody.Turn();
+        Actor.ActionRadius.AlertForMonstersInRadius();
     }
 
     public override void FixedUpdateState()

@@ -36,7 +36,7 @@ public class Entrance
         IMovable movable = collision.GetComponent<IMovable>();
         if (movable != null)
         {
-            Vector2 velocity = collision.attachedRigidbody.velocity;
+            Vector2 velocity = movable.GetVelocity();
             if (enterDirection == Direction.Left && velocity.x < 0)
                 pathway.PassEntrance(movable);
             if (enterDirection == Direction.Right && velocity.x > 0)

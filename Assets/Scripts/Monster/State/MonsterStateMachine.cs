@@ -15,5 +15,6 @@ public class MonsterStateMachine : StateMachine<MonsterStateMachine>
     protected virtual void InitState()
     { 
         AddState("Move", new MonsterMove(this));
+        AddState("Chase", new MonsterChase(this));
     }
 }

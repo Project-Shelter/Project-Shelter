@@ -1,27 +1,42 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MonsterMoveBody : MonoBehaviour
+public class MonsterMoveBody
 {
     private Monster owner;
-    private Rigidbody2D rigid;
     private NavMeshAgent agent;
+
+    public Direction MoveDir
+    {
+        get { return moveDir; }
+        private set
+        {
+            if (value != moveDir)
+            {
+                moveDir = value;
+                owner.Anim.SetFloat("MoveDirection", (float)value);
+            }
+        }
+    }
 
     #region Movement Variables
 
+    public Vector2 Velocity { get { return agent.velocity; } }
     private int HorizontalAxis;
     private int VerticalAxis;
-    
+    private Direction moveDir;
+
     #endregion
-    
+
     public MonsterMoveBody(Monster owner)
     {
         this.owner = owner;
-        rigid = Util.GetOrAddComponent<Rigidbody2D>(owner.gameObject);
         agent = Util.GetOrAddComponent<NavMeshAgent>(owner.gameObject);
         agent.updateRotation = false;
+        agent.autoTraverseOffMeshLink = false;
 
         InitSpeed();
     }
@@ -37,9 +52,15 @@ public class MonsterMoveBody : MonoBehaviour
         DayNight.Instance.WhenNightBegins += () => agent.speed = owner.Stat.nightMoveSpeed.GetValue();
     }
 
-    public void MoveToPos(Vector3 pos)
+    public void MoveToPos(Vector3 pos, float speed)
     {
+        agent.speed = speed;
         agent.SetDestination(pos);
+        if (agent.isOnOffMeshLink)
+        {
+            Debug.Log("OnOffMeshLink");
+            agent.Warp(agent.currentOffMeshLinkData.endPos);
+        }
     }
 
     public bool IsArrived()
@@ -56,6 +77,18 @@ public class MonsterMoveBody : MonoBehaviour
         }
         return false;
     }
+
+    public void Turn()
+    {
+        HorizontalAxis = agent.velocity.x > 0 ? 1 : agent.velocity.x < 0 ? -1 : 0;
+        VerticalAxis = agent.velocity.y > 0 ? 1 : agent.velocity.y < 0 ? -1 : 0;
+        if (HorizontalAxis == 0 && VerticalAxis == 0) return;
+        else if (HorizontalAxis == 1) MoveDir = Direction.Right;
+        else if (HorizontalAxis == -1) MoveDir = Direction.Left;
+        else if (VerticalAxis == 1) MoveDir = Direction.Up;
+        else if (VerticalAxis == -1) MoveDir = Direction.Down;
+    }
+
 
     public void Stop()
     {

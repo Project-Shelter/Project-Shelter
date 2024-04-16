@@ -62,12 +62,17 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     private int GetZPosition(Define.Layer floor)
     {
         if (floor == Define.Layer.Ground) return 0;
-        else return (int)Define.Layer.Floor1 - (int)floor;
+        else return ((int)Define.Layer.Floor1 - (int)floor) * 10;
     }
 
     private void SetViewByFloorChange(int prevFloor, int nextFloor)
     {
         if (prevFloor != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << prevFloor);
         Camera.main.cullingMask |= 1 << nextFloor;
+    }
+
+    public Vector2 GetVelocity()
+    {
+        return MoveBody.Velocity;
     }
 }

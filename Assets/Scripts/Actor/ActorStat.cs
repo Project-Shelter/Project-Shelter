@@ -9,6 +9,8 @@ public class ActorStat : MonoBehaviour
 {
     #region Stat
 
+    public Stat monsterViewRadius;
+
     [Header("HP")]
     public readonly double debuffHPRatio = 0.8;
     public Stat minHP;

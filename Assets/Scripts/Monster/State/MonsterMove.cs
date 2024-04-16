@@ -20,23 +20,37 @@ public class MonsterMove : MonsterBaseState
     private int patrolIdx;
     private int patrolLength;
     private bool patrolMoveReverse;
+    private Vector3 lastPoint;
+    private float MoveSpeed
+    {
+        get
+        {
+            if (DayNight.Instance.isDay)
+                return StateMachine.Owner.Stat.dayMoveSpeed.GetValue();
+            else
+                return StateMachine.Owner.Stat.nightMoveSpeed.GetValue();
+        }
+
+    }
 
     public MonsterMove(MonsterStateMachine stateMachine) : base(stateMachine)
     {
         patrolIdx = 0;
         patrolLength = StateMachine.Owner.Stat.patrolMovePos.Length;
         patrolMoveReverse = false;
-        StateMachine.Owner.MoveBody.Stop();
+        lastPoint = stateMachine.Owner.Tr.position;
     }
 
     public override void EnterState()
     {
-
+        StateMachine.Owner.Anim.SetBool("IsMoving", true);
+        StateMachine.Owner.Anim.speed = 0.5f;
     }
 
     public override void ExitState()
     {
-
+        StateMachine.Owner.MoveBody.Stop();
+        StateMachine.Owner.Anim.SetBool("IsMoving", false);
     }
 
     public override void UpdateState()
@@ -58,6 +72,8 @@ public class MonsterMove : MonsterBaseState
                 RandomMove();
                 break;
         }
+
+        StateMachine.Owner.MoveBody.Turn();
     }
 
     private void PatrolMove()
@@ -65,7 +81,7 @@ public class MonsterMove : MonsterBaseState
         if (!StateMachine.Owner.MoveBody.IsArrived()) return;
         if (patrolLength <= 1) return;
 
-        StateMachine.Owner.MoveBody.MoveToPos(StateMachine.Owner.Stat.patrolMovePos[patrolIdx]);
+        StateMachine.Owner.MoveBody.MoveToPos(StateMachine.Owner.Stat.patrolMovePos[patrolIdx], MoveSpeed);
 
         if (patrolMoveReverse) patrolIdx--;
         else patrolIdx++;
@@ -75,19 +91,34 @@ public class MonsterMove : MonsterBaseState
     private void RandomMove()
     {
         if (!StateMachine.Owner.MoveBody.IsArrived()) return;
-        Vector2 randomDirection = Random.insideUnitCircle.normalized;
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)StateMachine.Owner.Tr.position + randomDirection, randomDirection, 5.0f);
-        Debug.DrawRay(StateMachine.Owner.Tr.position, randomDirection * 5.0f, Color.red, 1.0f);
-        Debug.Log(hit.distance);
-        if (!hit || hit.distance > 1.0f)
+
+        if (RandomPoint(StateMachine.Owner.Tr.position, 5f, out Vector3 result))
         {
-            Debug.Log(hit.point);
-            NavMeshHit navHit;
-            if (NavMesh.SamplePosition(hit.point, out navHit, 1.0f, NavMesh.AllAreas))
+            lastPoint = result;
+            StateMachine.Owner.MoveBody.MoveToPos(result, MoveSpeed);
+        }
+        else
+        {
+            StateMachine.Owner.MoveBody.MoveToPos(lastPoint, MoveSpeed);
+        }
+    }
+
+    private bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3 randomDirection = Random.insideUnitCircle;
+            Vector3 randomPoint = center + randomDirection * range;
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(randomPoint, out hit, 5.0f, NavMesh.AllAreas))
             {
-                StateMachine.Owner.MoveBody.MoveToPos(navHit.position);
+                result = hit.position;
+                return true;
             }
         }
+        result = Vector3.zero;
+        return false;
     }
 
     public override void FixedUpdateState()
@@ -97,6 +128,9 @@ public class MonsterMove : MonsterBaseState
 
     protected override void ChangeFromState()
     {
-
+        if(StateMachine.Owner.Target != null)
+        {
+            StateMachine.SetState("Chase");
+        }
     }
 }
