@@ -1,12 +1,14 @@
 using System;
 using System.ComponentModel;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace ItemContainer
 {
-    public class UI_Inventory : UI_Container
+    public class UI_Inventory : UI_Container, IDropHandler
     {
         enum Texts
         {
@@ -60,6 +62,12 @@ namespace ItemContainer
             FlushBtn();
         }
 
+        public void OnDrop(PointerEventData eventData)
+        {
+            Debug.Log("Inven");
+            dropedContainer = 0;
+        }
+
         private void OpenInventoryBtn()
         {
             if (openContainer[2]) btnFarming.SetActive(true);
@@ -75,6 +83,8 @@ namespace ItemContainer
 
         public void ClickQuickBtn(int sender)
         {
+            if (!openContainer[2])
+                return;
             if(pickedContainer == 1) btnFarmingClick.SetActive(true);
             else btnFarmingClick.SetActive(false);
         }

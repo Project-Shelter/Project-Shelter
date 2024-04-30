@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace ItemContainer
 {
-    public class UI_Chest : UI_Container
+    public class UI_Chest : UI_Container, IDropHandler
     {
         private static int chestNumber;
         public void GiveAll(int receiver)
@@ -35,6 +36,29 @@ namespace ItemContainer
         {
             number = chestNumber;
             base.OnEnable();
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            
+            for (int i = 0; i < maxCapacity; i++)
+            {
+                int slot = i;
+                slots[slot].OnDoubleClick -= SlotDoubleClick;
+                slots[slot].OnDoubleClick += SlotDoubleClick;
+            }
+        }
+        
+        public void OnDrop(PointerEventData eventData)
+        {
+            Debug.Log("Chest");
+            dropedContainer = 2;
+        }
+        
+        private void SlotDoubleClick(int slot)
+        {
+            GiveItem(controller.container.slots[slot].Count, slot, 0);
         }
     }
 }

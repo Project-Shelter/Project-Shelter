@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using Toggle = UnityEngine.UI.Toggle;
 
@@ -11,17 +13,23 @@ namespace ItemContainer
 {
     public class UI_Container : UI_Section
     {
+        private static UI_Container[] containers = new UI_Container[3];
         public static bool[] openContainer { get; private set; } = new bool[3];
         protected static int pickedContainer { get; private set; } = 0;
 
-        private static Action<int, ItemVO> sendItem; //int : receive container
+        //private static Action<int, ItemVO> sendItem; //int : receive container
         protected static Action<int> pickItem;
-        private void ReceiveItem(int receiver, ItemVO item)
+
+        private static Func<int, ItemVO, bool> sendItem;
+
+        protected static int dropedContainer = 0;
+
+        private bool ReceiveItem(int receiver, ItemVO item)
         {
             if (receiver != sendNumber)
-                return;
+                return false;
             
-            GetItem(item);
+            return GetItem(item);
         }
         private void PickItem(int sender)
         {
@@ -69,7 +77,9 @@ namespace ItemContainer
             string[] slotStr = new string[maxCapacity];
             for (int i = 0; i < maxCapacity; i++)
             {
-                slotStr[i] = $"panelItem_{i}";
+                if (i / 10 is 1)
+                    slotStr[i] = $"panelItem_{i}";
+                else slotStr[i] = $"panelItem_0{i}";
             }
             
             Bind<UI_Slot>(slotStr);
@@ -94,9 +104,12 @@ namespace ItemContainer
                 slots[i].subBtn.onClick.AddListener(delegate
                 {
                     int receiver = (sendNumber == 2) ? 0 : 2;
-                    if (controller.container.slots.Count == maxCapacity && receiver is 0) receiver = 1;
+                    if (receiver is 0 && containers[0].controller.container.slots.Count == maxCapacity) receiver = 1;
                     GiveItem(1, slot, receiver);
                 });
+                
+                slots[i].DropItem -= DropItem;
+                slots[i].DropItem += DropItem;
             }
 
             InitView();
@@ -109,6 +122,8 @@ namespace ItemContainer
 
             if (number < 2) sendNumber = number;
             else sendNumber = 2;
+
+            containers[sendNumber] = this;
         }
 
         protected int LoadId(int slot)
@@ -117,28 +132,44 @@ namespace ItemContainer
         }
 
         //아이템 획득
-        private void GetItem(ItemVO item)
+        public bool GetItem(ItemVO item)
         {
             int overlapCount = ItemDummyData.ItemDB.data[item.id].overlapCount;
 
             for (int i = 0; i < item.Count / overlapCount; i++)
             {
                 int slot = controller.AddItem(item.id, overlapCount);
+                if (slot is -1) return false;
                 UpdateSlot(slot);
             }
             
             if (item.Count % overlapCount != 0)
             {
                 int slot = controller.AddItem(item.id, item.Count % overlapCount);
+                if (slot is -1) return false;
                 UpdateSlot(slot);
             }
+
+            return true;
         }
 
         //아이템 전송
         public void GiveItem(int count, int slot, int receiver)
         {
-            sendItem.Invoke(receiver, new ItemVO(controller.container.slots[slot].id, count));
-            ThrowItem(count, slot);
+            bool temp = containers[receiver].GetItem(new ItemVO(controller.container.slots[slot].id, count));
+            if(temp) ThrowItem(count, slot);
+        }
+
+        public void DropItem(int slot)
+        {
+            if (dropedContainer is -1)
+            {
+                ThrowItem(controller.container.slots[slot].Count, slot);
+                return;
+            }
+            Debug.Log(dropedContainer);
+            GiveItem(controller.container.slots[slot].Count, slot, dropedContainer);
+            dropedContainer = -1;
         }
 
         public void GiveItem(int receiver)

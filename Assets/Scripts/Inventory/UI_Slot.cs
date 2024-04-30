@@ -10,12 +10,16 @@ using UnityEngine.UI;
 
 namespace ItemContainer
 {
-public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public Button subBtn;
     public Toggle slotBtn { get; private set; }
     public Action<int> OnDoubleClick = null;
+    public Action<int> DropItem = null;
     private TextMeshProUGUI countTxt;
+    private Vector3 originPosition;
+    private bool isDraging = false;
+    private bool isNull = true;
 
     public int SlotNumber { get; private set; }
     public ItemVO Item { get; private set; } = new ItemVO();
@@ -36,7 +40,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     void Start()
     {
-        SlotNumber = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+        SlotNumber = int.Parse(gameObject.name.Substring(gameObject.name.Length - 2));
     }
 
     //BE에서 slot 정보를 가져와 출력
@@ -53,6 +57,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         slotBtn.image.sprite = ItemDummyData.ItemDB.data[Item.id].image;
         countTxt.text = Item.Count.ToString();
         slotBtn.interactable = true;
+        isNull = false;
     }
         
     //슬롯 초기화
@@ -63,6 +68,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         countTxt.text = "";
         slotBtn.isOn = false;
         slotBtn.interactable = false;
+        isNull = true;
     }
     
     private void LoadItem(ItemVO item)
@@ -71,8 +77,33 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         countTxt.text = Item.Count.ToString();
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        isDraging = true;
+        originPosition = transform.position;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (isNull) return;
+        transform.position = eventData.position;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        Debug.Log("OnEndDrag" + transform.position + " 복귀 " + originPosition);
+        DropItem.Invoke(SlotNumber);
+        transform.position = originPosition;
+        isDraging = false;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (isDraging)
+        {
+            isDraging = false;
+            slotBtn.isOn = false;
+        }
         if (eventData.clickCount == 2)
         {
             OnDoubleClick?.Invoke(SlotNumber);

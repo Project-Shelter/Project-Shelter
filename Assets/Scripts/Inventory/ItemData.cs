@@ -81,5 +81,15 @@ namespace ItemContainer{
         public int maxCapacity { get; set; }
         //key: slot number
         public Dictionary<int, ItemVO> slots;
+
+        public bool fullSlot
+        {
+            get
+            {
+                Debug.Log(slots.Keys.Count + ", " + maxCapacity);
+                if (slots.Count == maxCapacity - 1) return true;
+                return false;
+            }
+        }
     }
 }

@@ -98,6 +98,27 @@ namespace ItemContainer
             invenSlots[2].Add(4,
                 new ItemVO(1, 3));
             
+            invenSlots[2].Add(5,
+                new ItemVO(1, 5));
+            
+            invenSlots[2].Add(6,
+                new ItemVO(2, 8));
+            
+            invenSlots[2].Add(7,
+                new ItemVO(3, 1));
+            
+            invenSlots[2].Add(8,
+                new ItemVO(1, 3));
+            
+            invenSlots[2].Add(9,
+                new ItemVO(1, 5));
+            
+            invenSlots[2].Add(10,
+                new ItemVO(2, 8));
+            
+            invenSlots[2].Add(11,
+                new ItemVO(3, 1));
+            
             invenSlots[3].Add(0,
                 new ItemVO(1, 5));
             
