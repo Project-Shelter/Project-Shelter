@@ -32,6 +32,7 @@ public class Door : MonoBehaviour, IPathway
 
     public void PassExit(IMovable movable)
     {
+        Debug.Log("Exit");
         if (movable == (IMovable)ActorController.Instance.CurrentActor)
         {
             ActorController.Instance.CurrentActor.ExitBuilding();

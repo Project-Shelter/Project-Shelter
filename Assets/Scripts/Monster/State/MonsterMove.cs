@@ -45,6 +45,7 @@ public class MonsterMove : MonsterBaseState
     {
         StateMachine.Owner.Anim.SetBool("IsMoving", true);
         StateMachine.Owner.Anim.speed = 0.5f;
+        StateMachine.Owner.MoveBody.ChangeAgentType("Idle");
     }
 
     public override void ExitState()

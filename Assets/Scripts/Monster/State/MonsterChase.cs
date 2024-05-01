@@ -33,6 +33,8 @@ public class MonsterChase : MonsterBaseState
         targetPos = StateMachine.Owner.Target.position;
         chasePoint = StateMachine.Owner.Stat.chasePoint;
         chaseRadius = StateMachine.Owner.Stat.chaseRadius.GetValue();
+        StateMachine.Owner.MoveBody.Stop();
+        StateMachine.Owner.MoveBody.ChangeAgentType("Chase");
         timeOutsideRadius = 0f;
     }
 

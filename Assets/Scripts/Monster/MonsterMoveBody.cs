@@ -89,9 +89,26 @@ public class MonsterMoveBody
         else if (VerticalAxis == -1) MoveDir = Direction.Down;
     }
 
-
     public void Stop()
     {
         agent.velocity = Vector3.zero;
+    }
+
+    public void ChangeAgentType(string name)
+    {
+        int ? agentTypeId = null;
+        for (int i = 0; i < NavMesh.GetSettingsCount(); i++)
+        {
+            NavMeshBuildSettings settings = NavMesh.GetSettingsByIndex(index: i);
+            if (name == NavMesh.GetSettingsNameFromID(agentTypeID: settings.agentTypeID))
+            {
+                agentTypeId = settings.agentTypeID;
+                break;
+            }
+        }
+        if(agentTypeId != null)
+        {
+            agent.agentTypeID = (int)agentTypeId;
+        }
     }
 }

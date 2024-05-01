@@ -56,7 +56,6 @@ public class Monster : MonoBehaviour, IMovable
 
     public void DetectTarget(Transform target)
     {
-        print(target.name + " Detected");
         Target = target;
     }
 

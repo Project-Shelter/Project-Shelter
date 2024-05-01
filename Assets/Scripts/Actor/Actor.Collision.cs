@@ -41,8 +41,9 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     public void EnterBuilding(GameObject roof)
     {
-        roof.SetActive(false);
+        if (roof == null) return;
         this.roof = roof;
+        roof.SetActive(false);
     }
 
     public void ExitBuilding()
