@@ -21,6 +21,8 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     private bool isDraging = false;
     private bool isNull = true;
 
+    private Image image;
+
     public int SlotNumber { get; private set; }
     public ItemVO Item { get; private set; } = new ItemVO();
 
@@ -36,6 +38,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         countTxt = Util.FindChild<TextMeshProUGUI>(gameObject, "itemCount");
         subBtn = Util.FindChild<Button>(gameObject , "subBtn");
         slotBtn = GetComponent<Toggle>();
+        image = Util.FindChild<Image>(gameObject , "BaseImage");
     }
 
     void Start()
@@ -81,6 +84,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         isDraging = true;
         originPosition = transform.position;
+        image.raycastTarget = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -95,6 +99,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         DropItem.Invoke(SlotNumber);
         transform.position = originPosition;
         isDraging = false;
+        image.raycastTarget = true;
     }
 
     public void OnPointerClick(PointerEventData eventData)

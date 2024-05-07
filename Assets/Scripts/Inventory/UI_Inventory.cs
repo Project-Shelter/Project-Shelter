@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace ItemContainer
 {
-    public class UI_Inventory : UI_Container, IDropHandler
+    public class UI_Inventory : UI_Container//, IDropHandler
     {
         enum Texts
         {
@@ -65,6 +65,7 @@ namespace ItemContainer
         public void OnDrop(PointerEventData eventData)
         {
             Debug.Log("Inven");
+            Debug.Log("OnDrop" + eventData.position);
             dropedContainer = 0;
         }
 

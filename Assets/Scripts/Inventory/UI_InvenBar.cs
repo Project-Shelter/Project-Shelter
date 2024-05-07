@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace ItemContainer
 {
-    public class UI_InvenBar : UI_Container, IDropHandler
+    public class UI_InvenBar : UI_Container//, IDropHandler
     {
         public override void Init()
         {
@@ -22,6 +22,7 @@ namespace ItemContainer
         public void OnDrop(PointerEventData eventData)
         {
             Debug.Log("InvenBar");
+            Debug.Log("OnDrop" + eventData.position);
             dropedContainer = 1;
         }
 
