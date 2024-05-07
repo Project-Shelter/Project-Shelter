@@ -25,7 +25,7 @@ public class ActorActionRadius
             Monster monster = collider.GetComponent<Monster>();
             if (monster)
             {
-                monster.DetectTarget(actor.Tr);
+                monster.DetectTarget(actor.Coll);
             }
         }
     }

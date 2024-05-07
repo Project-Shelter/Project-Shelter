@@ -129,7 +129,7 @@ public class MonsterMove : MonsterBaseState
 
     protected override void ChangeFromState()
     {
-        if(StateMachine.Owner.Target != null)
+        if(StateMachine.Owner.ChaseTarget != null)
         {
             StateMachine.SetState("Chase");
         }

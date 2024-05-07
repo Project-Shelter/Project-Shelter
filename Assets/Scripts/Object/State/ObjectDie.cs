@@ -10,7 +10,7 @@ public class ObjectDie : ObjectBaseState
 
     public override void EnterState()
     {
-
+        StateMachine.Owner.gameObject.SetActive(false);
     }
 
     public override void ExitState()

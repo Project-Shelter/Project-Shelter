@@ -1,13 +1,16 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class MonsterMoveBody
 {
     private Monster owner;
-    private NavMeshAgent agent;
+    public NavMeshAgent Agent { get; private set; }
 
     public Direction MoveDir
     {
@@ -24,7 +27,7 @@ public class MonsterMoveBody
 
     #region Movement Variables
 
-    public Vector2 Velocity { get { return agent.velocity; } }
+    public Vector2 Velocity { get { return Agent.velocity; } }
     private int HorizontalAxis;
     private int VerticalAxis;
     private Direction moveDir;
@@ -34,9 +37,9 @@ public class MonsterMoveBody
     public MonsterMoveBody(Monster owner)
     {
         this.owner = owner;
-        agent = Util.GetOrAddComponent<NavMeshAgent>(owner.gameObject);
-        agent.updateRotation = false;
-        agent.autoTraverseOffMeshLink = false;
+        Agent = Util.GetOrAddComponent<NavMeshAgent>(owner.gameObject);
+        Agent.updateRotation = false;
+        Agent.autoTraverseOffMeshLink = false;
 
         InitSpeed();
     }
@@ -44,54 +47,50 @@ public class MonsterMoveBody
     private void InitSpeed()
     {
         if(DayNight.Instance.isDay)
-            agent.speed = owner.Stat.dayMoveSpeed.GetValue();
+            Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
         else
-            agent.speed = owner.Stat.nightMoveSpeed.GetValue();
+            Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
 
-        DayNight.Instance.WhenDayBegins += () => agent.speed = owner.Stat.dayMoveSpeed.GetValue();
-        DayNight.Instance.WhenNightBegins += () => agent.speed = owner.Stat.nightMoveSpeed.GetValue();
+        DayNight.Instance.WhenDayBegins += () => Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
+        DayNight.Instance.WhenNightBegins += () => Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
     }
 
     public void MoveToPos(Vector3 pos, float speed)
     {
-        agent.speed = speed;
-        agent.SetDestination(pos);
-        if (agent.isOnOffMeshLink)
+        Agent.isStopped = false;
+        Agent.speed = speed;
+        Agent.SetDestination(pos);
+        if (Agent.isOnOffMeshLink)
         {
             Debug.Log("OnOffMeshLink");
-            agent.Warp(agent.currentOffMeshLinkData.endPos);
+            Agent.Warp(Agent.currentOffMeshLinkData.endPos);
         }
     }
 
     public bool IsArrived()
     {
-        if (!agent.pathPending)
+        if (!Agent.pathPending && (Agent.remainingDistance <= Agent.stoppingDistance))
         {
-            if (agent.remainingDistance <= agent.stoppingDistance)
-            {
-                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                {
-                    return true;
-                }
-            }
+            return true;
         }
         return false;
     }
 
     public void Turn()
     {
-        HorizontalAxis = agent.velocity.x > 0 ? 1 : agent.velocity.x < 0 ? -1 : 0;
-        VerticalAxis = agent.velocity.y > 0 ? 1 : agent.velocity.y < 0 ? -1 : 0;
+        bool isHorizontal = Math.Abs(Agent.velocity.x) > Math.Abs(Agent.velocity.y);
+        HorizontalAxis = Agent.velocity.x > 0 ? 1 : Agent.velocity.x < 0 ? -1 : 0;
+        VerticalAxis = Agent.velocity.y > 0 ? 1 : Agent.velocity.y < 0 ? -1 : 0;
         if (HorizontalAxis == 0 && VerticalAxis == 0) return;
-        else if (HorizontalAxis == 1) MoveDir = Direction.Right;
-        else if (HorizontalAxis == -1) MoveDir = Direction.Left;
+        else if (HorizontalAxis == 1 && isHorizontal) MoveDir = Direction.Right;
+        else if (HorizontalAxis == -1 && isHorizontal) MoveDir = Direction.Left;
         else if (VerticalAxis == 1) MoveDir = Direction.Up;
         else if (VerticalAxis == -1) MoveDir = Direction.Down;
     }
 
     public void Stop()
     {
-        agent.velocity = Vector3.zero;
+        Agent.isStopped = true;
     }
 
     public void ChangeAgentType(string name)
@@ -108,7 +107,7 @@ public class MonsterMoveBody
         }
         if(agentTypeId != null)
         {
-            agent.agentTypeID = (int)agentTypeId;
+            Agent.agentTypeID = (int)agentTypeId;
         }
     }
 }

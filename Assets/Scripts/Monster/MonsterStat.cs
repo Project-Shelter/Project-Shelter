@@ -23,13 +23,14 @@ public class MonsterStat : MonoBehaviour
     [Header("Chase")]
     public Stat dayChaseSpeed;
     public Stat nightChaseSpeed;
-    public int chasePoint = 5;
+    public int chasePatience = 5;
     public Stat chaseRadius;
     public Stat chaseHeight;
 
     [Header("Attack")]
     public Stat attackDamage;
     public Stat attackRange;
+    public Stat attackDelay;
 
     [Header("Die")]
     public Stat deadBodyLiveTime;

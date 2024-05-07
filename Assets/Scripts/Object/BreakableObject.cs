@@ -27,7 +27,7 @@ public class BreakableObject : MonoBehaviour, ILivingEntity
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Anim = Util.GetOrAddComponent<Animator>(gameObject);
         StateMachine = new ObjectStateMachine(this);
-        livingEntity = new LivingEntity(0f, 100f);
+        livingEntity = new LivingEntity(0f, 30f);
     }
 
     private void Start()
@@ -49,6 +49,7 @@ public class BreakableObject : MonoBehaviour, ILivingEntity
 
     public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
     {
+        print(damage);
         livingEntity.OnDamage(damage, hitPoint, hitNormal);
     }
 
