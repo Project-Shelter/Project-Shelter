@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace ItemContainer
 {
-    public class UI_Chest : UI_Container, IDropHandler
+    public class UI_Chest : UI_Container//, IDropHandler
     {
         private static int chestNumber;
         public void GiveAll(int receiver)
@@ -53,6 +53,7 @@ namespace ItemContainer
         public void OnDrop(PointerEventData eventData)
         {
             Debug.Log("Chest");
+            Debug.Log("OnDrop" + eventData.position);
             dropedContainer = 2;
         }
         

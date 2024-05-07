@@ -11,7 +11,7 @@ using Toggle = UnityEngine.UI.Toggle;
 
 namespace ItemContainer
 {
-    public class UI_Container : UI_Section
+    public class UI_Container : UI_Section, IDropHandler
     {
         private static UI_Container[] containers = new UI_Container[3];
         public static bool[] openContainer { get; private set; } = new bool[3];
@@ -113,6 +113,11 @@ namespace ItemContainer
             }
 
             InitView();
+        }
+
+        public void OnDrop(PointerEventData EventData)
+        {
+            dropedContainer = sendNumber;
         }
 
         private void SetContainerNumber()
