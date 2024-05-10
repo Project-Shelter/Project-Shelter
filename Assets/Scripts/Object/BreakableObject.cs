@@ -32,6 +32,11 @@ public class BreakableObject : MonoBehaviour, ILivingEntity
 
     private void Start()
     {
+        livingEntity.OnDeath += () => 
+        {
+            gameObject.SetActive(false);
+            NavMeshController.Instance.UpdateMesh(Agent.WithObjects);
+        }; 
         StateMachine.Init("Idle");
     }
 
@@ -49,7 +54,6 @@ public class BreakableObject : MonoBehaviour, ILivingEntity
 
     public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
     {
-        print(damage);
         livingEntity.OnDamage(damage, hitPoint, hitNormal);
     }
 

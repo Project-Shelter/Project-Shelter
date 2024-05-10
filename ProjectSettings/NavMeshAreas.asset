@@ -73,7 +73,7 @@ NavMeshProjectSettings:
   m_Settings:
   - serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.35
     agentHeight: 0.1
     agentSlope: 0
     agentClimb: 0.01
@@ -91,7 +91,7 @@ NavMeshProjectSettings:
       m_Flags: 0
   - serializedVersion: 2
     agentTypeID: -334000983
-    agentRadius: 0.5
+    agentRadius: 0.35
     agentHeight: 0.1
     agentSlope: 0
     agentClimb: 0.01
@@ -108,5 +108,5 @@ NavMeshProjectSettings:
     debug:
       m_Flags: 0
   m_SettingNames:
-  - Idle
-  - Chase
+  - WithObjects
+  - WithoutObjects

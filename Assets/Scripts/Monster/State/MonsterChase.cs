@@ -9,6 +9,7 @@ public class MonsterChase : MonsterBaseState
     private int chasePatience;
     private float chaseRadius;
     private float timeOutsideRadius;
+    private bool canDetectObj;
     private float ChaseSpeed
     {
         get
@@ -20,61 +21,79 @@ public class MonsterChase : MonsterBaseState
         }
     }
 
-    public MonsterChase(MonsterStateMachine stateMachine) : base(stateMachine)
-    {
-    }
+    public MonsterChase(MonsterStateMachine stateMachine) : base(stateMachine) {}
 
     public override void EnterState()
     {
+        StateMachine.Owner.MoveBody.Stop();
         StateMachine.Owner.Anim.SetBool("IsMoving", true);
         StateMachine.Owner.Anim.speed = 1f;
-        targetPos = StateMachine.Owner.ChaseTarget.transform.position;
+        InitVariables();
+    }
+
+    private void InitVariables()
+    {
+        targetPos = StateMachine.Owner.ChaseTarget.Coll.transform.position;
         chasePatience = StateMachine.Owner.Stat.chasePatience;
         chaseRadius = StateMachine.Owner.Stat.chaseRadius.GetValue();
-        StateMachine.Owner.MoveBody.Stop();
-        StateMachine.Owner.MoveBody.ChangeAgentType("Chase");
         timeOutsideRadius = 0f;
+        canDetectObj = false;
     }
 
     public override void ExitState()
     {
-        StateMachine.Owner.Anim.SetBool("IsMoving", false);
-        StateMachine.Owner.ChaseTarget = null;
         StateMachine.Owner.MoveBody.Stop();
+        StateMachine.Owner.Anim.SetBool("IsMoving", false);
     }
 
     public override void UpdateState()
     {
-        base.UpdateState();
-        if(StateMachine.Owner.ChaseTarget == null)
-        {
-            return;
-        }
-
-        CanAttackTarget();
+        Debug.Log("Chase");
         Chase();
+        FindAttackTarget();
+        FindObstacleTarget();
         CanKeepChasing();
+        base.UpdateState();
+    }
+    private void Chase()
+    {
+        targetPos = StateMachine.Owner.ChaseTarget.Coll.transform.position;
+        float diff = NavMeshController.Instance.CalculateDiff(StateMachine.Owner.Tr.position, targetPos);
+        Debug.Log(diff);
+        if (diff < 1f)
+        {
+            canDetectObj = false;
+            NavMeshController.Instance.ChangeAgentType(StateMachine.Owner.MoveBody.Agent, Agent.WithObjects);
+        }
+        else
+        {
+            canDetectObj = true;
+            NavMeshController.Instance.ChangeAgentType(StateMachine.Owner.MoveBody.Agent, Agent.WithoutObjects);
+        }
+        StateMachine.Owner.MoveBody.MoveToPos(targetPos, ChaseSpeed);
+        StateMachine.Owner.MoveBody.Turn();
     }
 
-    private void CanAttackTarget()
+    private void FindAttackTarget()
     {
-        Collider2D obstacleCollider = null;
-        Collider2D[] hits = StateMachine.Owner.MonsterAttacker.CollsInAttackRange(StateMachine.Owner.MoveBody.MoveDir);
+        Collider2D[] hits = StateMachine.Owner.Attacker.GetCollsInAttackRange(StateMachine.Owner.MoveBody.MoveDir);
         foreach (Collider2D hit in hits)
         {
-            if (obstacleCollider == null && hit.TryGetComponent<BreakableObject>(out _)) 
-            {
-                obstacleCollider = hit;
-            }
-            if (hit == StateMachine.Owner.ChaseTarget)
+            if (hit == StateMachine.Owner.ChaseTarget.Coll)
             {
                 StateMachine.Owner.AttackTarget = StateMachine.Owner.ChaseTarget;
             }
         }
+    }
 
-        if(StateMachine.Owner.AttackTarget == null && obstacleCollider != null)
+    private void FindObstacleTarget()
+    {
+        if (!canDetectObj) return;
+        BreakableObject obstacleObj = StateMachine.Owner.Attacker.FindObstacleObj(StateMachine.Owner.MoveBody.Agent.path);
+        Debug.Log(obstacleObj);
+        if (obstacleObj != null)
         {
-            StateMachine.Owner.AttackTarget = obstacleCollider;
+            StateMachine.Owner.ObstacleTarget = obstacleObj;
         }
     }
 
@@ -86,31 +105,22 @@ public class MonsterChase : MonsterBaseState
             timeOutsideRadius += Time.deltaTime;
             if(timeOutsideRadius >= 1f)
             {
-                chasePatience--;
                 timeOutsideRadius = 0f;
+                chasePatience--;
             }
         }
         else
         {
+            timeOutsideRadius = 0f;
             chasePatience = StateMachine.Owner.Stat.chasePatience;
         }
     }
 
-    private void Chase()
-    {
-        targetPos = StateMachine.Owner.ChaseTarget.transform.position;
-        StateMachine.Owner.MoveBody.MoveToPos(targetPos, ChaseSpeed);
-        StateMachine.Owner.MoveBody.Turn();
-    }
-
-    public override void FixedUpdateState()
-    {
-
-    }
+    public override void FixedUpdateState() {}
 
     protected override void ChangeFromState()
     {
-        if (chasePatience <= 0)
+        if (StateMachine.Owner.ChaseTarget == null || chasePatience <= 0)
         {
             StateMachine.SetState("Move");
             return;
@@ -119,6 +129,12 @@ public class MonsterChase : MonsterBaseState
         if(StateMachine.Owner.AttackTarget != null)
         {
             StateMachine.SetState("Attack");
+            return;
+        }
+
+        if(StateMachine.Owner.ObstacleTarget != null && StateMachine.Owner.AttackTarget == null)
+        {
+            StateMachine.SetState("ObjAttack");
             return;
         }
     }

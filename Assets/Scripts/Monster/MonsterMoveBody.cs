@@ -62,7 +62,6 @@ public class MonsterMoveBody
         Agent.SetDestination(pos);
         if (Agent.isOnOffMeshLink)
         {
-            Debug.Log("OnOffMeshLink");
             Agent.Warp(Agent.currentOffMeshLinkData.endPos);
         }
     }
@@ -91,23 +90,5 @@ public class MonsterMoveBody
     public void Stop()
     {
         Agent.isStopped = true;
-    }
-
-    public void ChangeAgentType(string name)
-    {
-        int ? agentTypeId = null;
-        for (int i = 0; i < NavMesh.GetSettingsCount(); i++)
-        {
-            NavMeshBuildSettings settings = NavMesh.GetSettingsByIndex(index: i);
-            if (name == NavMesh.GetSettingsNameFromID(agentTypeID: settings.agentTypeID))
-            {
-                agentTypeId = settings.agentTypeID;
-                break;
-            }
-        }
-        if(agentTypeId != null)
-        {
-            Agent.agentTypeID = (int)agentTypeId;
-        }
     }
 }

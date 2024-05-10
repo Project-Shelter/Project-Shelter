@@ -8,6 +8,8 @@ public class LivingEntity : ILivingEntity
     public Stat MinHP { get; protected set; } = new Stat();
     public float HP { get; protected set; }
     public bool IsDead { get; protected set; }
+    public Collider2D Coll { get; }
+
     public event Action OnDeath;
 
     private Coroutine bleedingCoroutine;

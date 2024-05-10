@@ -10,13 +10,15 @@ public class Monster : MonoBehaviour, IMovable
 
     public Transform Tr { get; private set; }
     public Collider2D Coll { get; private set; }
+    public Vector3 Pos => new (Coll.bounds.center.x, Coll.bounds.center.y - Coll.bounds.extents.y, Tr.position.z);
     public Animator Anim { get; private set; }
     public MonsterStat Stat { get; private set; }
     public MonsterMoveBody MoveBody { get; private set; }
-    public MonsterAttacker MonsterAttacker { get; private set; }
+    public MonsterAttacker Attacker { get; private set; }
     public MonsterStateMachine StateMachine { get; private set; }
-    public Collider2D ChaseTarget { get; set; }
-    public Collider2D AttackTarget { get; set; }
+    public ILivingEntity ChaseTarget { get; set; }
+    public ILivingEntity AttackTarget { get; set; }
+    public BreakableObject ObstacleTarget { get; set; }
 
     #endregion
 
@@ -32,7 +34,7 @@ public class Monster : MonoBehaviour, IMovable
         Anim = Util.GetOrAddComponent<Animator>(gameObject);
         Stat = GetComponent<MonsterStat>();
         MoveBody = new MonsterMoveBody(this);
-        MonsterAttacker = new MonsterAttacker(this);
+        Attacker = new MonsterAttacker(this);
         StateMachine = new MonsterStateMachine(this);
         ChaseTarget = null;
         AttackTarget = null;
@@ -58,7 +60,7 @@ public class Monster : MonoBehaviour, IMovable
         gameObject.layer = (int)floor;
     }
 
-    public void DetectTarget(Collider2D target)
+    public void DetectTarget(ILivingEntity target)
     {
         ChaseTarget = target;
     }

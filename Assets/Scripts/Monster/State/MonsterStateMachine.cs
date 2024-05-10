@@ -17,5 +17,6 @@ public class MonsterStateMachine : StateMachine<MonsterStateMachine>
         AddState("Move", new MonsterMove(this));
         AddState("Chase", new MonsterChase(this));
         AddState("Attack", new MonsterAttack(this));
+        AddState("ObjAttack", new MonsterObjAttack(this));
     }
 }
