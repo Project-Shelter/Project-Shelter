@@ -13,16 +13,18 @@ namespace ItemContainer
 {
     public class UI_Container : UI_Section, IDropHandler
     {
-        private static UI_Container[] containers = new UI_Container[3];
         public static bool[] openContainer { get; private set; } = new bool[3];
-        protected static int pickedContainer { get; private set; } = 0;
-
-        //private static Action<int, ItemVO> sendItem; //int : receive container
-        protected static Action<int> pickItem;
-
-        private static Func<int, ItemVO, bool> sendItem;
-
         protected static int dropedContainer = 0;
+        protected static int pickedContainer { get; private set; } = 0;
+        protected static Action<int> pickItem;
+        private static UI_Container[] containers = new UI_Container[3];
+        
+        public ContainerController controller { get; private set; }
+
+        public UI_Slot[] slots { get; private set; }
+        public int maxCapacity { get; private set; }
+        protected int number = -1;
+        private int sendNumber = -1;
 
         private bool ReceiveItem(int receiver, ItemVO item)
         {
@@ -35,13 +37,6 @@ namespace ItemContainer
         {
             if(sendNumber != pickedContainer) FlushItem();
         }
-        
-        public ContainerController controller { get; private set; }
-
-        public UI_Slot[] slots { get; private set; }
-        public int maxCapacity { get; private set; }
-        protected int number = -1;
-        private int sendNumber = -1;
 
         public virtual void Start()
         {
@@ -119,7 +114,6 @@ namespace ItemContainer
         {
             dropedContainer = sendNumber;
         }
-
         private void SetContainerNumber()
         {
             if(number == -1) number = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
@@ -136,7 +130,6 @@ namespace ItemContainer
             return slots[slot].Item.id;
         }
 
-        //아이템 획득
         public bool GetItem(ItemVO item)
         {
             int overlapCount = ItemDummyData.ItemDB.data[item.id].overlapCount;
@@ -217,8 +210,6 @@ namespace ItemContainer
         {
             controller?.SetContainer(number);
             InitView();
-            sendItem -= ReceiveItem;
-            sendItem += ReceiveItem;
             pickItem -= PickItem;
             pickItem += PickItem;
         }
@@ -226,7 +217,6 @@ namespace ItemContainer
         //인벤토리 닫기
         private void CloseInventory()
         {
-            sendItem -= ReceiveItem;
             pickItem -= PickItem;
             FlushItem();
         }
