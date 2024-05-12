@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using static PlayerHPStat;
+using static ActorHealth;
 using System;
 
 public class UI_AttackedBody : UI_Section
@@ -19,7 +19,7 @@ public class UI_AttackedBody : UI_Section
     }
 
     delegate void AttackedFunc();
-    private Dictionary<PlayerHPStat.AttackedPart, AttackedFunc> attackedDict = new();
+    private Dictionary<AttackedPart, AttackedFunc> attackedDict = new();
 
     void Start()
     {
@@ -34,7 +34,7 @@ public class UI_AttackedBody : UI_Section
         InitDictionary();
         SetActor();
         
-        ActorController.Instance.PrevSwitchActorAction += ResyncActor;
+        ActorController.Instance.BeforeSwitchActorAction += ResyncActor;
         ActorController.Instance.SwitchActorAction += ReloadImages;
     }
 
@@ -54,24 +54,24 @@ public class UI_AttackedBody : UI_Section
 
     private void InitDictionary() 
     {
-        attackedDict.Add(PlayerHPStat.AttackedPart.Head, HeadAttacked);
-        attackedDict.Add(PlayerHPStat.AttackedPart.Trunk, TrunkAttacked);
-        attackedDict.Add(PlayerHPStat.AttackedPart.Arm, ArmAttacked);
-        attackedDict.Add(PlayerHPStat.AttackedPart.Leg, LegAttacked);
-        attackedDict.Add(PlayerHPStat.AttackedPart.Normal, null);
+        attackedDict.Add(AttackedPart.Head, HeadAttacked);
+        attackedDict.Add(AttackedPart.Trunk, TrunkAttacked);
+        attackedDict.Add(AttackedPart.Arm, ArmAttacked);
+        attackedDict.Add(AttackedPart.Leg, LegAttacked);
+        attackedDict.Add(AttackedPart.Normal, null);
     }
 
     private void SetActor()
     {
-        ActorController.Instance.CurrentActor.Stat.AttackedAction += BodyAttacked;
+        ActorController.Instance.CurrentActor.AttackedAction += BodyAttacked;
     }
 
     private void ResyncActor()
     {
-        ActorController.Instance.CurrentActor.Stat.AttackedAction -= BodyAttacked;
+        ActorController.Instance.CurrentActor.AttackedAction -= BodyAttacked;
     }
 
-    private void BodyAttacked(PlayerHPStat.AttackedPart attackedPart)
+    private void BodyAttacked(AttackedPart attackedPart)
     {
         if (attackedDict[attackedPart] != null) { attackedDict[attackedPart](); }
     }

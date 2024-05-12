@@ -73,13 +73,13 @@ public class MonsterChase : MonsterBaseState
 
     private bool IsTargetInRadius()
     {
-        float distFromTarget = Vector2.Distance(Manager.Rigid.position, target.transform.position);
+        float distFromTarget = Vector2.Distance(Manager.transform.position, target.transform.position);
         return distFromTarget <= Manager.Stat.chaseRadius.GetValue();
     }
 
     private bool IsTargetInHeight()
     {
-        float yDistFromTarget = target.transform.position.y - Manager.Rigid.position.y;
+        float yDistFromTarget = target.transform.position.y - Manager.transform.position.y;
         return yDistFromTarget <= Manager.Stat.chaseHeight.GetValue();
     }
 
@@ -90,7 +90,7 @@ public class MonsterChase : MonsterBaseState
             return;
         }
 
-        float xDistFromTarget = target.transform.position.x - Manager.Rigid.position.x;
+        float xDistFromTarget = target.transform.position.x - Manager.transform.position.x;
         float direction = Mathf.Sign(xDistFromTarget);
         if (Mathf.Abs(xDistFromTarget) < Manager.Stat.attackRange.GetValue() && Manager.Direction == direction)
         {
