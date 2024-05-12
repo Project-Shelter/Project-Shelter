@@ -4,13 +4,6 @@ using UnityEngine;
 public class MonsterStateManager : MonoBehaviour
 {
 
-    #region Const Values
-
-    public readonly Quaternion Left = Quaternion.Euler(new Vector3(0f, 0f, 0f));
-    public readonly Quaternion Right = Quaternion.Euler(new Vector3(0f, 180f, 0f));
-
-    #endregion
-
     #region Variables
 
     public MonsterStat Stat { get; private set; }
@@ -31,7 +24,7 @@ public class MonsterStateManager : MonoBehaviour
     public bool canAttack;
     public bool isInjured;
     public bool IsDead { get { return Stat.IsDead; } }
-    public float Direction { get { if (transform.rotation == Left) return -1; else return 1; } }
+    public float Direction { get { return Mathf.Sign(transform.localScale.z); } }
 
     public enum AnimationLayer
     {
@@ -73,13 +66,9 @@ public class MonsterStateManager : MonoBehaviour
     // 추후 경사/계단 지형 추가시 이동 매커니즘 재구현
     public void Move(Vector2 moveVelocity)
     {
-        if(moveVelocity.x < 0)
+        if(moveVelocity.x != 0)
         {
-            transform.localRotation = Left;
-        }
-        else if(moveVelocity.x > 0)
-        {
-            transform.localRotation = Right;
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, Mathf.Sign(moveVelocity.x) * transform.localScale.x);
         }
 
         Rigid.velocity = new(moveVelocity.x, Rigid.velocity.y);
@@ -95,7 +84,7 @@ public class MonsterStateManager : MonoBehaviour
     {
         Stat = GetComponent<MonsterStat>();
         Rigid = GetComponent<Rigidbody2D>();
-        Animator = GetComponentInChildren<Animator>();
+        Animator = GetComponent<Animator>();
         Coll = GetComponentInChildren<Collider2D>();
 
         isHit = false;

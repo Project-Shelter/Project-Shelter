@@ -51,7 +51,7 @@ public class MonsterAttack : MonsterBaseState
         {
             if (collider.CompareTag("Player"))
             {
-                ILivingEntity target = collider.GetComponentInParent<ILivingEntity>();
+                IHPStat target = collider.GetComponentInParent<IHPStat>();
                 if (!attackedColls.Contains(collider) && target != null)
                 {
                     Vector2 hitPoint = collider.ClosestPoint((Vector2)Manager.transform.position + Manager.Stat.AttackPoint);

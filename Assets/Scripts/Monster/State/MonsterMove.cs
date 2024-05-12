@@ -115,7 +115,7 @@ public class MonsterMove : MonsterBaseState
     {
         patrolPointIdx = (patrolPointIdx + 1) % PatrolPoints.Length;
 
-        float posDiff = PatrolPoints[patrolPointIdx].position.x - Manager.transform.position.x;
+        float posDiff = PatrolPoints[patrolPointIdx].position.x - Manager.Rigid.position.x;
         if (posDiff > 0)
         {
             moveDirection = 1f;
@@ -152,7 +152,7 @@ public class MonsterMove : MonsterBaseState
     {
         moveDirection = Mathf.Sign(Random.Range(-1, 1));
 
-        randomDestX = Manager.transform.position.x + Random.Range(0f, Manager.Stat.randomMoveDistance.GetValue()) * moveDirection;
+        randomDestX = Manager.Rigid.position.x + Random.Range(0f, Manager.Stat.randomMoveDistance.GetValue()) * moveDirection;
         isMoving = true;
     }
 
@@ -160,7 +160,7 @@ public class MonsterMove : MonsterBaseState
 
     private bool IsArrivedAtPoint(float point)
     {
-        float posDiff = point - Manager.transform.position.x;
+        float posDiff = point - Manager.Rigid.position.x;
         if (posDiff * moveDirection <= 0)
         {
             moveDirection = 0f;

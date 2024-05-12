@@ -24,7 +24,7 @@ public class UI_StateIcon : UI_Section
         iconPanel = GetObject((int)GameObjects.IconPanel);
 
         SetActor();
-        ActorController.Instance.BeforeSwitchActorAction += ResyncActor;
+        ActorController.Instance.PrevSwitchActorAction += ResyncActor;
         ActorController.Instance.SwitchActorAction += ReloadIcon;
         SetIcon();
     }
@@ -39,14 +39,14 @@ public class UI_StateIcon : UI_Section
 
     private void SetActor()
     {
-        ActorController.Instance.CurrentActor.Buff.AddBuffAction += AddIcon;
-        ActorController.Instance.CurrentActor.Buff.RemoveBuffAction += RemoveIcon;
+        ActorController.Instance.CurrentActor.Stat.AddBuffAction += AddIcon;
+        ActorController.Instance.CurrentActor.Stat.RemoveBuffAction += RemoveIcon;
     }
 
     private void ResyncActor()
     { 
-        ActorController.Instance.CurrentActor.Buff.AddBuffAction -= AddIcon;
-        ActorController.Instance.CurrentActor.Buff.RemoveBuffAction -= RemoveIcon;
+        ActorController.Instance.CurrentActor.Stat.AddBuffAction -= AddIcon;
+        ActorController.Instance.CurrentActor.Stat.RemoveBuffAction -= RemoveIcon;
     }
 
     //보여지는 Icon을 전부 삭제한다.
@@ -68,7 +68,7 @@ public class UI_StateIcon : UI_Section
     //Actor의 Icon을 전부 생성한다.
     private void SetIcon()
     {
-        foreach (var buffTag in ActorController.Instance.CurrentActor.Buff.ActivedBuffs.Keys)
+        foreach (var buffTag in ActorController.Instance.CurrentActor.Stat.ActivedBuffs.Keys)
         {
             AddIcon(buffTag);
         }

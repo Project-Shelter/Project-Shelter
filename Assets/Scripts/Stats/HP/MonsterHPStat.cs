@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterHPStat : LivingEntity
+public class MonsterHPStat : HPStat
 {
     // 추후 MonsterStat MonoBehaviour 제거 후 Stat에서 받음
     private MonsterStateManager manager;
