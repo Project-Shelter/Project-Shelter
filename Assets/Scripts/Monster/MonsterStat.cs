@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterStat : MonoBehaviour, IHPStat
+public class MonsterStat : MonoBehaviour
 {
     [field: SerializeField] public Vector2 ViewDistance { get; private set; }
 
@@ -114,20 +114,5 @@ public class MonsterStat : MonoBehaviour, IHPStat
         moveSpeedModifier = Random.Range(-0.4f, 0.4f);
         dayMoveSpeed.AddModifier(moveSpeedModifier); nightMoveSpeed.AddModifier(moveSpeedModifier);
         dayChaseSpeed.AddModifier(moveSpeedModifier); nightChaseSpeed.AddModifier(moveSpeedModifier);
-    }
-
-    public IEnumerator BleedingCoroutine(float lastBleedingTime, float timeBetBleeding)
-    {
-        return HP.BleedingCoroutine(lastBleedingTime, timeBetBleeding);
-    }
-
-    public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
-    {
-        HP.OnDamage(damage, hitPoint, hitNormal);
-    }
-
-    public void RestoreHP(float restoreHP)
-    {
-        HP.RestoreHP(restoreHP);
     }
 }

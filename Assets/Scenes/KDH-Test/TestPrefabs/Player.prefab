@@ -153,7 +153,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 5
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc13af5d3541f264a9afb06b8135e11e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHumanPlayer: 0
+  <OnDamageEffect>k__BackingField: {fileID: 0}
 --- !u!114 &6834625161972356244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,10 +185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d05f79862395a24983b698211d2809b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHumanPlayer: 1
-  <ActorChangeEffect>k__BackingField: {fileID: 1320760045}
-  minHP: 0
-  maxHP: 100
+  minHP:
+    baseValue: 0
+  maxHP:
+    baseValue: 100
   headAttackedChance:
     baseValue: 0.03
   trunkAttackedChance:
@@ -195,36 +197,35 @@ MonoBehaviour:
     baseValue: 0.1
   armAttackedChance:
     baseValue: 0.15
-  <OnDamageEffect>k__BackingField: {fileID: 3185545325583474325}
   moveSpeed:
     baseValue: 5
-  moveOnLadderSpeed:
-    baseValue: 3
-  jumpForce:
+  dashCoolTime:
     baseValue: 5
-  defaultGravity:
-    baseValue: 3
+  dashTime:
+    baseValue: 0.2
+  dashSpeed:
+    baseValue: 15
   attackDamage:
     baseValue: 10
-  attackRange:
-    baseValue: 1.2
-  <AttackPoint>k__BackingField: {x: 0, y: 0.2}
-  minSatiety: 0
-  maxSatiety: 100
-  satietyIndex: 3
-  hpDebuffValue:
+  minSatiety:
+    baseValue: 0
+  maxSatiety:
+    baseValue: 100
+  satietyIndex:
     baseValue: 5
-  moveSpeedDebuffValue:
-    baseValue: 0.2
-  overloadDebuffValue:
-    baseValue: 10
-  damageDebuffValue:
+  hpDebuffVal:
+    baseValue: 5
+  slowDebuffVal:
     baseValue: 0.3
-  collidingEnemyDebuffValue:
-    baseValue: 0.32
-  hpRecoveryBuffValue:
-    baseValue: 1
-  bleedingDebuffValue:
+  overloadDebuffVal:
+    baseValue: 0.2
+  damageDebuffVal:
+    baseValue: 0.2
+  collidingEnemyDebuffVal:
+    baseValue: 0.3
+  hpRecoveryBuffVal:
+    baseValue: 3
+  bleedingDebuffVal:
     baseValue: 5
 --- !u!1001 &3185545325567915029
 PrefabInstance:
@@ -235,7 +236,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 137874, guid: 5482371ac774a254fb6cfd3dea8f05f8, type: 3}
       propertyPath: m_Name
-      value: BloodExplosion
+      value: OnDamageEffect
       objectReference: {fileID: 0}
     - target: {fileID: 477758, guid: 5482371ac774a254fb6cfd3dea8f05f8, type: 3}
       propertyPath: m_RootOrder
@@ -332,11 +333,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 477758, guid: 5482371ac774a254fb6cfd3dea8f05f8, type: 3}
   m_PrefabInstance: {fileID: 3185545325567915029}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &3185545325583474325 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19835520, guid: 5482371ac774a254fb6cfd3dea8f05f8, type: 3}
-  m_PrefabInstance: {fileID: 3185545325567915029}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5715040429439397996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -390,7 +386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5715040430721860479, guid: 8dde9b35d4b621c4eaf232dbf6700e9d, type: 3}
       propertyPath: m_Name
-      value: ActorChangeEffect
+      value: ActorSwitchEffect
       objectReference: {fileID: 0}
     - target: {fileID: 5715040430735884929, guid: 8dde9b35d4b621c4eaf232dbf6700e9d, type: 3}
       propertyPath: lengthInSec
@@ -406,11 +402,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dde9b35d4b621c4eaf232dbf6700e9d, type: 3}
---- !u!198 &1320760045 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5715040430735884929, guid: 8dde9b35d4b621c4eaf232dbf6700e9d, type: 3}
-  m_PrefabInstance: {fileID: 5715040429439397996}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1334879251 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5715040430721832063, guid: 8dde9b35d4b621c4eaf232dbf6700e9d, type: 3}
