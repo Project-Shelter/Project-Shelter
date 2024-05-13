@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine.EventSystems;
 
@@ -18,7 +19,13 @@ public abstract class UI_Base : MonoBehaviour
         string[] names = Enum.GetNames(type);
 
         UnityEngine.Object[] objects = new UnityEngine.Object[names.Length];
-        _objects.Add(typeof(T), objects);
+
+        if (_objects.ContainsKey(typeof(T)))
+        {
+            objects.Concat(_objects[typeof(T)]);
+            _objects[typeof(T)] = objects;
+        }
+        else _objects.Add(typeof(T), objects);
 
         for(int i = 0; i < names.Length; i++)
         {
@@ -29,6 +36,28 @@ public abstract class UI_Base : MonoBehaviour
             
             if(objects[i] == null)
                 Debug.Log($"Failed to Bind!{names[i]}");
+        }
+    }
+
+    //리스트로 요소의 이름을 받아 Hierachy에 있는 오브젝트를 _objects에 바인딩한다.
+    protected void Bind<T>(string[] list) where T : UnityEngine.Object{
+        UnityEngine.Object[] objects = new UnityEngine.Object[list.Length];
+        if (_objects.ContainsKey(typeof(T)))
+        {
+            objects.Concat(_objects[typeof(T)]);
+            _objects[typeof(T)] = objects;
+        }
+        else _objects.Add(typeof(T), objects);
+
+        for(int i = 0; i < list.Length; i++)
+        {
+            if (typeof(T) == typeof(GameObject))
+                objects[i] = Util.FindChild(gameObject, list[i], true);
+            else 
+                objects[i] = Util.FindChild<T>(gameObject, list[i], true);
+            
+            if(objects[i] == null)
+                Debug.Log($"Failed to Bind!{list[i]}");
         }
     }
     
