@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class MonsterAttacker
 {
@@ -14,34 +15,27 @@ public class MonsterAttacker
 
     public Collider2D[] GetCollsInAttackRange(Direction dir)
     {
-        Debug.Log(dir);
         Vector2 collCenter = owner.Coll.bounds.center;
-        Vector2 collSize = owner.Coll.bounds.size;
+        Vector2 collSize = owner.Coll.bounds.extents;
         float attackRange = owner.Stat.attackRange.GetValue();
         Vector2 attackCenter;
-        Vector2 attackSize;
 
         switch(dir)
         {
             case Direction.Up:
-                attackSize = new(collSize.x / 2, attackRange);
-                attackCenter = new(collCenter.x, collCenter.y + 1 * attackRange);
+                attackCenter = new(collCenter.x, collCenter.y - collSize.y / 2);
                 break;
             case Direction.Down:
-                attackSize = new(collSize.x / 2, attackRange);
-                attackCenter = new(collCenter.x, collCenter.y + -1 * attackRange);
+                attackCenter = new(collCenter.x, collCenter.y - collSize.y / 2);
                 break;
             case Direction.Left:
-                attackSize = new(attackRange, collSize.y / 2);
-                attackCenter = new(collCenter.x + -1 * attackRange / 2, collCenter.y);
+                attackCenter = new(collCenter.x + -collSize.x, collCenter.y - collSize.y / 2);
                 break;
             default:
-                attackSize = new(attackRange, collSize.y / 2);
-                attackCenter = new(collCenter.x + 1 * attackRange / 2, collCenter.y);
+                attackCenter = new(collCenter.x + collSize.x, collCenter.y - collSize.y / 2);
                 break;
         }
-
-        Collider2D[] hits = Physics2D.OverlapBoxAll(attackCenter, attackSize, 0, 1 << owner.gameObject.layer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackCenter, attackRange, 1 << owner.gameObject.layer);
         return hits;
     }
 
@@ -58,7 +52,7 @@ public class MonsterAttacker
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit && hit.collider.TryGetComponent(out BreakableObject obstacleObj))
-                {
+                {  
                     return obstacleObj;
                 }
             }
@@ -66,26 +60,45 @@ public class MonsterAttacker
         return null;
     }
 
-    public bool Attack(ILivingEntity target)
+    public Direction GetDirectionToTarget(ILivingEntity target)
     {
         Collider2D coll = target.Coll;
-        Vector2 hitPoint = coll.ClosestPoint(owner.Coll.bounds.center);
-        Vector2 hitNormal = (hitPoint - (Vector2)owner.Pos).normalized;
-        Debug.Log(hitNormal);
-        float attackAngle = Vector2.SignedAngle(Vector2.right, hitNormal);
+        Vector2 closestPoint = coll.ClosestPoint(owner.Coll.bounds.center);
+        Vector2 normalVector = (closestPoint - (Vector2)owner.Coll.bounds.center).normalized;
+        float attackAngle = Vector2.SignedAngle(Vector2.right, normalVector);
         if (attackAngle < 0) { attackAngle += 360; }
 
-        Collider2D[] hits;
-        if (attackAngle >= 315 || attackAngle < 45) hits = GetCollsInAttackRange(Direction.Right);
-        else if (attackAngle >= 45 && attackAngle < 135) hits = GetCollsInAttackRange(Direction.Up);
-        else if (attackAngle >= 135 && attackAngle < 225) hits = GetCollsInAttackRange(Direction.Left);
-        else hits = GetCollsInAttackRange(Direction.Down);
+        if(attackAngle >= 45 && attackAngle < 135)
+        {
+            return Direction.Up;
+        }
+        else if(attackAngle >= 135 && attackAngle < 225)
+        {
+            return Direction.Left;
+        }
+        else if(attackAngle >= 225 && attackAngle < 315)
+        {
+            return Direction.Down;
+        }
+        else
+        {
+            return Direction.Right;
+        }
+    }
+
+    public bool Attack(ILivingEntity target)
+    {
+        Direction attackDir = GetDirectionToTarget(target);
+        Collider2D[] hits = GetCollsInAttackRange(attackDir);
+
+        Vector2 hitPoint = target.Coll.ClosestPoint(owner.Coll.bounds.center);
+        Vector2 hitNormal = (hitPoint - (Vector2)owner.Coll.bounds.center).normalized;
 
         foreach (Collider2D hit in hits)
         {
-            Debug.Log(hit);
             if (hit == target.Coll)
             {
+                Debug.Log("Attack!");
                 target.OnDamage(owner.Stat.attackDamage.GetValue(), hitPoint, hitNormal);
                 return true;
             }

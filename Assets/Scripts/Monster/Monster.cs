@@ -10,7 +10,6 @@ public class Monster : MonoBehaviour, IMovable
 
     public Transform Tr { get; private set; }
     public Collider2D Coll { get; private set; }
-    public Vector3 Pos => new (Coll.bounds.center.x, Coll.bounds.center.y - Coll.bounds.extents.y, Tr.position.z);
     public Animator Anim { get; private set; }
     public MonsterStat Stat { get; private set; }
     public MonsterMoveBody MoveBody { get; private set; }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MonsterChase : MonsterBaseState
 {
+    private BreakableObject obstacleOnPath;
     private Vector3 targetPos;
     private int chasePatience;
     private float chaseRadius;
@@ -38,6 +39,7 @@ public class MonsterChase : MonsterBaseState
         chaseRadius = StateMachine.Owner.Stat.chaseRadius.GetValue();
         timeOutsideRadius = 0f;
         canDetectObj = false;
+        obstacleOnPath = null;
     }
 
     public override void ExitState()
@@ -48,18 +50,19 @@ public class MonsterChase : MonsterBaseState
 
     public override void UpdateState()
     {
-        Debug.Log("Chase");
         Chase();
-        FindAttackTarget();
         FindObstacleTarget();
+        FindAttackTarget();
         CanKeepChasing();
         base.UpdateState();
     }
     private void Chase()
     {
-        targetPos = StateMachine.Owner.ChaseTarget.Coll.transform.position;
+        if(obstacleOnPath == null)
+            targetPos = StateMachine.Owner.ChaseTarget.Coll.bounds.center;
+        else
+            targetPos = obstacleOnPath.Coll.bounds.center;
         float diff = NavMeshController.Instance.CalculateDiff(StateMachine.Owner.Tr.position, targetPos);
-        Debug.Log(diff);
         if (diff < 1f)
         {
             canDetectObj = false;
@@ -74,26 +77,43 @@ public class MonsterChase : MonsterBaseState
         StateMachine.Owner.MoveBody.Turn();
     }
 
+    private void FindObstacleTarget()
+    {
+        if (!canDetectObj) return;
+        BreakableObject obstacleObj = StateMachine.Owner.Attacker.FindObstacleObj(StateMachine.Owner.MoveBody.Agent.path);
+        if (obstacleObj != null)
+        {
+            obstacleOnPath = obstacleObj;
+        }
+    }
+
     private void FindAttackTarget()
     {
-        Collider2D[] hits = StateMachine.Owner.Attacker.GetCollsInAttackRange(StateMachine.Owner.MoveBody.MoveDir);
+        Direction attackDir;
+        if(obstacleOnPath != null)
+        {
+            attackDir = StateMachine.Owner.Attacker.GetDirectionToTarget(obstacleOnPath);
+        }
+        else
+        {
+            attackDir = StateMachine.Owner.Attacker.GetDirectionToTarget(StateMachine.Owner.ChaseTarget);
+        }
+        Collider2D[] hits = StateMachine.Owner.Attacker.GetCollsInAttackRange(attackDir);
         foreach (Collider2D hit in hits)
         {
             if (hit == StateMachine.Owner.ChaseTarget.Coll)
             {
                 StateMachine.Owner.AttackTarget = StateMachine.Owner.ChaseTarget;
+                break;
             }
-        }
-    }
-
-    private void FindObstacleTarget()
-    {
-        if (!canDetectObj) return;
-        BreakableObject obstacleObj = StateMachine.Owner.Attacker.FindObstacleObj(StateMachine.Owner.MoveBody.Agent.path);
-        Debug.Log(obstacleObj);
-        if (obstacleObj != null)
-        {
-            StateMachine.Owner.ObstacleTarget = obstacleObj;
+            if(obstacleOnPath != null)
+            {
+                if (hit == obstacleOnPath.Coll)
+                {
+                    StateMachine.Owner.ObstacleTarget = obstacleOnPath;
+                    break;
+                }
+            }
         }
     }
 

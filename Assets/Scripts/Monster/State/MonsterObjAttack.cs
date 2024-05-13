@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class MonsterObjAttack : MonsterBaseState
 {
     Coroutine attackCoroutine;
+    bool canAttack;
 
     public MonsterObjAttack(MonsterStateMachine stateMachine) : base(stateMachine) {
     }
@@ -14,6 +15,7 @@ public class MonsterObjAttack : MonsterBaseState
         //StateMachine.Owner.Anim.SetBool("Attack", true);
         StateMachine.Owner.MoveBody.Stop();
         attackCoroutine = StateMachine.Owner.StartCoroutine(Attack());
+        canAttack = true;
     }
 
     private IEnumerator Attack()
@@ -21,14 +23,15 @@ public class MonsterObjAttack : MonsterBaseState
         yield return null;
 
         WaitForSeconds attackDelay = new(StateMachine.Owner.Stat.attackDelay.GetValue());
-        while (CanAttack())
+        while (canAttack)
         {
-            StateMachine.Owner.Attacker.Attack(StateMachine.Owner.ObstacleTarget);
+            bool attackSucceeded = StateMachine.Owner.Attacker.Attack(StateMachine.Owner.ObstacleTarget);
+            canAttack = CanFindTarget();
             yield return attackDelay;
         }
     }
 
-    private bool CanAttack()
+    private bool CanFindTarget()
     {
         if (StateMachine.Owner.ObstacleTarget == null || StateMachine.Owner.ObstacleTarget.IsDead)
         {
@@ -39,10 +42,11 @@ public class MonsterObjAttack : MonsterBaseState
             return false;
         }
         
-        Vector2 targetPos = StateMachine.Owner.ChaseTarget.Coll.transform.position;
+        Vector2 targetPos = StateMachine.Owner.ChaseTarget.Coll.bounds.center;
         NavMeshPath path = new NavMeshPath();
         StateMachine.Owner.MoveBody.Agent.CalculatePath(targetPos, path);
         BreakableObject obj = StateMachine.Owner.Attacker.FindObstacleObj(path);
+        Debug.Log(obj);
         if (obj == null || obj != StateMachine.Owner.ObstacleTarget)
         {
             return false;
@@ -66,7 +70,7 @@ public class MonsterObjAttack : MonsterBaseState
 
     protected override void ChangeFromState()
     {
-        if (!CanAttack())
+        if (!canAttack)
         {
             if (StateMachine.Owner.ChaseTarget != null)
             {

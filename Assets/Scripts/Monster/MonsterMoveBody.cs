@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.AI;
@@ -63,6 +64,10 @@ public class MonsterMoveBody
         if (Agent.isOnOffMeshLink)
         {
             Agent.Warp(Agent.currentOffMeshLinkData.endPos);
+        }
+        if(IsArrived())
+        {
+            Stop();
         }
     }
 
