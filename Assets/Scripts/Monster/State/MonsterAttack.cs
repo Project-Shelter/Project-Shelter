@@ -1,64 +1,62 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static MonsterStateManager;
 
 public class MonsterAttack : MonsterBaseState
 {
-    private List<Collider2D> attackedColls = new();
-    public MonsterAttack(in MonsterStateManager manager) : base(manager) { }
+    Coroutine attackCoroutine;
+    bool canAttack;
 
-    public override void OnStateEnter()
+    public MonsterAttack(MonsterStateMachine stateMachine) : base(stateMachine) {}
+
+    public override void EnterState()
     {
-        Manager.Animator.SetFloat("MovingBlend", 0f);
-        Manager.Animator.Play("Attack");
+        //StateMachine.Owner.Anim.SetBool("Attack", true);
+        StateMachine.Owner.MoveBody.Stop();
+        canAttack = true;
+        attackCoroutine = StateMachine.Owner.StartCoroutine(Attack());
     }
 
-    public override void OnStateUpdate()
+    private IEnumerator Attack()
     {
-        Manager.Move(Vector2.zero);
+        yield return null;
 
-        float nowAnimTime = Manager.Animator.GetCurrentAnimatorStateInfo((int)AnimationLayer.Attack).normalizedTime;
-        if (nowAnimTime >= 0.375 && nowAnimTime <= 0.525)
+        WaitForSeconds attackDelay = new(StateMachine.Owner.Stat.attackDelay.GetValue());
+        while (canAttack)
         {
-            Attack();
+            canAttack = StateMachine.Owner.Attacker.Attack(StateMachine.Owner.AttackTarget);
+            if (StateMachine.Owner.AttackTarget == null || StateMachine.Owner.AttackTarget.IsDead) canAttack = false;
+            yield return attackDelay;
         }
-        else if (nowAnimTime >= 1.0)
+    }
+
+    public override void ExitState()
+    {
+        //StateMachine.Owner.Anim.SetBool("Attack", false);
+        StateMachine.Owner.AttackTarget = null;
+        StateMachine.Owner.StopCoroutine(attackCoroutine);
+    }
+
+    public override void UpdateState()
+    {
+        base.UpdateState();
+    }
+
+    public override void FixedUpdateState()
+    {
+    }
+
+    protected override void ChangeFromState()
+    {
+        if(!canAttack)
         {
-            Manager.canAttack = false;
-        }
-    }
-
-    public override void OnStateFixedUpdate()
-    {
-
-    }
-
-    public override void OnStateExit()
-    {
-        Manager.Animator.Play("Empty", (int)AnimationLayer.Attack);
-        attackedColls.Clear();
-        Manager.canAttack = false;
-    }
-
-    private void Attack()
-    {
-        Vector2 collCenter = Manager.Coll.bounds.center;
-        Vector2 attackCenter = new(collCenter.x + Manager.Direction * Manager.Stat.attackRange.GetValue() / 2, collCenter.y);
-        Vector2 attackSize = new(Manager.Stat.attackRange.GetValue(), Manager.Coll.bounds.size.y);
-
-        Collider2D[] hit = Physics2D.OverlapBoxAll(attackCenter, attackSize, 0, 1 << (int)Define.Layer.Character);
-        foreach (Collider2D collider in hit)
-        {
-            if (collider.CompareTag("Player"))
+            if(StateMachine.Owner.DetectedTarget != null)
             {
-                ILivingEntity target = collider.GetComponentInParent<ILivingEntity>();
-                if (!attackedColls.Contains(collider) && target != null)
-                {
-                    Vector2 hitPoint = collider.ClosestPoint((Vector2)Manager.transform.position + Manager.Stat.AttackPoint);
-                    Vector2 hitNormal = hitPoint - Manager.Stat.AttackPoint;
-                    target.OnDamage(Manager.Stat.attackDamage.GetValue(), hitPoint, hitNormal);
-                    attackedColls.Add(collider);
-                }
+                StateMachine.SetState("Chase");
+            }
+            else
+            {
+                StateMachine.SetState("Move");
             }
         }
     }

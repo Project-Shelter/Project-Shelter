@@ -1,128 +1,132 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterChase : MonsterBaseState
 {
-    public MonsterChase(in MonsterStateManager manager) : base(manager) { }
-
-    private GameObject target;
-
-    static bool isStayingAggro;
-    private float timeForMinusAggro;
-    private const float TIME_BET_MINUS_AGGRO = 1.0f;
-
-    public int chasePoint;
-    
-    public override void OnStateEnter()
+    private BreakableObject obstacleOnPath;
+    private ILivingEntity chaseTarget;
+    private int chasePatience;
+    private float chaseRadius;
+    private float timeOutsideRadius;
+    private float ChaseSpeed
     {
-        Manager.Animator.SetFloat("MovingBlend", 1.0f);
-
-        target = Manager.ChasingTarget.gameObject;
-
-        isStayingAggro = true;
-        chasePoint = Manager.Stat.chasePoint;
+        get
+        {
+            if (DayNight.Instance.isDay)
+                return StateMachine.Owner.Stat.dayChaseSpeed.GetValue();
+            else
+                return StateMachine.Owner.Stat.nightChaseSpeed.GetValue();
+        }
     }
 
-    public override void OnStateUpdate()
-    {
+    public MonsterChase(MonsterStateMachine stateMachine) : base(stateMachine) {}
 
+    public override void EnterState()
+    {
+        StateMachine.Owner.MoveBody.Stop();
+        StateMachine.Owner.Anim.SetBool("IsMoving", true);
+        StateMachine.Owner.Anim.speed = 1f;
+        InitVariables();
     }
 
-    public override void OnStateFixedUpdate()
+    private void InitVariables()
     {
-        Manager.canAttack = CanAttack();
-        CheckAggro();
+        chaseTarget = StateMachine.Owner.DetectedTarget;
+        chasePatience = StateMachine.Owner.Stat.chasePatience;
+        chaseRadius = StateMachine.Owner.Stat.chaseRadius.GetValue();
+        timeOutsideRadius = 0f;
+        obstacleOnPath = null;
+    }
+
+    public override void ExitState()
+    {
+        StateMachine.Owner.MoveBody.Stop();
+        StateMachine.Owner.Anim.SetBool("IsMoving", false);
+    }
+
+    public override void UpdateState()
+    {
+        SetTarget();
         Chase();
+        FindAttackTarget();
+        CanKeepChasing();
+        base.UpdateState();
     }
 
-    private void CheckAggro()
+    private void SetTarget()
     {
-        bool canKeepChasing;
-        if (IsTargetInRadius() && IsTargetInHeight())
-        {
-            canKeepChasing = true;
-        }
-        else
-        {
-            canKeepChasing = false;
-        }
-
-        if (canKeepChasing)
-        {
-            isStayingAggro = true;
-            chasePoint = Manager.Stat.chasePoint;
-        }
-        else
-        {
-            if (isStayingAggro)
-            {
-                isStayingAggro = false;
-                timeForMinusAggro = Time.time;
-            }
-            if (timeForMinusAggro + TIME_BET_MINUS_AGGRO <= Time.time)
-            {
-                chasePoint--;
-                timeForMinusAggro = Time.time;
-            }
-        }
-
-        if (chasePoint == 0)
-        {
-            Manager.ChasingTarget = null;
-        }
-    }
-
-    private bool IsTargetInRadius()
-    {
-        float distFromTarget = Vector2.Distance(Manager.transform.position, target.transform.position);
-        return distFromTarget <= Manager.Stat.chaseRadius.GetValue();
-    }
-
-    private bool IsTargetInHeight()
-    {
-        float yDistFromTarget = target.transform.position.y - Manager.transform.position.y;
-        return yDistFromTarget <= Manager.Stat.chaseHeight.GetValue();
+        if (obstacleOnPath) { chaseTarget = obstacleOnPath; }
+        else { chaseTarget = StateMachine.Owner.DetectedTarget; }
     }
 
     private void Chase()
     {
-        if (Manager.canAttack)
-        {
-            return;
-        }
+        Vector3 targetPos = chaseTarget.Coll.bounds.center;
+        float diff = NavMeshController.Instance.CalculateDiff(StateMachine.Owner.Tr.position, targetPos);
+        if (diff < 1f) { NavMeshController.Instance.ChangeAgentType(StateMachine.Owner.MoveBody.Agent, Agent.WithObjects); }
+        else { NavMeshController.Instance.ChangeAgentType(StateMachine.Owner.MoveBody.Agent, Agent.WithoutObjects); }
 
-        float xDistFromTarget = target.transform.position.x - Manager.transform.position.x;
-        float direction = Mathf.Sign(xDistFromTarget);
-        if (Mathf.Abs(xDistFromTarget) < Manager.Stat.attackRange.GetValue() && Manager.Direction == direction)
+        StateMachine.Owner.MoveBody.MoveToPos(targetPos, ChaseSpeed);
+        StateMachine.Owner.MoveBody.Turn();
+        obstacleOnPath = StateMachine.Owner.Attacker.FindObstacleObj(StateMachine.Owner.MoveBody.Agent.path);
+    }
+
+    private void FindAttackTarget()
+    {
+        Direction attackDir = StateMachine.Owner.Attacker.GetDirectionToTarget(chaseTarget);
+        Collider2D[] hits = StateMachine.Owner.Attacker.GetCollsInAttackRange(attackDir);
+        foreach (Collider2D hit in hits)
         {
-            Manager.Animator.SetFloat("MovingBlend", 0.0f);
-            direction = 0;
+            if(hit == chaseTarget.Coll)
+            {
+                if(chaseTarget is BreakableObject obj) { StateMachine.Owner.ObstacleTarget = obj; }
+                else { StateMachine.Owner.AttackTarget = chaseTarget; }
+                break;
+            }
+        }
+    }
+
+    private void CanKeepChasing()
+    {
+        float distance = Vector3.Distance(StateMachine.Owner.Tr.position, StateMachine.Owner.DetectedTarget.Coll.bounds.center);
+        if(distance > chaseRadius)
+        {
+            timeOutsideRadius += Time.deltaTime;
+            if(timeOutsideRadius >= 1f)
+            {
+                timeOutsideRadius = 0f;
+                chasePatience--;
+            }
         }
         else
         {
-            Manager.Animator.SetFloat("MovingBlend", 1.0f);
+            timeOutsideRadius = 0f;
+            chasePatience = StateMachine.Owner.Stat.chasePatience;
         }
-
-        Manager.Move(new Vector2(direction, 0f) * Manager.Stat.ChaseSpeed);
     }
 
-    private bool CanAttack()
-    {
-        Vector2 collCenter = Manager.Coll.bounds.center;
-        Vector2 attackCenter = new(collCenter.x + Manager.Direction * Manager.Stat.attackRange.GetValue() / 2, collCenter.y);
-        Vector2 attackSize = new(Manager.Stat.attackRange.GetValue(), Manager.Coll.bounds.size.y);
+    public override void FixedUpdateState() {}
 
-        Collider2D[] hit = Physics2D.OverlapBoxAll(attackCenter, attackSize, 0, 1 << (int)Define.Layer.Character);
-        foreach (Collider2D collider in hit)
+    protected override void ChangeFromState()
+    {
+        if (StateMachine.Owner.DetectedTarget == null || chasePatience <= 0)
         {
-            Actor target = collider.GetComponent<Actor>();
-            if (target != null && target == Manager.ChasingTarget) { return true; }
+            StateMachine.SetState("Move");
+            return;
         }
 
-        return false;
-    }
+        if(StateMachine.Owner.AttackTarget != null)
+        {
+            StateMachine.SetState("Attack");
+            return;
+        }
 
-    public override void OnStateExit()
-    {
-
+        if(StateMachine.Owner.ObstacleTarget != null)
+        {
+            StateMachine.SetState("ObjAttack");
+            return;
+        }
     }
 }

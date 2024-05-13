@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DayNight : MonoSingleton<DayNight>
@@ -5,6 +6,8 @@ public class DayNight : MonoSingleton<DayNight>
     // Temporary Variable
     //public TextMeshProUGUI timerText;
     
+    public event Action WhenDayBegins;
+    public event Action WhenNightBegins;
     public bool isDay; // 낮 = true, 밤 = false
     public int dayCount; // 날짜 수
     private HourMinute midNight0 = new HourMinute(0, 0); // 자정 0시
@@ -77,12 +80,14 @@ public class DayNight : MonoSingleton<DayNight>
         {
             isDay = false;
             minutesAfterDayNightChanged = 0;
+            WhenNightBegins?.Invoke();
         }
         else if (!isDay && minutesAfterDayNightChanged >= durationOfNight)
         {
             dayCount++;
             isDay = true;
             minutesAfterDayNightChanged = 0;
+            WhenDayBegins?.Invoke();
         }
 
         //timerText.text = GetTimerText();

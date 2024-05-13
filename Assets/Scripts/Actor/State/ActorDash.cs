@@ -22,6 +22,7 @@ public class ActorDash : ActorBaseState
     public override void UpdateState()
     {
         base.UpdateState();
+        Actor.ActionRadius.AlertForMonstersInRadius();
     }
 
     public override void FixedUpdateState()
