@@ -15,7 +15,7 @@ public class Monster : MonoBehaviour, IMovable
     public MonsterMoveBody MoveBody { get; private set; }
     public MonsterAttacker Attacker { get; private set; }
     public MonsterStateMachine StateMachine { get; private set; }
-    public ILivingEntity ChaseTarget { get; set; }
+    public ILivingEntity DetectedTarget { get; set; }
     public ILivingEntity AttackTarget { get; set; }
     public BreakableObject ObstacleTarget { get; set; }
 
@@ -35,7 +35,7 @@ public class Monster : MonoBehaviour, IMovable
         MoveBody = new MonsterMoveBody(this);
         Attacker = new MonsterAttacker(this);
         StateMachine = new MonsterStateMachine(this);
-        ChaseTarget = null;
+        DetectedTarget = null;
         AttackTarget = null;
     }
 
@@ -61,7 +61,7 @@ public class Monster : MonoBehaviour, IMovable
 
     public void DetectTarget(ILivingEntity target)
     {
-        ChaseTarget = target;
+        DetectedTarget = target;
     }
 
     public Vector2 GetVelocity()

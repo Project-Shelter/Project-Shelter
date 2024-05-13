@@ -15,6 +15,7 @@ public class MonsterObjAttack : MonsterBaseState
         //StateMachine.Owner.Anim.SetBool("Attack", true);
         StateMachine.Owner.MoveBody.Stop();
         attackCoroutine = StateMachine.Owner.StartCoroutine(Attack());
+        NavMeshController.Instance.ChangeAgentType(StateMachine.Owner.MoveBody.Agent, Agent.WithoutObjects);
         canAttack = true;
     }
 
@@ -37,16 +38,15 @@ public class MonsterObjAttack : MonsterBaseState
         {
             return false;
         }
-        if(StateMachine.Owner.ChaseTarget == null)
+        if(StateMachine.Owner.DetectedTarget == null)
         {
             return false;
         }
         
-        Vector2 targetPos = StateMachine.Owner.ChaseTarget.Coll.bounds.center;
-        NavMeshPath path = new NavMeshPath();
-        StateMachine.Owner.MoveBody.Agent.CalculatePath(targetPos, path);
-        BreakableObject obj = StateMachine.Owner.Attacker.FindObstacleObj(path);
-        Debug.Log(obj);
+        Vector2 targetPos = StateMachine.Owner.DetectedTarget.Coll.bounds.center;
+        NavMeshPath pathToTarget = new NavMeshPath();
+        StateMachine.Owner.MoveBody.Agent.CalculatePath(targetPos, pathToTarget);
+        BreakableObject obj = StateMachine.Owner.Attacker.FindObstacleObj(pathToTarget);
         if (obj == null || obj != StateMachine.Owner.ObstacleTarget)
         {
             return false;
@@ -72,7 +72,7 @@ public class MonsterObjAttack : MonsterBaseState
     {
         if (!canAttack)
         {
-            if (StateMachine.Owner.ChaseTarget != null)
+            if (StateMachine.Owner.DetectedTarget != null)
             {
                 StateMachine.SetState("Chase");
             }

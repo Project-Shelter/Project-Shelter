@@ -47,6 +47,7 @@ public class MonsterAttacker
         {
             Vector2 origin = path.corners[0];
             Vector2 dir = path.corners[1] - path.corners[0];
+
             float distance = owner.Stat.attackRange.GetValue() < dir.magnitude ? owner.Stat.attackRange.GetValue() : dir.magnitude;
             RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, distance, 1 << owner.gameObject.layer);
             foreach (RaycastHit2D hit in hits)

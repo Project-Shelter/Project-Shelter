@@ -50,7 +50,7 @@ public class MonsterAttack : MonsterBaseState
     {
         if(!canAttack)
         {
-            if(StateMachine.Owner.ChaseTarget != null)
+            if(StateMachine.Owner.DetectedTarget != null)
             {
                 StateMachine.SetState("Chase");
             }

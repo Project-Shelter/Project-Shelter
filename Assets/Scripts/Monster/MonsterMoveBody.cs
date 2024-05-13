@@ -65,10 +65,6 @@ public class MonsterMoveBody
         {
             Agent.Warp(Agent.currentOffMeshLinkData.endPos);
         }
-        if(IsArrived())
-        {
-            Stop();
-        }
     }
 
     public bool IsArrived()
