@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum Direction
 {
     Up, Down, Left, Right, None
 }
 
-public class ActorMoveBody
+public class ActorMoveBody : MonoBehaviour
 {
     private Actor actor;
     private Rigidbody2D rigid;
@@ -48,6 +49,7 @@ public class ActorMoveBody
     
     private int HorizontalAxis { get { return (InputHandler.ButtonA ? -1 : 0) + (InputHandler.ButtonD ? 1 : 0); } }
     private int VerticalAxis { get { return (InputHandler.ButtonS ? -1 : 0) + (InputHandler.ButtonW ? 1 : 0); } }
+    private Vector2 directionAxis = Vector2.zero;
     private Direction lookDir;
     private Direction moveDir;
     private bool isPassedDashCool = true;
@@ -61,15 +63,20 @@ public class ActorMoveBody
 
     #endregion
 
-    public ActorMoveBody(Actor actor)
+    public void OnMoveInput(InputValue input)
     {
-        this.actor = actor;
+        directionAxis = input.Get<Vector2>();
+    }
+    
+    private void Awake()
+    {
+        actor = GetComponent<Actor>();
         rigid = Util.GetOrAddComponent<Rigidbody2D>(actor.gameObject);
     }
 
     private void Move(float speed)
     {
-        Vector2 velocity = new Vector2(HorizontalAxis, VerticalAxis) * speed;
+        Vector2 velocity = directionAxis * speed;
         velocity = velocity.normalized * speed;
         rigid.velocity = velocity;
     }
