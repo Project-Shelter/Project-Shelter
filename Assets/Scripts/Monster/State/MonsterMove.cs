@@ -1,172 +1,137 @@
+using System;
+using System.Buffers;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.Diagnostics;
-using static MonsterStat;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
+
+public enum MonsterMoveType
+{
+    Hold,
+    Patrol,
+    Random,
+}
 
 public class MonsterMove : MonsterBaseState
 {
-    #region Move Variables
-
-    private MoveType moveType;
-    private float moveDirection;
-    private bool isInitialState = true;
-    private bool isMoving;
-
-    private Transform[] PatrolPoints { get => Manager.Stat.patrolPoints; }
-    private int patrolPointIdx = -1;
-
-    private float randomDestX;
-
-    #endregion
-
-    #region Observer Variables
-
-    private MonsterObserver observer;
-    private Vector2 ObserverPoint { get { return (Vector2)Manager.Coll.bounds.center; } }
-    private Vector2 ObserverOffset { get { return new (Manager.Direction * Manager.Stat.ViewDistance.x / 2, 0f); } }
-
-    #endregion
-
-    public MonsterMove(in MonsterStateManager manager) : base(manager)
+    private int patrolIdx;
+    private int patrolLength;
+    private bool patrolMoveReverse;
+    private Vector3 lastPoint;
+    private float MoveSpeed
     {
-        observer = new MonsterObserver();
-    }
-
-    public override void OnStateEnter()
-    {
-        if (isInitialState)
+        get
         {
-            moveType = Manager.Stat.initialMoveType;
+            if (DayNight.Instance.isDay)
+                return StateMachine.Owner.Stat.dayMoveSpeed.GetValue();
+            else
+                return StateMachine.Owner.Stat.nightMoveSpeed.GetValue();
         }
-        else
-        {
-            if (moveType == MoveType.Idle)
-            {
-                moveType = MoveType.Random;
-            }
-        }
-
-        switch (moveType)
-        {
-            case MoveType.Idle:
-                Manager.Animator.SetFloat("MovingBlend", 0f);
-                break;
-            default:
-                Manager.Animator.SetFloat("MovingBlend", 0.5f);
-                break;
-        }
-
-        isMoving = false;
-    }
-
-    public override void OnStateUpdate()
-    {
 
     }
 
-    public override void OnStateFixedUpdate()
+    public MonsterMove(MonsterStateMachine stateMachine) : base(stateMachine)
     {
+        patrolIdx = 0;
+        patrolLength = StateMachine.Owner.Stat.patrolMovePos.Length;
+        patrolMoveReverse = false;
+        lastPoint = stateMachine.Owner.Tr.position;
+    }
+
+    public override void EnterState()
+    {
+        StateMachine.Owner.Anim.SetBool("IsMoving", true);
+        StateMachine.Owner.Anim.speed = 0.5f;
+        NavMeshController.Instance.ChangeAgentType(StateMachine.Owner.MoveBody.Agent, Agent.WithObjects);
+    }
+
+    public override void ExitState()
+    {
+        StateMachine.Owner.MoveBody.Stop();
+        StateMachine.Owner.Anim.SetBool("IsMoving", false);
+    }
+
+    public override void UpdateState()
+    {
+        base.UpdateState();
         Move();
-        Manager.ChasingTarget = observer.Observe(ObserverPoint, ObserverOffset, Manager.Stat.ViewDistance);
-    }
-
-    public override void OnStateExit()
-    {
-        isInitialState = false;
     }
 
     private void Move()
     {
-        switch (moveType)
+        switch(StateMachine.Owner.Stat.moveType)
         {
-            case MoveType.Idle:
-                Manager.Move(Vector2.zero);
+            case MonsterMoveType.Hold:
                 break;
-            case MoveType.Patrol:
+            case MonsterMoveType.Patrol:
                 PatrolMove();
                 break;
-            case MoveType.Random:
+            case MonsterMoveType.Random:
                 RandomMove();
                 break;
         }
-    }
 
-    #region Patrol
+        StateMachine.Owner.MoveBody.Turn();
+    }
 
     private void PatrolMove()
     {
-        if (PatrolPoints.Length == 0)
-        {
-            return;
-        }
+        if (!StateMachine.Owner.MoveBody.IsArrived()) return;
+        if (patrolLength <= 1) return;
 
-        if (!isMoving)
-        {
-            SetNextPatrolPoint();
-        }
-        else
-        {
-            isMoving = !IsArrivedAtPoint(PatrolPoints[patrolPointIdx].position.x);
-        }
+        StateMachine.Owner.MoveBody.MoveToPos(StateMachine.Owner.Stat.patrolMovePos[patrolIdx], MoveSpeed);
 
-        Manager.Move(new Vector2(moveDirection, 0f) * Manager.Stat.MoveSpeed);
+        if (patrolMoveReverse) patrolIdx--;
+        else patrolIdx++;
+        if (patrolIdx == patrolLength - 1 || patrolIdx == 0) patrolMoveReverse = !patrolMoveReverse;
     }
-
-    private void SetNextPatrolPoint()
-    {
-        patrolPointIdx = (patrolPointIdx + 1) % PatrolPoints.Length;
-
-        float posDiff = PatrolPoints[patrolPointIdx].position.x - Manager.transform.position.x;
-        if (posDiff > 0)
-        {
-            moveDirection = 1f;
-        }
-        else if (posDiff < 0)
-        {
-            moveDirection = -1f;
-        }
-        else
-        {
-            moveDirection = 0f;
-        }
-
-        Manager.Move(new Vector2(moveDirection, 0f) * Manager.Stat.MoveSpeed);
-        isMoving = true;
-    }
-
-    #endregion
-
-    #region Random
 
     private void RandomMove()
     {
-        if (!isMoving)
-        {
-            SetRandomDestination();
-        }
-        isMoving = !IsArrivedAtPoint(randomDestX);
+        if (!StateMachine.Owner.MoveBody.IsArrived()) return;
 
-        Manager.Move(new Vector2(moveDirection, 0f) * Manager.Stat.MoveSpeed);
+        if (RandomPoint(StateMachine.Owner.Tr.position, 5f, out Vector3 result))
+        {
+            lastPoint = result;
+            StateMachine.Owner.MoveBody.MoveToPos(result, MoveSpeed);
+        }
+        else
+        {
+            StateMachine.Owner.MoveBody.MoveToPos(lastPoint, MoveSpeed);
+        }
     }
 
-    private void SetRandomDestination()
+    private bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
-        moveDirection = Mathf.Sign(Random.Range(-1, 1));
-
-        randomDestX = Manager.transform.position.x + Random.Range(0f, Manager.Stat.randomMoveDistance.GetValue()) * moveDirection;
-        isMoving = true;
-    }
-
-    #endregion
-
-    private bool IsArrivedAtPoint(float point)
-    {
-        float posDiff = point - Manager.transform.position.x;
-        if (posDiff * moveDirection <= 0)
+        for (int i = 0; i < 30; i++)
         {
-            moveDirection = 0f;
-            return true;
-        }
+            Vector3 randomDirection = Random.insideUnitCircle;
+            Vector3 randomPoint = center + randomDirection * range;
+            NavMeshHit hit;
 
+            if (NavMesh.SamplePosition(randomPoint, out hit, 5.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+        result = Vector3.zero;
         return false;
+    }
+
+    public override void FixedUpdateState()
+    {
+
+    }
+
+    protected override void ChangeFromState()
+    {
+        if(StateMachine.Owner.DetectedTarget != null)
+        {
+            StateMachine.SetState("Chase");
+        }
     }
 }

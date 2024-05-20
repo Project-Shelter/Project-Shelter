@@ -41,12 +41,14 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     public void EnterBuilding(GameObject roof)
     {
-        roof.SetActive(false);
+        if (roof == null) return;
         this.roof = roof;
+        roof.SetActive(false);
     }
 
     public void ExitBuilding()
     {
+        if(roof == null) return;
         roof.SetActive(true);
         roof = null;
     }
@@ -61,12 +63,17 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     private int GetZPosition(Define.Layer floor)
     {
         if (floor == Define.Layer.Ground) return 0;
-        else return (int)Define.Layer.Floor1 - (int)floor;
+        else return ((int)Define.Layer.Floor1 - (int)floor) * 10;
     }
 
     private void SetViewByFloorChange(int prevFloor, int nextFloor)
     {
         if (prevFloor != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << prevFloor);
         Camera.main.cullingMask |= 1 << nextFloor;
+    }
+
+    public Vector2 GetVelocity()
+    {
+        return MoveBody.Velocity;
     }
 }

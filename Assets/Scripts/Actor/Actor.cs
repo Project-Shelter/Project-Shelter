@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-//Actor의 정보(Stat, MovementState) 및 정보 업데이트
-public partial class Actor : MonoBehaviour, ILivingEntity
+public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
     #region ActorStates
 
@@ -20,6 +19,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity
     public ActorStateMachine StateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
     public ActorMoveBody MoveBody { get; private set; }
+    public ActorActionRadius ActionRadius { get; private set; }
     public BuffAttacher Buff { get; private set; }
     private ActorHealth health;
     public Satiety Satiety { get; private set; }
@@ -66,6 +66,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         StateMachine = new ActorStateMachine(this);
         MoveBody = GetComponent<ActorMoveBody>();
+        ActionRadius = new ActorActionRadius(this);
         Anim = new ActorAnimController(this);
         Buff = new BuffAttacher(this);
         ActorSwitchEffect = Util.FindChild<ParticleSystem>(this.gameObject, "ActorSwitchEffect");

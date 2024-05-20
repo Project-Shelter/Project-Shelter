@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Actor : MonoBehaviour, ILivingEntity
+public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
     public Action<AttackedPart> AttackedAction = null;
 
