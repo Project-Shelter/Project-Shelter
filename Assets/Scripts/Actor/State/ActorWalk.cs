@@ -28,6 +28,7 @@ public class ActorWalk : ActorBaseState
     {
         if (Actor.CanSwitch) Actor.StateMachine.SetState(ActorState.Switch);
         if (Actor.IsDead) Actor.StateMachine.SetState(ActorState.Die);
+        if (Actor.CanConceal) Actor.StateMachine.SetState(ActorState.Conceal);
         if (Actor.MoveBody.CanDash) Actor.StateMachine.SetState(ActorState.Dash);
         if (!Actor.MoveBody.CanMove) Actor.StateMachine.SetState(ActorState.Idle);
     }

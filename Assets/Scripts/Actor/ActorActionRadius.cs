@@ -29,5 +29,22 @@ public class ActorActionRadius
             }
         }
     }
+    
+    public void AlertConcealmentInRadius()
+    {
+        Vector2 position = actor.Tr.position;
+        float radius = actionRadius;
+        int layerMask = actor.gameObject.layer;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
+
+        foreach(var collider in colliders)
+        {
+            Monster monster = collider.GetComponent<Monster>();
+            if (monster && monster.DetectedTarget == (ILivingEntity)actor)
+            {
+                monster.DetectTarget(actor.concealment);
+            }
+        }
+    }
 
 }

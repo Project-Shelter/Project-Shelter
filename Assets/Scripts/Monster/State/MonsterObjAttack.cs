@@ -43,6 +43,11 @@ public class MonsterObjAttack : MonsterBaseState
             return false;
         }
         
+        if(StateMachine.Owner.DetectedTarget == (ILivingEntity)StateMachine.Owner.ObstacleTarget)
+        {
+            return true;
+        }
+
         Vector2 targetPos = StateMachine.Owner.DetectedTarget.Coll.bounds.center;
         NavMeshPath pathToTarget = new NavMeshPath();
         StateMachine.Owner.MoveBody.Agent.CalculatePath(targetPos, pathToTarget);
@@ -59,6 +64,7 @@ public class MonsterObjAttack : MonsterBaseState
         //StateMachine.Owner.Anim.SetBool("Attack", false);
         StateMachine.Owner.ObstacleTarget = null;
         StateMachine.Owner.StopCoroutine(attackCoroutine);
+        Debug.Log("ExitObjAttack");
     }
 
     public override void UpdateState()

@@ -46,8 +46,8 @@ public class ActorMoveBody
     #region Movement Variables
     
     public Vector2 Velocity { get { return rigid.velocity; } }
-    private int HorizontalAxis { get { return (InputHandler.ButtonA ? -1 : 0) + (InputHandler.ButtonD ? 1 : 0); } }
-    private int VerticalAxis { get { return (InputHandler.ButtonS ? -1 : 0) + (InputHandler.ButtonW ? 1 : 0); } }
+    private int HorizontalAxis => (InputHandler.ButtonA ? -1 : 0) + (InputHandler.ButtonD ? 1 : 0); 
+    private int VerticalAxis => (InputHandler.ButtonS ? -1 : 0) + (InputHandler.ButtonW ? 1 : 0);
     private Direction lookDir;
     private Direction moveDir;
     private bool isPassedDashCool = true;

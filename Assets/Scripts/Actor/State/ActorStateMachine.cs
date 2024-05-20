@@ -7,6 +7,7 @@ public enum ActorState
     Idle,
     Walk,
     Dash,
+    Conceal,
     Die,
     Switch,
 }
@@ -44,6 +45,7 @@ public class ActorStateMachine
         stateDict.Add(ActorState.Idle, new ActorIdle(actor));
         stateDict.Add(ActorState.Walk, new ActorWalk(actor));
         stateDict.Add(ActorState.Dash, new ActorDash(actor));
+        stateDict.Add(ActorState.Conceal, new ActorConceal(actor));
         stateDict.Add(ActorState.Die, new ActorDie(actor));
         stateDict.Add(ActorState.Switch, new ActorSwitch(actor));
     }

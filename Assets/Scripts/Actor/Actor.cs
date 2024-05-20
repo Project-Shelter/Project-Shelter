@@ -7,6 +7,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     [SerializeField] private bool isHumanActor = false;
     public bool CanSwitch { get { return InputHandler.ButtonCtrl; } }
+    public bool CanConceal { get { return InputHandler.ButtonE && concealment; } }
     public bool IsDead { get { return health.IsDead; } }
     public float HP { get { return health.HP; } }
 
