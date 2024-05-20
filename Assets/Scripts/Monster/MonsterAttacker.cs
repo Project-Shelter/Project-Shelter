@@ -99,7 +99,7 @@ public class MonsterAttacker
         {
             if (hit == target.Coll)
             {
-                Debug.Log("Attack!");
+                Debug.Log("Attack to " + target);
                 target.OnDamage(owner.Stat.attackDamage.GetValue(), hitPoint, hitNormal);
                 return true;
             }

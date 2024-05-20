@@ -24,10 +24,23 @@ public class MonsterAttack : MonsterBaseState
         WaitForSeconds attackDelay = new(StateMachine.Owner.Stat.attackDelay.GetValue());
         while (canAttack)
         {
-            canAttack = StateMachine.Owner.Attacker.Attack(StateMachine.Owner.AttackTarget);
-            if (StateMachine.Owner.AttackTarget == null || StateMachine.Owner.AttackTarget.IsDead) canAttack = false;
+            bool isAttackSucceeded = StateMachine.Owner.Attacker.Attack(StateMachine.Owner.AttackTarget);
             yield return attackDelay;
+            canAttack = CanFindTarget() && isAttackSucceeded;
         }
+    }
+
+    private bool CanFindTarget()
+    {
+        if (StateMachine.Owner.AttackTarget == null || StateMachine.Owner.AttackTarget.IsDead)
+        {
+            return false;
+        }
+        if(StateMachine.Owner.AttackTarget != StateMachine.Owner.DetectedTarget)
+        {
+            return false;
+        }
+        return true;
     }
 
     public override void ExitState()

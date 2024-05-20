@@ -27,8 +27,8 @@ public class MonsterObjAttack : MonsterBaseState
         while (canAttack)
         {
             bool attackSucceeded = StateMachine.Owner.Attacker.Attack(StateMachine.Owner.ObstacleTarget);
-            canAttack = CanFindTarget();
             yield return attackDelay;
+            canAttack = CanFindTarget();
         }
     }
 
@@ -64,7 +64,6 @@ public class MonsterObjAttack : MonsterBaseState
         //StateMachine.Owner.Anim.SetBool("Attack", false);
         StateMachine.Owner.ObstacleTarget = null;
         StateMachine.Owner.StopCoroutine(attackCoroutine);
-        Debug.Log("ExitObjAttack");
     }
 
     public override void UpdateState()

@@ -48,8 +48,8 @@ public class MonsterChase : MonsterBaseState
 
     public override void UpdateState()
     {
-        SetTarget();
         Chase();
+        SetTarget();
         FindAttackTarget();
         CanKeepChasing();
         base.UpdateState();
@@ -81,7 +81,7 @@ public class MonsterChase : MonsterBaseState
         {
             if(hit == chaseTarget.Coll)
             {
-                if(chaseTarget is BreakableObject obj) { StateMachine.Owner.ObstacleTarget = obj; }
+                if(chaseTarget is BreakableObject obj && chaseTarget == (ILivingEntity)obstacleOnPath) { StateMachine.Owner.ObstacleTarget = obj; }
                 else { StateMachine.Owner.AttackTarget = chaseTarget; }
                 break;
             }
