@@ -82,7 +82,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         StateMachine = new ActorStateMachine(this);
-        MoveBody = new ActorMoveBody(this);
+        MoveBody = GetComponent<ActorMoveBody>();
         ActionRadius = new ActorActionRadius(this);
         Anim = new ActorAnimController(this);
         Buff = new BuffAttacher(this);
