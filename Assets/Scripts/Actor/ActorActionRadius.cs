@@ -1,50 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class ActorActionRadius
 {
     Actor actor;
-    private float actionRadius;
     public ActorActionRadius(Actor actor)
     {
         this.actor = actor;
-        actionRadius = actor.Stat.monsterViewRadius.GetValue();
     }
 
     public void AlertForMonstersInRadius()
     {
-        Vector2 position = actor.Tr.position;
-        float radius = actionRadius;
-        int layerMask = actor.gameObject.layer;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
-
-        foreach(var collider in colliders)
+        Collider2D[] colls = FindCollsInRadius();
+        foreach(Collider2D coll in colls)
         {
-            Monster monster = collider.GetComponent<Monster>();
+            Monster monster = coll.GetComponent<Monster>();
             if (monster)
             {
                 monster.DetectTarget(actor);
             }
         }
     }
-    
-    public void AlertConcealmentInRadius()
+
+    private Collider2D[] FindCollsInRadius()
     {
         Vector2 position = actor.Tr.position;
-        float radius = actionRadius;
-        int layerMask = actor.gameObject.layer;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
-
-        foreach(var collider in colliders)
-        {
-            Monster monster = collider.GetComponent<Monster>();
-            if (monster && monster.DetectedTarget == (ILivingEntity)actor)
-            {
-                monster.DetectTarget(actor.concealment);
-            }
-        }
+        float radius = actor.Stat.monsterViewRadius.GetValue();
+        int layerMask = actor.gameObject.layer; // 추후 기획 수정에 따라 필요 가능성
+        Collider2D[] colls = Physics2D.OverlapCircleAll(position, radius);
+        return colls;
     }
-
 }

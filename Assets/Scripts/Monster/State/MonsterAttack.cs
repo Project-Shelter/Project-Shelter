@@ -13,7 +13,7 @@ public class MonsterAttack : MonsterBaseState
     {
         //StateMachine.Owner.Anim.SetBool("Attack", true);
         StateMachine.Owner.MoveBody.Stop();
-        canAttack = true;
+        canAttack = CanFindTarget();
         attackCoroutine = StateMachine.Owner.StartCoroutine(Attack());
     }
 

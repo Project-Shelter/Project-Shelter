@@ -15,7 +15,14 @@ public class Monster : MonoBehaviour, IMovable
     public MonsterMoveBody MoveBody { get; private set; }
     public MonsterAttacker Attacker { get; private set; }
     public MonsterStateMachine StateMachine { get; private set; }
-    public ILivingEntity DetectedTarget { get; set; }
+    public ILivingEntity DetectedTarget { get 
+        {
+            if (detectedTarget == null || detectedTarget.IsDead) return null;
+            if (detectedTarget is Actor actor && actor.StateMachine.CurrentState == ActorState.Conceal) return actor.concealment;
+            return detectedTarget;
+        } 
+    }
+    private ILivingEntity detectedTarget;
     public ILivingEntity AttackTarget { get; set; }
     public BreakableObject ObstacleTarget { get; set; }
 
@@ -35,7 +42,7 @@ public class Monster : MonoBehaviour, IMovable
         MoveBody = new MonsterMoveBody(this);
         Attacker = new MonsterAttacker(this);
         StateMachine = new MonsterStateMachine(this);
-        DetectedTarget = null;
+        detectedTarget = null;
         AttackTarget = null;
     }
 
@@ -61,7 +68,7 @@ public class Monster : MonoBehaviour, IMovable
 
     public void DetectTarget(ILivingEntity target)
     {
-        DetectedTarget = target;
+        detectedTarget = target;
     }
 
     public Vector2 GetVelocity()
