@@ -14,8 +14,9 @@ public abstract class ActorBaseState
     
     //Start, Update, FixedUpdate, Disable
     public abstract void EnterState();
-    public virtual void UpdateState() { ChangeFromState(); }
+    public virtual void UpdateState() { if(!Actor.IsSwitching) ChangeFromState(); }
     public abstract void FixedUpdateState();
+    public abstract void UpdateWithNoCtrl();
     public abstract void ExitState();
     protected abstract void ChangeFromState();
 

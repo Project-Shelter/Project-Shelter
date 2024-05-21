@@ -27,8 +27,8 @@ public class MonsterObjAttack : MonsterBaseState
         while (canAttack)
         {
             bool attackSucceeded = StateMachine.Owner.Attacker.Attack(StateMachine.Owner.ObstacleTarget);
-            canAttack = CanFindTarget();
             yield return attackDelay;
+            canAttack = CanFindTarget();
         }
     }
 
@@ -43,6 +43,11 @@ public class MonsterObjAttack : MonsterBaseState
             return false;
         }
         
+        if(StateMachine.Owner.DetectedTarget == (ILivingEntity)StateMachine.Owner.ObstacleTarget)
+        {
+            return true;
+        }
+
         Vector2 targetPos = StateMachine.Owner.DetectedTarget.Coll.bounds.center;
         NavMeshPath pathToTarget = new NavMeshPath();
         StateMachine.Owner.MoveBody.Agent.CalculatePath(targetPos, pathToTarget);

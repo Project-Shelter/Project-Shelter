@@ -31,6 +31,11 @@ public class ActorDash : ActorBaseState
         Actor.MoveBody.Dash();
     }
 
+    public override void UpdateWithNoCtrl() 
+    {
+        if (Actor.IsDead) Actor.StateMachine.SetState(ActorState.Die);
+    }
+
     public override void ExitState()
     {
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsMoving, false);
@@ -39,7 +44,6 @@ public class ActorDash : ActorBaseState
 
     protected override void ChangeFromState()
     {
-        if (Actor.IsDead) Actor.StateMachine.SetState(ActorState.Die);
         if (dashTime >= escapeTime) Actor.StateMachine.SetState(ActorState.Idle);
     }
 }

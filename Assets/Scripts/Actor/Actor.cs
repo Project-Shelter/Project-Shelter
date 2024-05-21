@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
@@ -6,7 +7,9 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     #region ActorStates
 
     [SerializeField] private bool isHumanActor = false;
-    public bool CanSwitch { get { return InputHandler.ButtonCtrl; } }
+    public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState); } }
+    public bool IsSwitching { get; private set; } 
+    public bool CanConceal { get { return InputHandler.ButtonE && concealment; } }
     public bool IsDead { get { return health.IsDead; } }
     public float HP { get { return health.HP; } }
 
@@ -34,9 +37,14 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         InitHelath();
     }
 
+    private void Update()
+    {
+        StateMachine.StateUpdateWithNoCtrl();
+    }
     public void ActorUpdate()
     {
         StateMachine.StateUpdate();
+        if(CanSwitch) { StartCoroutine(Switch()); }
     }
 
     public void ActorFixedUpdate()
@@ -44,7 +52,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         StateMachine.StateFixedUpdate();
     }
 
-    public void EnterControl() 
+    public void EnterControl()
     {
         Camera.main.cullingMask |= 1 << gameObject.layer;
         if(roof != null) roof.SetActive(false);
@@ -52,11 +60,20 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     public void ExitControl()
     {
-        if (!IsDead) StateMachine.SetState(ActorState.Idle);
-        else StateMachine.SetState(ActorState.Die);
-
-        if(gameObject.layer != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << gameObject.layer);
+        IsSwitching = false;
+        if (gameObject.layer != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << gameObject.layer);
         if(roof != null) roof.SetActive(true);
+    }
+
+    private IEnumerator Switch()
+    {
+        if(StateMachine.CurrentState == ActorState.Walk) { StateMachine.SetState(ActorState.Idle); }
+        IsSwitching = true;
+        ActorSwitchEffect.Play();
+        while (ActorSwitchEffect.IsAlive(true)) { yield return null; }
+
+        ActorSwitchEffect.Stop();
+        ActorController.Instance.SwitchActor();
     }
 
     private void InitVariables()
