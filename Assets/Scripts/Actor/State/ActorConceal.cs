@@ -13,14 +13,14 @@ public class ActorConceal : ActorBaseState
         Actor.MoveBody.Stop();
     }
 
-    public override void UpdateState()
-    {
-        base.UpdateState();
-        Actor.ActionRadius.AlertConcealmentInRadius();
-    }
+    public override void UpdateState() { base.UpdateState(); }
 
-    public override void FixedUpdateState()
+    public override void FixedUpdateState() { }
+
+    public override void UpdateWithNoCtrl() 
     {
+        if (!Actor.concealment) Actor.StateMachine.SetState(ActorState.Idle);
+        if (Actor.IsDead) Actor.StateMachine.SetState(ActorState.Die);
     }
 
     public override void ExitState()
@@ -30,8 +30,6 @@ public class ActorConceal : ActorBaseState
 
     protected override void ChangeFromState()
     {
-        if (Actor.IsDead) Actor.StateMachine.SetState(ActorState.Die);
-        if (Actor.CanSwitch) Actor.StateMachine.SetState(ActorState.Switch);
-        if (InputHandler.ButtonE || !Actor.concealment) Actor.StateMachine.SetState(ActorState.Idle);
+        if(InputHandler.ButtonE) Actor.StateMachine.SetState(ActorState.Idle);
     }
 }
