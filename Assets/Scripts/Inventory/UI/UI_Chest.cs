@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace ItemContainer
 {
-    public class UI_Chest : UI_Container//, IDropHandler
+    public class UI_Chest : UI_InvenSystem
     {
         private static int chestNumber;
         public void GiveAll(int receiver)
@@ -28,13 +28,13 @@ namespace ItemContainer
         
         public override void Start()
         {
-            number = chestNumber;
+            containerID = chestNumber;
             base.Start();
         }
 
         public override void OnEnable()
         {
-            number = chestNumber;
+            containerID = chestNumber;
             base.OnEnable();
         }
 
@@ -48,13 +48,6 @@ namespace ItemContainer
                 slots[slot].OnDoubleClick -= SlotDoubleClick;
                 slots[slot].OnDoubleClick += SlotDoubleClick;
             }
-        }
-        
-        public void OnDrop(PointerEventData eventData)
-        {
-            Debug.Log("Chest");
-            Debug.Log("OnDrop" + eventData.position);
-            dropedContainer = 2;
         }
         
         private void SlotDoubleClick(int slot)
