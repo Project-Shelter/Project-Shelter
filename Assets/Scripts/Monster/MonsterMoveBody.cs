@@ -47,13 +47,13 @@ public class MonsterMoveBody
 
     private void InitSpeed()
     {
-        if(DayNight.Instance.isDay)
+        if(Managers.Scene.GetCurrentScene<GameScene>().DayNight.isDay)
             Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
         else
             Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
 
-        DayNight.Instance.WhenDayBegins += () => Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
-        DayNight.Instance.WhenNightBegins += () => Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
+        Managers.Scene.GetCurrentScene<GameScene>().DayNight.WhenDayBegins += () => Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
+        Managers.Scene.GetCurrentScene<GameScene>().DayNight.WhenNightBegins += () => Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
     }
 
     public void MoveToPos(Vector3 pos, float speed)

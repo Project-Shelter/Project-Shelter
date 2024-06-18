@@ -23,9 +23,9 @@ public class Door : MonoBehaviour, IPathway
 
     public void PassEntrance(IMovable movable)
     {
-        if (movable == (IMovable)ActorController.Instance.CurrentActor)
+        if (movable == (IMovable)Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor)
         {
-            ActorController.Instance.CurrentActor.EnterBuilding(roof);
+            Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.EnterBuilding(roof);
         }
         movable.ChangeFloor(linkedFloor);
     }
@@ -33,9 +33,9 @@ public class Door : MonoBehaviour, IPathway
     public void PassExit(IMovable movable)
     {
         Debug.Log("Exit");
-        if (movable == (IMovable)ActorController.Instance.CurrentActor)
+        if (movable == (IMovable)Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor)
         {
-            ActorController.Instance.CurrentActor.ExitBuilding();
+            Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.ExitBuilding();
         }
         movable.ChangeFloor(Define.Layer.Ground);
     }

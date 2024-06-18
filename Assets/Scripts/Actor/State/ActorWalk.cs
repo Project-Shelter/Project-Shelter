@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class ActorWalk : ActorBaseState
 {
     public ActorWalk(Actor actor) : base(actor) {}

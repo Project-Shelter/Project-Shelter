@@ -40,11 +40,11 @@ public class UI_HPSatiety : UI_Section
 
     private void GetPlayerHP()
     {
-        hpText.text = hpIndexText + ActorController.Instance.CurrentActor.HP.ToString() + "%";
+        hpText.text = hpIndexText + Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.HP.ToString() + "%";
     }
 
     private void GetPlayerSatiety()
     {
-        satietyText.text = satietyIndexText + ActorController.Instance.CurrentActor.Satiety.Value.ToString() + "%";
+        satietyText.text = satietyIndexText + Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.Satiety.Value.ToString() + "%";
     }
 }

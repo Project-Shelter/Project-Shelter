@@ -28,6 +28,6 @@ public class PlayerCamera : MonoBehaviour
     {
         if(InputHandler.ButtonD) movingOffsetX = Mathf.Lerp(movingOffsetX, movingMaxOffsetX, LerpTime * Time.deltaTime);
         if(InputHandler.ButtonA) movingOffsetX = Mathf.Lerp(movingOffsetX, -movingMaxOffsetX, LerpTime * Time.deltaTime);
-        tr.position = ActorController.Instance.CurrentActor.Tr.position + new Vector3(movingOffsetX, actorOffsetY, -10);
+        tr.position = Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.Tr.position + new Vector3(movingOffsetX, actorOffsetY, -10);
     }
 }

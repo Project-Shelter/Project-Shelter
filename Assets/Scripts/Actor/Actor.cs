@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
@@ -73,7 +74,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         while (ActorSwitchEffect.IsAlive(true)) { yield return null; }
 
         ActorSwitchEffect.Stop();
-        ActorController.Instance.SwitchActor();
+        Managers.Scene.GetCurrentScene<GameScene>().ActorController.SwitchActor();
     }
 
     private void InitVariables()
