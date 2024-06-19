@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActorController : MonoSingleton<ActorController>
+public class ActorController
 {
     private int nextActor = 0;
     public Actor CurrentActor { get; private set; } = null;
@@ -12,12 +12,12 @@ public class ActorController : MonoSingleton<ActorController>
     public Action BeforeSwitchActorAction = null;
     public Action SwitchActorAction = null;
 
-    private void Awake()
+    public void Init()
     {
         InitActors();
         InitSwitchActorAction();
     }
-    private void Update()
+    public void Update()
     {
         CurrentActor.ActorUpdate();
         SetCursor();
@@ -29,7 +29,7 @@ public class ActorController : MonoSingleton<ActorController>
         if (InputHandler.ClickRightUp) Cursor.SetCursor(InputHandler.DefaultCursor, InputHandler.CursorHotspot, CursorMode.Auto);
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         CurrentActor.ActorFixedUpdate();
     }
@@ -38,7 +38,7 @@ public class ActorController : MonoSingleton<ActorController>
 
     private void InitActors()
     {
-        Actor[] temp = FindObjectsOfType<Actor>();
+        Actor[] temp = UnityEngine.Object.FindObjectsOfType<Actor>();
         foreach (var act in temp)
         {
             actorsList.Add(act);
