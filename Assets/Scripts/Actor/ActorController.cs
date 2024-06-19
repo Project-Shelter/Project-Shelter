@@ -49,7 +49,6 @@ public class ActorController
     }
     private void InitSwitchActorAction()
     {
-        // CurrentActor를 실시간으로 받아오기 위해 람다식으로 묶어놓음
         BeforeSwitchActorAction += () => { CurrentActor.ExitControl(); };
         SwitchActorAction += () => { CurrentActor.EnterControl(); };
     }
