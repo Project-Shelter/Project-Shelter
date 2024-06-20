@@ -6,6 +6,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
     #region CollisionVariables
 
+    public IInteractable interactable;
     public BreakableObject concealment;
     private int countCollidingEnemy;
     private SlowDebuff collidingEnemyDebuff;
@@ -26,9 +27,9 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
             countCollidingEnemy++;
             Buff.AddBuff(collidingEnemyDebuff);
         }
-        if(other.CompareTag("Concealment"))
+        if(other.TryGetComponent(out IInteractable interactable))
         {
-            concealment = other.transform.parent.GetComponent<BreakableObject>();
+            this.interactable = interactable;
         }
     }
 
@@ -42,9 +43,9 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
                 Buff.RemoveBuff(collidingEnemyDebuff);
             }
         }
-        if(other.CompareTag("Concealment"))
+        if (other.TryGetComponent(out IInteractable interactable))
         {
-            concealment = null;
+            this.interactable = null;
         }
     }
 
