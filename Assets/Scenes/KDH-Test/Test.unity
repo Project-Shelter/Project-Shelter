@@ -19399,7 +19399,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &906431403
 Animator:
   serializedVersion: 5
@@ -20005,6 +20005,7 @@ GameObject:
   m_Component:
   - component: {fileID: 986484788}
   - component: {fileID: 986484789}
+  - component: {fileID: 986484790}
   m_Layer: 10
   m_Name: Concealment
   m_TagString: Concealment
@@ -20053,6 +20054,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 2.25}
   m_EdgeRadius: 0
+--- !u!114 &986484790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986484787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1044873b16737d499986fb7af96bfd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1005079323
 GameObject:
   m_ObjectHideFlags: 0

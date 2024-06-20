@@ -10,7 +10,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     [SerializeField] private bool isHumanActor = false;
     public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState); } }
     public bool IsSwitching { get; private set; } 
-    public bool CanConceal { get { return InputHandler.ButtonE && concealment; } }
+    public bool CanInteract { get { return InputHandler.ButtonE && interactable != null; } }
     public bool IsDead { get { return health.IsDead; } }
     public float HP { get { return health.HP; } }
 

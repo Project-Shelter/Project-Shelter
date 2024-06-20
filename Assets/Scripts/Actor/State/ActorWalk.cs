@@ -13,6 +13,7 @@ public class ActorWalk : ActorBaseState
     {
         base.UpdateState();
         Actor.MoveBody.Turn();
+        
     }
 
     public override void FixedUpdateState()
@@ -33,7 +34,7 @@ public class ActorWalk : ActorBaseState
 
     protected override void ChangeFromState()
     {
-        if (Actor.CanConceal) Actor.StateMachine.SetState(ActorState.Conceal);
+        if (Actor.CanInteract) Actor.StateMachine.SetState(ActorState.Interact);
         if (Actor.MoveBody.CanDash) Actor.StateMachine.SetState(ActorState.Dash);
         if (!Actor.MoveBody.CanMove) Actor.StateMachine.SetState(ActorState.Idle);
     }
