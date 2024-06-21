@@ -13,8 +13,15 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float movingMaxOffsetY;
     [SerializeField] private float LerpTime;
 
+    [Header("Camera Zoom")]
+    [SerializeField] private float zoomSpeed;
+    [SerializeField] private float originSize;
+    [SerializeField] private float zoomSize;
+    private bool canZoom = false;
+
     private float movingOffsetX = 0;
     private float movingOffsetY = 0;
+    private Camera cam;
     private Transform tr;
     private ActorController actorController;
     private Actor Actor { get => actorController.CurrentActor; }
@@ -29,6 +36,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake()
     {
+        cam = GetComponent<Camera>();
         tr = gameObject.transform;
     }
 
@@ -39,6 +47,9 @@ public class PlayerCamera : MonoBehaviour
 
     private void Update()
     {
+        if (canZoom) { ZoomByInteract(); }
+        else { ResetZoom(); }
+
         if (InputHandler.MouseSection != Direction.None)
         {
             offsetType = OffsetType.Aim;
@@ -55,6 +66,21 @@ public class PlayerCamera : MonoBehaviour
         }
 
         tr.position = Actor.Tr.position + new Vector3(movingOffsetX, movingOffsetY + actorOffsetY, -10);
+    }
+
+    private void ZoomByInteract()
+    {
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, zoomSize, zoomSpeed * Time.deltaTime);
+    }
+
+    private void ResetZoom()
+    {
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, originSize, zoomSpeed * Time.deltaTime);
+    }
+
+    public void SetZoom(bool canZoom)
+    {
+        this.canZoom = canZoom;
     }
 
     private void SetOffsetByAim()

@@ -18283,10 +18283,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a33ac507515d70428a1290f49185af4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actorOffsetY: 2
+  actorOffsetY: 1
   movingMaxOffsetX: 2
   movingMaxOffsetY: 1
   LerpTime: 2
+  zoomSpeed: 2
+  originSize: 5
+  zoomSize: 3.5
 --- !u!1 &764456166
 GameObject:
   m_ObjectHideFlags: 0
@@ -19399,7 +19402,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &906431403
 Animator:
   serializedVersion: 5
