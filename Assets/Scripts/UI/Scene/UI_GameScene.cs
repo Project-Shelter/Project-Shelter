@@ -18,7 +18,7 @@ public class UI_GameScene : UI_Scene
 
     void Start()
     {
-        Managers.Instance.GameOverAction += () => gameObject.SetActive(false);
+        //Managers.Instance.GameOverAction += () => gameObject.SetActive(false);
         //Init();
     }
 

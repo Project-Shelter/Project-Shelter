@@ -42,7 +42,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void Start()
     {
-        actorController = Managers.Scene.GetCurrentScene<GameScene>().ActorController;
+        actorController = Managers.GetCurrentScene<GameScene>().ActorController;
     }
 
     private void Update()

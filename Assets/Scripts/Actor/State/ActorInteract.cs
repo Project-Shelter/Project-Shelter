@@ -6,20 +6,21 @@ public class ActorInteract : ActorBaseState
 {
     public ActorInteract(Actor actor) : base(actor) { }
 
+    private PlayerCamera camera;
+
     public override void EnterState()
     {
         Actor.MoveBody.Stop();
         Actor.interactable.Interact(Actor);
-        Managers.Scene.GetCurrentScene<GameScene>().PlayerCamera.SetZoom(true);
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.BeforeSwitchActorAction +=
+        camera = Managers.GetCurrentScene<GameScene>().PlayerCamera;
+        camera.SetZoom(true);
+        Actor.Controller.BeforeSwitchActorAction +=
             () => {
-                if(Actor == Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor)
-                    Managers.Scene.GetCurrentScene<GameScene>().PlayerCamera.SetZoom(false);
+                if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(false); }
             };
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.SwitchActorAction +=
+        Actor.Controller.SwitchActorAction +=
             () => {
-                if (Actor == Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor)
-                    Managers.Scene.GetCurrentScene<GameScene>().PlayerCamera.SetZoom(true);
+                if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(true); }
             };
     }
 
@@ -37,16 +38,14 @@ public class ActorInteract : ActorBaseState
     public override void ExitState()
     {
         if (Actor.interactable != null) { Actor.interactable.StopInteract(); }
-        Managers.Scene.GetCurrentScene<GameScene>().PlayerCamera.SetZoom(false);
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.BeforeSwitchActorAction -=
+        camera.SetZoom(false);
+        Actor.Controller.BeforeSwitchActorAction -=
             () => {
-                if (Actor == Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor)
-                    Managers.Scene.GetCurrentScene<GameScene>().PlayerCamera.SetZoom(false);
+                if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(false); }
             };
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.SwitchActorAction -=
+        Actor.Controller.SwitchActorAction -=
             () => {
-                if (Actor == Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor)
-                    Managers.Scene.GetCurrentScene<GameScene>().PlayerCamera.SetZoom(true);
+                if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(true); }
             };
     }
 

@@ -8,12 +8,14 @@ public class Managers : MonoSingleton<Managers>
     private ResourceManager _resources = new ResourceManager();
     private UIManager _ui = new UIManager();
     private TableManager _data = new TableManager();
-    private SceneManagerEX _scene = new SceneManagerEX();
-
-    public Action GameOverAction = null;
+    private SceneManagerEX _sceneManager = new SceneManagerEX();
 
     public static ResourceManager Resources { get { return Instance._resources; } } 
     public static UIManager UI { get { return Instance._ui; } }
     public static TableManager Table { get { return Instance._data; } }
-    public static SceneManagerEX Scene { get { return Instance._scene; } }
+    public static SceneManagerEX SceneManager { get { return Instance._sceneManager; } }
+    public static T GetCurrentScene<T>() where T : BaseScene
+    {
+        return Instance._sceneManager.CurrentScene as T;
+    }
 }

@@ -61,7 +61,7 @@ public class Chest : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Actor actor = other.GetComponent<Actor>();
-        if (actor != null && actor == Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor)
+        if (actor != null && actor == Managers.GetCurrentScene<GameScene>().ActorController.CurrentActor)
         {
             canOpenChest = true; 
         }
@@ -69,7 +69,7 @@ public class Chest : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         Actor actor = other.GetComponent<Actor>();
-        if (actor != null && actor == Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor)
+        if (actor != null && actor == Managers.GetCurrentScene<GameScene>().ActorController.CurrentActor)
         {
             canOpenChest = false; 
         }

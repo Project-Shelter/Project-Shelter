@@ -25,7 +25,7 @@ public class MonsterMove : MonsterBaseState
     {
         get
         {
-            if (Managers.Scene.GetCurrentScene<GameScene>().DayNight.isDay)
+            if (Managers.GetCurrentScene<GameScene>().DayNight.isDay)
                 return StateMachine.Owner.Stat.dayMoveSpeed.GetValue();
             else
                 return StateMachine.Owner.Stat.nightMoveSpeed.GetValue();

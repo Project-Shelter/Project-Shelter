@@ -11,6 +11,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class MonsterMoveBody
 {
     private Monster owner;
+    private DayNight dayNight;
     public NavMeshAgent Agent { get; private set; }
 
     public Direction MoveDir
@@ -38,6 +39,7 @@ public class MonsterMoveBody
     public MonsterMoveBody(Monster owner)
     {
         this.owner = owner;
+        dayNight = Managers.GetCurrentScene<GameScene>().DayNight;
         Agent = Util.GetOrAddComponent<NavMeshAgent>(owner.gameObject);
         Agent.updateRotation = false;
         Agent.autoTraverseOffMeshLink = false;
@@ -47,13 +49,13 @@ public class MonsterMoveBody
 
     private void InitSpeed()
     {
-        if(Managers.Scene.GetCurrentScene<GameScene>().DayNight.isDay)
+        if(dayNight.isDay)
             Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
         else
             Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
 
-        Managers.Scene.GetCurrentScene<GameScene>().DayNight.WhenDayBegins += () => Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
-        Managers.Scene.GetCurrentScene<GameScene>().DayNight.WhenNightBegins += () => Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
+        dayNight.WhenDayBegins += () => Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
+        dayNight.WhenNightBegins += () => Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
     }
 
     public void MoveToPos(Vector3 pos, float speed)

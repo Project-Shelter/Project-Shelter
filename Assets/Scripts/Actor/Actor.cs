@@ -19,6 +19,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     public Transform Tr { get; private set; }
     public Collider2D Coll { get; private set; }
+    public ActorController Controller { get; private set; }
     public ActorStat Stat { get; private set; } // = new ActorStat(); //추후 부활 (인스펙터에서 수치변동용)
     public ActorStateMachine StateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
@@ -74,13 +75,14 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         while (ActorSwitchEffect.IsAlive(true)) { yield return null; }
 
         ActorSwitchEffect.Stop();
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.SwitchActor();
+        Controller.SwitchActor();
     }
 
     private void InitVariables()
     {
         Tr = transform;
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
+        Controller = Managers.GetCurrentScene<GameScene>().ActorController;
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         StateMachine = new ActorStateMachine(this);
         MoveBody = GetComponent<ActorMoveBody>();
