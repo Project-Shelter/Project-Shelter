@@ -11,13 +11,19 @@ public class GameScene : BaseScene
     protected override void Init()
     {
         SceneType = Define.Scene.Game;
+
         ActorController.Init();
         PlayerCamera = Util.GetOrAddComponent<PlayerCamera>(Camera.main.gameObject);
+        ServiceLocator.RegisterService(ActorController);
+        ServiceLocator.RegisterService(DayNight);
+        ServiceLocator.RegisterService(PlayerCamera);
     }
 
     public override void Clear()
     {
-
+        ServiceLocator.UnregisterService<ActorController>();
+        ServiceLocator.UnregisterService<DayNight>();
+        ServiceLocator.UnregisterService<PlayerCamera>();
     }
 
     private void FixedUpdate()

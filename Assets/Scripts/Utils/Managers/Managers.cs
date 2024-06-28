@@ -14,8 +14,4 @@ public class Managers : MonoSingleton<Managers>
     public static UIManager UI { get { return Instance._ui; } }
     public static TableManager Table { get { return Instance._data; } }
     public static SceneManagerEX SceneManager { get { return Instance._sceneManager; } }
-    public static T GetCurrentScene<T>() where T : BaseScene
-    {
-        return Instance._sceneManager.CurrentScene as T;
-    }
 }

@@ -42,7 +42,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void Start()
     {
-        actorController = Managers.GetCurrentScene<GameScene>().ActorController;
+        actorController = ServiceLocator.GetService<ActorController>();
     }
 
     private void Update()

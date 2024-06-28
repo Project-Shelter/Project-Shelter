@@ -39,7 +39,7 @@ public class UI_HPSatiety : UI_Section
         //Timer 설정
         hpText = GetText((int)Texts.HPText);
         satietyText = GetText((int)Texts.SatietyText);
-        actorController = Managers.GetCurrentScene<GameScene>().ActorController;
+        actorController = ServiceLocator.GetService<ActorController>();
     }
 
     private void GetPlayerHP()

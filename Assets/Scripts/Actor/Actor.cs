@@ -32,7 +32,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     #endregion
 
-    private void Awake()
+    private void Start()
     {
         InitVariables();
         LateInitVariables();
@@ -82,7 +82,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     {
         Tr = transform;
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
-        Controller = Managers.GetCurrentScene<GameScene>().ActorController;
+        Controller = ServiceLocator.GetService<ActorController>();
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         StateMachine = new ActorStateMachine(this);
         MoveBody = GetComponent<ActorMoveBody>();

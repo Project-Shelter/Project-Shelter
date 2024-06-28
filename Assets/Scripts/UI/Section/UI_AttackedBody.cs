@@ -34,8 +34,8 @@ public class UI_AttackedBody : UI_Section
         InitDictionary();
         SetActor();
         
-        Managers.GetCurrentScene<GameScene>().ActorController.BeforeSwitchActorAction += ResyncActor;
-        Managers.GetCurrentScene<GameScene>().ActorController.SwitchActorAction += ReloadImages;
+        ServiceLocator.GetService<ActorController>().BeforeSwitchActorAction += ResyncActor;
+        ServiceLocator.GetService<ActorController>().SwitchActorAction += ReloadImages;
     }
 
     private void ReloadImages()
@@ -63,12 +63,12 @@ public class UI_AttackedBody : UI_Section
 
     private void SetActor()
     {
-        Managers.GetCurrentScene<GameScene>().ActorController.CurrentActor.AttackedAction += BodyAttacked;
+        ServiceLocator.GetService<ActorController>().CurrentActor.AttackedAction += BodyAttacked;
     }
 
     private void ResyncActor()
     {
-        Managers.GetCurrentScene<GameScene>().ActorController.CurrentActor.AttackedAction -= BodyAttacked;
+        ServiceLocator.GetService<ActorController>().CurrentActor.AttackedAction -= BodyAttacked;
     }
 
     private void BodyAttacked(AttackedPart attackedPart)

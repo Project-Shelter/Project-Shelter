@@ -32,6 +32,6 @@ public class UI_Clock : UI_Section
     
     private void SetCurrentTime()
     {
-        Timer.text = Managers.GetCurrentScene<GameScene>().DayNight.GetTimerText();
+        Timer.text = ServiceLocator.GetService<DayNight>().GetTimerText();
     }
 }

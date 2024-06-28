@@ -12,7 +12,7 @@ public class ActorInteract : ActorBaseState
     {
         Actor.MoveBody.Stop();
         Actor.interactable.Interact(Actor);
-        camera = Managers.GetCurrentScene<GameScene>().PlayerCamera;
+        camera = ServiceLocator.GetService<PlayerCamera>();
         camera.SetZoom(true);
         Actor.Controller.BeforeSwitchActorAction +=
             () => {
