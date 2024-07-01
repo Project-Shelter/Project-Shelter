@@ -6,6 +6,7 @@ public static class ServiceLocator
 {
     private static Dictionary<Type, object> services = new();
 
+    // 서비스의 등록과 해제는 BaseScene 파생 클래스에서만 할 수 있도록 제한
     public static void RegisterService<T>(T service)
     {
         services[typeof(T)] = service;
