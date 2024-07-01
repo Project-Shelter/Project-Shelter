@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-    
+
 public enum ActorState
 {
     Idle,
@@ -16,6 +14,7 @@ public class ActorStateMachine
     private Actor actor;
     private Dictionary<ActorState, ActorBaseState> stateDict = new Dictionary<ActorState, ActorBaseState>();
     public List<ActorState> CanSwitchStates { get; private set; }
+    public List<ActorState> CanAttackStates { get; private set; }
     public ActorState CurrentState { get; private set; }
     public ActorStateMachine(Actor actor)
     {
@@ -46,6 +45,7 @@ public class ActorStateMachine
         stateDict.Add(ActorState.Die, new ActorDie(actor));
 
         CanSwitchStates = new List<ActorState> { ActorState.Idle, ActorState.Walk, ActorState.Interact, ActorState.Die };
+        CanAttackStates = new List<ActorState> { ActorState.Idle, ActorState.Walk };
     }
     
 }

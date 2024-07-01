@@ -11,6 +11,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState); } }
     public bool IsSwitching { get; private set; } 
     public bool CanInteract { get { return InputHandler.ButtonE && interactable != null; } }
+    public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
     public bool IsDead { get { return health.IsDead; } }
     public float HP { get { return health.HP; } }
 
@@ -22,6 +23,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public ActorController Controller { get; private set; }
     public ActorStat Stat { get; private set; } // = new ActorStat(); //추후 부활 (인스펙터에서 수치변동용)
     public ActorStateMachine StateMachine { get; private set; }
+    public ActorAttackStateMachine AttackStateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
     public ActorMoveBody MoveBody { get; private set; }
     public ActorActionRadius ActionRadius { get; private set; }
