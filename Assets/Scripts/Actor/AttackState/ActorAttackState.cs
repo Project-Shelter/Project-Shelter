@@ -1,15 +1,14 @@
-public abstract class ActorBaseState
+public abstract class ActorAttackState
 {
     protected Actor Actor { get; private set; }
-    protected ActorBaseState(Actor actor)
+    protected ActorAttackState(Actor actor)
     {
         Actor = actor;
     }
-    
+
     public abstract void EnterState();
-    public virtual void UpdateState() { if(!Actor.IsSwitching) ChangeFromState(); }
+    public virtual void UpdateState() { ChangeFromState(); }
     public abstract void FixedUpdateState();
-    public abstract void UpdateWithNoCtrl();
     public abstract void ExitState();
     protected abstract void ChangeFromState();
 }

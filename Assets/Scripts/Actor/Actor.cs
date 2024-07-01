@@ -10,7 +10,8 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     [SerializeField] private bool isHumanActor = false;
     public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState); } }
     public bool IsSwitching { get; private set; } 
-    public bool CanConceal { get { return InputHandler.ButtonE && concealment; } }
+    public bool CanInteract { get { return InputHandler.ButtonE && interactable != null; } }
+    public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
     public bool IsDead { get { return health.IsDead; } }
     public float HP { get { return health.HP; } }
 
@@ -19,8 +20,10 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     public Transform Tr { get; private set; }
     public Collider2D Coll { get; private set; }
+    public ActorController Controller { get; private set; }
     public ActorStat Stat { get; private set; } // = new ActorStat(); //추후 부활 (인스펙터에서 수치변동용)
     public ActorStateMachine StateMachine { get; private set; }
+    public ActorAttackStateMachine AttackStateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
     public ActorMoveBody MoveBody { get; private set; }
     public ActorActionRadius ActionRadius { get; private set; }
@@ -31,7 +34,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     #endregion
 
-    private void Awake()
+    private void Start()
     {
         InitVariables();
         LateInitVariables();
@@ -74,13 +77,14 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         while (ActorSwitchEffect.IsAlive(true)) { yield return null; }
 
         ActorSwitchEffect.Stop();
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.SwitchActor();
+        Controller.SwitchActor();
     }
 
     private void InitVariables()
     {
         Tr = transform;
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
+        Controller = ServiceLocator.GetService<ActorController>();
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         StateMachine = new ActorStateMachine(this);
         MoveBody = GetComponent<ActorMoveBody>();

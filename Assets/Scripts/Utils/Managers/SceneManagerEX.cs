@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagerEX
 {
-    private BaseScene CurrentScene { get { return GameObject.FindObjectOfType<BaseScene>(); } }
+    public BaseScene CurrentScene { get { return GameObject.FindObjectOfType<BaseScene>(); } }
 
     public void LoadScene(Define.Scene type)
     {
@@ -19,8 +19,4 @@ public class SceneManagerEX
         return name;
     }
 
-    public T GetCurrentScene<T>() where T : BaseScene
-    {
-        return CurrentScene as T;
-    }
 }

@@ -24,8 +24,8 @@ public class UI_StateIcon : UI_Section
         iconPanel = GetObject((int)GameObjects.IconPanel);
 
         SetActor();
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.BeforeSwitchActorAction += ResyncActor;
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.SwitchActorAction += ReloadIcon;
+        ServiceLocator.GetService<ActorController>().BeforeSwitchActorAction += ResyncActor;
+        ServiceLocator.GetService<ActorController>().SwitchActorAction += ReloadIcon;
         SetIcon();
     }
     
@@ -39,14 +39,14 @@ public class UI_StateIcon : UI_Section
 
     private void SetActor()
     {
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.Buff.AddBuffAction += AddIcon;
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.Buff.RemoveBuffAction += RemoveIcon;
+        ServiceLocator.GetService<ActorController>().CurrentActor.Buff.AddBuffAction += AddIcon;
+        ServiceLocator.GetService<ActorController>().CurrentActor.Buff.RemoveBuffAction += RemoveIcon;
     }
 
     private void ResyncActor()
     { 
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.Buff.AddBuffAction -= AddIcon;
-        Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.Buff.RemoveBuffAction -= RemoveIcon;
+        ServiceLocator.GetService<ActorController>().CurrentActor.Buff.AddBuffAction -= AddIcon;
+        ServiceLocator.GetService<ActorController>().CurrentActor.Buff.RemoveBuffAction -= RemoveIcon;
     }
 
     //보여지는 Icon을 전부 삭제한다.
@@ -68,7 +68,7 @@ public class UI_StateIcon : UI_Section
     //Actor의 Icon을 전부 생성한다.
     private void SetIcon()
     {
-        foreach (var buffTag in Managers.Scene.GetCurrentScene<GameScene>().ActorController.CurrentActor.Buff.ActivedBuffs.Keys)
+        foreach (var buffTag in ServiceLocator.GetService<ActorController>().CurrentActor.Buff.ActivedBuffs.Keys)
         {
             AddIcon(buffTag);
         }

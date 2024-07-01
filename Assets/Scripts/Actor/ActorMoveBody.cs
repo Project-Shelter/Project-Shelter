@@ -67,7 +67,7 @@ public class ActorMoveBody : MonoBehaviour
     {
         directionAxis = input.Get<Vector2>();
     }
-    
+        
     private void Awake()
     {
         actor = GetComponent<Actor>();
