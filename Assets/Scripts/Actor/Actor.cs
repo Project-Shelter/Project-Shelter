@@ -10,8 +10,10 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     [SerializeField] private bool isHumanActor = false;
     public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState); } }
     public bool IsSwitching { get; private set; } 
-    public bool CanInteract { get { return InputHandler.ButtonE && interactable != null; } }
-    public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
+    public bool CanInteract { get { return InputHandler.ButtonE && Interactable != null; } }
+    public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState) && Weapon != null; } }
+    public bool CanReload { get { return InputHandler.ButtonR && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
+    public bool IsAttacking { get { return AttackStateMachine.CurrentState != AttackState.Idle; } }
     public bool IsDead { get { return health.IsDead; } }
     public float HP { get { return health.HP; } }
 
@@ -22,6 +24,8 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public Collider2D Coll { get; private set; }
     public ActorController Controller { get; private set; }
     public ActorStat Stat { get; private set; } // = new ActorStat(); //추후 부활 (인스펙터에서 수치변동용)
+    public WeaponSocket WeaponSocket { get; private set; }
+    public IWeapon Weapon => WeaponSocket.Weapon;
     public ActorStateMachine StateMachine { get; private set; }
     public ActorAttackStateMachine AttackStateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
@@ -48,12 +52,14 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public void ActorUpdate()
     {
         StateMachine.StateUpdate();
+        AttackStateMachine.StateUpdate();
         if(CanSwitch) { StartCoroutine(Switch()); }
     }
 
     public void ActorFixedUpdate()
     {
         StateMachine.StateFixedUpdate();
+        AttackStateMachine.StateFixedUpdate();
     }
 
     public void EnterControl()
@@ -86,7 +92,9 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Controller = ServiceLocator.GetService<ActorController>();
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
+        WeaponSocket = Util.FindChild<WeaponSocket>(this.gameObject, "WeaponSocket");
         StateMachine = new ActorStateMachine(this);
+        AttackStateMachine = new ActorAttackStateMachine(this);
         MoveBody = GetComponent<ActorMoveBody>();
         ActionRadius = new ActorActionRadius(this);
         Anim = new ActorAnimController(this);
@@ -101,4 +109,3 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         Satiety = new Satiety(this, Stat.minSatiety.GetValue(), Stat.maxSatiety.GetValue(), Stat.satietyIndex.GetValue());
     }
 }
-

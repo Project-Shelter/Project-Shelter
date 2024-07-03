@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActorAttackRange : ActorAttackState
+public class ActorAttackReload : ActorAttackState
 {
-    private float attackDuration;
-    public ActorAttackRange(Actor actor) : base(actor) {}
+    private IRangeWeapon rangeWeapon;
+    private float reloadDuration;
+    public ActorAttackReload(Actor actor) : base(actor) { }
 
     public override void EnterState()
     {
-        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
-        Actor.MoveBody.Turn();
-        Actor.Weapon.Attack();
-        attackDuration = Actor.Weapon.AttackDelay;
+        rangeWeapon = Actor.Weapon as IRangeWeapon;
+        rangeWeapon.Reload();
+        reloadDuration = rangeWeapon.ReloadDelay;
     }
 
     public override void UpdateState()
     {
         base.UpdateState();
-        attackDuration -= Time.deltaTime;
+        reloadDuration -= Time.deltaTime;
     }
 
     public override void FixedUpdateState()
@@ -32,7 +32,7 @@ public class ActorAttackRange : ActorAttackState
 
     protected override void ChangeFromState()
     {
-        if (attackDuration < 0f || Actor.IsDead)
+        if (reloadDuration < 0f || Actor.IsDead)
         {
             Actor.AttackStateMachine.SetState(AttackState.Idle);
         }

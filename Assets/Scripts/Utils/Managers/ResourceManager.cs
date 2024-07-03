@@ -18,7 +18,7 @@ public class ResourceManager
             return null;
         }
 
-        GameObject obj = BreakableObject.Instantiate(original, parent);
+        GameObject obj = GameObject.Instantiate(original, parent);
         obj.name = original.name;
 
         return obj;
@@ -30,6 +30,6 @@ public class ResourceManager
             Debug.Log($"Object you want to Destroy is Null : {_go}");
             return;
         }
-        BreakableObject.Destroy(_go, _time);
+        GameObject.Destroy(_go, _time);
     }
 }

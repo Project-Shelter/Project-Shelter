@@ -8,6 +8,7 @@ public class ActorAttackMelee : ActorAttackState
 
     public override void EnterState()
     {
+        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
     }
 
     public override void UpdateState()

@@ -50,7 +50,7 @@ public class PlayerCamera : MonoBehaviour
         if (canZoom) { ZoomByInteract(); }
         else { ResetZoom(); }
 
-        if (InputHandler.MouseSection != Direction.None)
+        if (InputHandler.ClickRight)
         {
             offsetType = OffsetType.Aim;
             SetOffsetByAim();

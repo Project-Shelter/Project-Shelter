@@ -11,7 +11,7 @@ public class ActorInteract : ActorBaseState
     public override void EnterState()
     {
         Actor.MoveBody.Stop();
-        Actor.interactable.Interact(Actor);
+        Actor.Interactable.Interact(Actor);
         camera = ServiceLocator.GetService<PlayerCamera>();
         camera.SetZoom(true);
         Actor.Controller.BeforeSwitchActorAction +=
@@ -31,13 +31,13 @@ public class ActorInteract : ActorBaseState
     public override void UpdateWithNoCtrl()
     {
         Actor.ActionRadius.AlertForMonstersInRadius();
-        if (Actor.interactable == null) Actor.StateMachine.SetState(ActorState.Idle);
+        if (Actor.Interactable == null) Actor.StateMachine.SetState(ActorState.Idle);
         if (Actor.IsDead) Actor.StateMachine.SetState(ActorState.Die);
     }
 
     public override void ExitState()
     {
-        if (Actor.interactable != null) { Actor.interactable.StopInteract(); }
+        if (Actor.Interactable != null) { Actor.Interactable.StopInteract(); }
         camera.SetZoom(false);
         Actor.Controller.BeforeSwitchActorAction -=
             () => {
