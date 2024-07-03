@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ItemContainer
 {
-    //기본적인 인벤토리 기능
+    //기본적인 인벤토리 기능(Repository)
     public class ContainerController
     {
         public ContainerVO container { get; protected set; }

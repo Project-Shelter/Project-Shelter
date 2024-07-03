@@ -44,7 +44,7 @@ namespace ItemContainer
         void Awake()
         {
             PlainImage = Managers.Resources.Load<Sprite>("Arts/Items/plain");
-
+            Debug.Log("INIT");
             InitItemDB();
             InitInvenBar();
             InitInventory();

@@ -26,8 +26,7 @@ namespace ItemContainer
         
         private void SetContainerNumber()
         {
-            if(containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
-            controller = new ContainerController(containerID);
+            InitContainer();
             
             Debug.Log(containerID + gameObject.name);
 
@@ -144,7 +143,6 @@ namespace ItemContainer
             for (int i = 0; i < maxCapacity; i++)
             {
                 int slot = i;
-                slots[i] = Get<UI_Slot>(i);
                 
                 //아이템 선택
                 slots[i].slotBtn.onValueChanged.AddListener((isOn) => {
