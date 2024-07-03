@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IWeapon
+public interface IMeleeWeapon : IWeapon
 {
-    float AttackDelay { get; }
-    void Attack();
+
 }
