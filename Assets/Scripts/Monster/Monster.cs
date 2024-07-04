@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : MonoBehaviour, IMovable
+public partial class Monster : MonoBehaviour, ILivingEntity, IMovable
 {
 
     #region Variables
@@ -12,6 +12,8 @@ public class Monster : MonoBehaviour, IMovable
     public Collider2D Coll { get; private set; }
     public Animator Anim { get; private set; }
     public MonsterStat Stat { get; private set; }
+    private MonsterHealth health;
+    public bool IsDead { get { return health.IsDead; } }
     public MonsterMoveBody MoveBody { get; private set; }
     public MonsterAttacker Attacker { get; private set; }
     public MonsterStateMachine StateMachine { get; private set; }
@@ -28,17 +30,13 @@ public class Monster : MonoBehaviour, IMovable
 
     #endregion
 
-    private void Awake()
-    {
-        InitVariables();
-    }
-
     private void InitVariables()
     {
         Tr = transform;
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Anim = Util.GetOrAddComponent<Animator>(gameObject);
         Stat = GetComponent<MonsterStat>();
+        health = new MonsterHealth(this, Stat.minHP, Stat.maxHP);
         MoveBody = new MonsterMoveBody(this);
         Attacker = new MonsterAttacker(this);
         StateMachine = new MonsterStateMachine(this);
@@ -48,6 +46,7 @@ public class Monster : MonoBehaviour, IMovable
 
     private void Start()
     {
+        InitVariables();
         StateMachine.Init("Move");
     }
 
