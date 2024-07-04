@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
+[InitializeOnLoad]
 public static class ServiceLocator
 {
     private static Dictionary<Type, object> services = new();
