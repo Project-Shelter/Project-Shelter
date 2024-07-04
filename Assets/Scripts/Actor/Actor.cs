@@ -13,7 +13,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public bool CanInteract { get { return InputHandler.ButtonE && Interactable != null; } }
     public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState) && Weapon != null; } }
     public bool CanReload { get { return InputHandler.ButtonR && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
-    public bool IsAttacking { get { return AttackStateMachine.CurrentState != AttackState.Idle; } }
+    public bool IsAttacking { get { return AttackStateMachine.CurrentState == AttackState.Range || AttackStateMachine.CurrentState == AttackState.Melee; } }
     public bool IsDead { get { return health.IsDead; } }
     public float HP { get { return health.HP; } }
 
