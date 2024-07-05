@@ -1,23 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MeleeWeapon : IMeleeWeapon
+public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
 {
-    public float AttackDelay => throw new System.NotImplementedException();
+    [field:SerializeField]
+    public float AttackDelay { get; private set; }
+    [SerializeField] private float damage;
+    [SerializeField] private float attackRange;
 
-    private Stat damage;
-    private Stat attackDelay;
-    private Stat attackRange;
+    private Collider2D hitBox;
 
-    public IEnumerator Attack()
+    private void Awake()
     {
-        Debug.Log("Melee Attack");
-        yield return new WaitForSeconds(attackDelay.GetValue());
+        hitBox = Util.GetOrAddComponent<Collider2D>(gameObject);
+        hitBox.enabled = false;
     }
 
-    void IWeapon.Attack()
+    public void Attack()
     {
-        throw new System.NotImplementedException();
+        hitBox.enabled = true;
+        StartCoroutine(DisableHitBox());
+    }
+
+    private IEnumerator DisableHitBox()
+    {
+        yield return new WaitForSeconds(0.1f);
+        hitBox.enabled = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        IDamageable target = collision.GetComponent<IDamageable>();
+        if (target != null && !collision.CompareTag("Player"))
+        {
+            Vector2 dir = (collision.transform.position - transform.position).normalized;
+            target.OnDamage(damage, transform.position, dir);
+        }
     }
 }
