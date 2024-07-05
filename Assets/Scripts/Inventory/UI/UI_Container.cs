@@ -21,6 +21,11 @@ namespace ItemContainer
             slots = new UI_Slot[maxCapacity];
             Init();
             InitView();
+
+            controller.AddItemAction -= InitView;
+            controller.AddItemAction += InitView;
+            controller.RemoveItemAction -= InitView;
+            controller.RemoveItemAction += InitView;
         }
         public virtual void OnEnable()
         {
@@ -34,7 +39,8 @@ namespace ItemContainer
         protected void InitContainer()
         {
             if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
-            controller = new ContainerController(containerID);
+            controller = ContainerInjector.InjectContainer(containerID);
+            Debug.Log(controller.container.slots.Count);
             Debug.Log($"Set Container : {containerID}");
         }
 
