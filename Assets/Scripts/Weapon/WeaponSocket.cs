@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class WeaponSocket : MonoBehaviour
 {
@@ -8,6 +9,6 @@ public class WeaponSocket : MonoBehaviour
 
     private void Awake()
     {
-        Weapon = new RangeWeapon(transform, 10, 0.5f, 10f, 1f, 10f, 10, 10);
+        Weapon = Instantiate(Managers.Resources.Load<RangeWeapon>("Prefabs/Weapon/RangeWeapon"), transform);
     }
 }

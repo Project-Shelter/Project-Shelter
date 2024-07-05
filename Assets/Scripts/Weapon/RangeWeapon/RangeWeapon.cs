@@ -2,40 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangeWeapon : IRangeWeapon
+public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
     #region Interface Properties
 
+    [field:SerializeField]
     public float AttackDelay { get; private set; }
+    [field: SerializeField]
     public float ReloadDelay { get; private set; }
     public bool CanReload => currentAmmo < maxAmmo;
     public bool HasToBeReload => currentAmmo <= 0;
 
     #endregion
 
-    private int damage;
-    private float attackRange;
-    private float projectileSpeed;
+    // 나중에는 json으로 데이터를 불러올 것.
+    [SerializeField] private int damage;
+    [SerializeField] private float attackRange;
+    [SerializeField] private float projectileSpeed;
 
-    private int maxAmmo;
-    private int currentAmmo;
+    [SerializeField] private int maxAmmo;
+    [SerializeField] private int currentAmmo;
 
-    private Transform socket;
     private Projectile projectilePrefab;
 
-    // 나중에는 json으로 데이터를 불러올 것. 지금은 생성자를 통해 데이터를 받아옴
-    public RangeWeapon(Transform socket, int damage, float attackDelay, float attackRange, float reloadDelay, float projectileSpeed, int maxAmmo, int currentAmmo)
+    private void Awake()
     {
-        AttackDelay = attackDelay;
-        this.socket = socket;
-        this.damage = damage;
-        this.attackRange = attackRange;
-        ReloadDelay = reloadDelay;
-        this.projectileSpeed = projectileSpeed;
-        this.maxAmmo = maxAmmo;
-        this.currentAmmo = currentAmmo;
-
-        projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Projectile");
+        enabled = false;
+        projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
     }
 
     public void Attack()
@@ -44,12 +37,12 @@ public class RangeWeapon : IRangeWeapon
         {
             return;
         }
-        Projectile projectile = Object.Instantiate(projectilePrefab, socket.position, socket.rotation);
-        projectile.gameObject.layer = socket.gameObject.layer;
+        Projectile projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+        projectile.gameObject.layer = transform.gameObject.layer;
 
         Vector2 mousePos = InputHandler.MousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        Vector2 dir = (worldPos - (Vector2)socket.position).normalized;
+        Vector2 dir = (worldPos - (Vector2)transform.position).normalized;
          
         projectile.Launch(dir, attackRange, projectileSpeed);
         currentAmmo--;
