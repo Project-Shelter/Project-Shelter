@@ -40,7 +40,6 @@ namespace ItemContainer
         {
             if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
             controller = ContainerInjector.InjectContainer(containerID);
-            Debug.Log(controller.container.slots.Count);
             Debug.Log($"Set Container : {containerID}");
         }
 

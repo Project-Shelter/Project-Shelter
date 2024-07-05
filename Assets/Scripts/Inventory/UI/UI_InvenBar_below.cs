@@ -28,10 +28,12 @@ public class UI_InvenBar_below : UI_Container
     //좌우 select 이동
     public void OnRight()
     {
+        if (selectedSlot + 1 >= 6) return;
         slots[++selectedSlot].slotBtn.isOn = true;
     }
     public void OnLeft()
     {
+        if (selectedSlot - 1 < 0) return;
         slots[--selectedSlot].slotBtn.isOn = true;
     }
 
