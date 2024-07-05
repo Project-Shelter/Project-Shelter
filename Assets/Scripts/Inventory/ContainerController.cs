@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
@@ -10,6 +11,9 @@ namespace ItemContainer
     {
         public ContainerVO container { get; protected set; }
         public int number { get; protected set; }
+
+        public Action AddItemAction = null;
+        public Action RemoveItemAction = null;
         public ContainerController(int num)
         {
             container = new ContainerVO(ItemDummyData.MaxCapacity[num]);
@@ -87,6 +91,8 @@ namespace ItemContainer
             {
                 container.slots.Add(slot, new ItemVO(id, count));
             }
+            
+            AddItemAction?.Invoke();
         }
         
         public void RemoveItem(int slot, int count)
@@ -110,6 +116,8 @@ namespace ItemContainer
             {
                 container.slots.Remove(slot);
             }
+            
+            RemoveItemAction?.Invoke();
         }
     }
 }
