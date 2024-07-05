@@ -28,7 +28,6 @@ public class UI_InvenBar_below : UI_Container
     //좌우 select 이동
     public void OnRight()
     {
-        Debug.Log("right?");
         slots[++selectedSlot].slotBtn.isOn = true;
     }
     public void OnLeft()
