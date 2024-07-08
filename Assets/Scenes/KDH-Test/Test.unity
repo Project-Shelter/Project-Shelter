@@ -19450,7 +19450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &906431403
 Animator:
   serializedVersion: 5
@@ -19610,7 +19610,7 @@ MonoBehaviour:
   attackRange:
     baseValue: 0.5
   attackDelay:
-    baseValue: 1
+    baseValue: 0.5
   deadBodyLiveTime:
     baseValue: 0
 --- !u!114 &906431409
