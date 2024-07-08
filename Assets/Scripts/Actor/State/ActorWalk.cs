@@ -12,7 +12,10 @@ public class ActorWalk : ActorBaseState
     public override void UpdateState()
     {
         base.UpdateState();
-        Actor.MoveBody.Turn();
+        if (!Actor.IsAttacking)
+        {
+            Actor.MoveBody.Turn();
+        }
         
     }
 
