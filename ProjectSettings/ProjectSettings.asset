@@ -667,7 +667,9 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 1
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: GOOGLE_API_ID;GOOGLE_API_PW
+    WebGL: GOOGLE_API_ID;GOOGLE_API_PW
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
