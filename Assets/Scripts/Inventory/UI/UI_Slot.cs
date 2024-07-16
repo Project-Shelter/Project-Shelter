@@ -50,7 +50,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void UpdateSlot(ItemVO item)
     {
         LoadItem(item);
-        
+
         if (Item.id is 0)
         {
             ClearSlot();

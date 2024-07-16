@@ -16,7 +16,6 @@ namespace ItemContainer
         public virtual void Start()
         {
             InitContainer();
-            //Chest에서 여기서 오류날 가능성 존재
             maxCapacity = ItemDummyData.MaxCapacity[containerID];
             slots = new UI_Slot[maxCapacity];
             Init();
@@ -40,12 +39,12 @@ namespace ItemContainer
         {
             if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
             controller = ContainerInjector.InjectContainer(containerID);
-            Debug.Log($"Set Container : {containerID}");
         }
 
         public override void Init()
         {
             base.Init();
+            //Connect Slot - Object
             
             //버튼 Bind - Obj name : item_{i}
             string[] slotStr = new string[maxCapacity];
@@ -96,6 +95,7 @@ namespace ItemContainer
             for (int i = 0; i < maxCapacity; i++) { slots[i].TurnOff(); }
         }
         
+        //Slot 출력(DB - View 반영)
         protected void UpdateSlot(int slot)
         {
             if (slot is -1) return;

@@ -4,19 +4,14 @@ using UnityEngine;
 
 namespace ItemContainer
 {
-    public enum Container
-    {
-        Inventory = 0,
-        InvenBar = 1,
-        Chest = 2,
-    }
     public class ContainerInjector : MonoBehaviour
     {
         private static List<ContainerController> _containers = new List<ContainerController>();
 
-        public void Start()
+        public static int countContainer = 3;
+        public static void ContainerInit()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < countContainer; i++)
             {
                 _containers.Add(new ContainerController(i));
             }
