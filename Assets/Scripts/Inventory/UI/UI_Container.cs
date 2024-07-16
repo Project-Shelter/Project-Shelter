@@ -15,10 +15,16 @@ namespace ItemContainer
 
         public virtual void Start()
         {
+            InitContainer();
+            maxCapacity = ItemDummyData.MaxCapacity[containerID];
             slots = new UI_Slot[maxCapacity];
-            
             Init();
             InitView();
+
+            controller.AddItemAction -= InitView;
+            controller.AddItemAction += InitView;
+            controller.RemoveItemAction -= InitView;
+            controller.RemoveItemAction += InitView;
         }
         public virtual void OnEnable()
         {
@@ -29,20 +35,32 @@ namespace ItemContainer
             CloseInventory();
         }
 
+        protected void InitContainer()
+        {
+            if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+            controller = ContainerInjector.InjectContainer(containerID);
+        }
+
         public override void Init()
         {
             base.Init();
+            //Connect Slot - Object
             
             //버튼 Bind - Obj name : item_{i}
             string[] slotStr = new string[maxCapacity];
             for (int i = 0; i < maxCapacity; i++)
             {
-                if (i / 10 is 1)
+                if (i / 10 >= 1)
                     slotStr[i] = $"panelItem_{i}";
                 else slotStr[i] = $"panelItem_0{i}";
             }
             
             Bind<UI_Slot>(slotStr);
+
+            for (int i = 0; i < maxCapacity; i++)
+            {
+                slots[i] = Get<UI_Slot>(i);
+            }
         }
 
         protected int LoadId(int slot)
@@ -77,10 +95,10 @@ namespace ItemContainer
             for (int i = 0; i < maxCapacity; i++) { slots[i].TurnOff(); }
         }
         
+        //Slot 출력(DB - View 반영)
         protected void UpdateSlot(int slot)
         {
             if (slot is -1) return;
-            
             if(controller.container.slots.ContainsKey(slot))
                 slots[slot].UpdateSlot(controller.container.slots[slot]);
             else slots[slot].UpdateSlot(ItemDummyData.NullItem);

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
@@ -5,11 +6,14 @@ using UnityEngine;
 
 namespace ItemContainer
 {
-    //기본적인 인벤토리 기능
+    //기본적인 인벤토리 기능(Repository)
     public class ContainerController
     {
         public ContainerVO container { get; protected set; }
         public int number { get; protected set; }
+
+        public Action AddItemAction = null;
+        public Action RemoveItemAction = null;
         public ContainerController(int num)
         {
             container = new ContainerVO(ItemDummyData.MaxCapacity[num]);
@@ -87,6 +91,8 @@ namespace ItemContainer
             {
                 container.slots.Add(slot, new ItemVO(id, count));
             }
+            
+            AddItemAction?.Invoke();
         }
         
         public void RemoveItem(int slot, int count)
@@ -110,6 +116,8 @@ namespace ItemContainer
             {
                 container.slots.Remove(slot);
             }
+            
+            RemoveItemAction?.Invoke();
         }
     }
 }

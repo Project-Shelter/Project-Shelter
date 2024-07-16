@@ -44,11 +44,14 @@ namespace ItemContainer
         void Awake()
         {
             PlainImage = Managers.Resources.Load<Sprite>("Arts/Items/plain");
-
+            Debug.Log("INIT");
             InitItemDB();
             InitInvenBar();
             InitInventory();
             InitChests();
+            
+            //Init 용도 - Awake 겹쳐서 따로 뺐음.
+            ContainerInjector.ContainerInit();
         }
 
         private void InitInventory()
@@ -131,23 +134,19 @@ namespace ItemContainer
             ItemDB = new ItemDB();
             
             ItemDB.data.Add(1, 
-                new ItemData(1, 5, 5,
-                    "Potion", "Delicious Potion",
-                    Managers.Resources.Load<Sprite>("Arts/Items/Potion")));
+                new ItemData(1, "Potion", "Delicious Potion", ItemType.UseItem, 5, 5,
+                    Managers.Resources.Load<Sprite>("Arts/Items/potion")));
             
             ItemDB.data.Add(2,
-                new ItemData(2, 1, 10,
-                    "Bullet", "Most powerful Bullet", 
-                    Managers.Resources.Load<Sprite>("Arts/Items/Bullet")));
+                new ItemData(2, "Bullet", "Most powerful Bullet", ItemType.UseItem, 1, 10,
+                    Managers.Resources.Load<Sprite>("Arts/Items/bullet")));
 
             ItemDB.data.Add(3,
-                new ItemData(3, 0, 1,
-                    "LOVE", "Mercy",
-                    Managers.Resources.Load<Sprite>("Arts/Items/Love")));
+                new ItemData(3, "LOVE", "Mercy", ItemType.EctItem, 0, 1,
+                    Managers.Resources.Load<Sprite>("Arts/Items/love")));
 
             ItemDB.data.Add(4,
-                new ItemData(4, 20, 3,
-                    "Book", "The Story of Love",
+                new ItemData(4, "Book", "The Story of Love", ItemType.EquipItem, 20, 3,
                     Managers.Resources.Load<Sprite>("Arts/Items/Book")));
         }
     }

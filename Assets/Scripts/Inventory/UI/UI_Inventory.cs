@@ -99,7 +99,7 @@ namespace ItemContainer
                 return;
             
             name.text = ItemDummyData.ItemDB.data[id].name;
-            comment.text = ItemDummyData.ItemDB.data[id].comment;
+            comment.text = ItemDummyData.ItemDB.data[id].description;
         }
         
         public void LoadWeight()
