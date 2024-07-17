@@ -134,19 +134,19 @@ namespace ItemContainer
             ItemDB = new ItemDB();
             
             ItemDB.data.Add(1, 
-                new ItemData(1, "Potion", "Delicious Potion", ItemType.UseItem, 5, 5,
+                new ItemData(1, "Potion", "Delicious Potion", ItemType.UseItem, 5, 1, 1, 1, 5,
                     Managers.Resources.Load<Sprite>("Arts/Items/potion")));
             
             ItemDB.data.Add(2,
-                new ItemData(2, "Bullet", "Most powerful Bullet", ItemType.UseItem, 1, 10,
+                new ItemData(2, "Bullet", "Most powerful Bullet", ItemType.UseItem, 1, 1, 1, 1, 10,
                     Managers.Resources.Load<Sprite>("Arts/Items/bullet")));
 
             ItemDB.data.Add(3,
-                new ItemData(3, "LOVE", "Mercy", ItemType.EctItem, 0, 1,
+                new ItemData(3, "LOVE", "Mercy", ItemType.EtcItem, 0, 1, 1, 1, 1,
                     Managers.Resources.Load<Sprite>("Arts/Items/love")));
 
             ItemDB.data.Add(4,
-                new ItemData(4, "Book", "The Story of Love", ItemType.EquipItem, 20, 3,
+                new ItemData(4, "Book", "The Story of Love", ItemType.EquipItem, 20, 1, 1, 1, 3,
                     Managers.Resources.Load<Sprite>("Arts/Items/Book")));
         }
     }

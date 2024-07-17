@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public enum ItemType{
     UseItem,
-    EctItem,
+    EtcItem,
     EquipItem,
     ActionItem,
 }
@@ -56,25 +57,44 @@ namespace ItemContainer{
         public Dictionary<int, ItemData> data { get; private set; } = new Dictionary<int, ItemData>();
     }
 
+    public class DBData
+    {
+        [JsonProperty("Item_ID")]
+        public int id { get; protected set; }
+    }
+
     //DB에 정적으로 저장/아이템 id가 동일하면 내용이 같은 것
     //Entity? (Item_Skill_ID의 용도에 따라 달라질 듯 - 이게 프로그래밍 시 어떻게 될 지...)
-    public class ItemData
+    public class ItemData : DBData
     {
-        public int id { get; private set; }
+        [JsonProperty("Item_Name")]
         public string name { get; private set; }
+        [JsonProperty("Item_Description")]
         public string description{ get; private set; }
+        [JsonProperty("Item_Type")]
         public ItemType itemType { get; private set; }
+        [JsonProperty("Item_Weight")]
         public int weight { get; private set; }
+        [JsonProperty("Item_Skill_ID")]
+        public int skill_id { get; private set; }
+        [JsonProperty("Item_Min_Dmg")]
+        public int min_damage { get; private set; }
+        [JsonProperty("Item_Max_Dmg")]
+        public int max_damage { get; private set; }
+        [JsonProperty("Item_OvelapCount")]
         public int overlapCount { get; private set; }
         public Sprite image;
 
-        public ItemData(int id, string name, string description, ItemType itemType, int weight, int overlapCount, Sprite image)
+        public ItemData(int id, string name, string description, ItemType itemType, int weight, int skill_id, int min_damage, int max_damage, int overlapCount, Sprite image)
         {
             this.id = id;
             this.name = name;
             this.description = description;
             this.itemType = itemType;
             this.weight = weight;
+            this.skill_id = skill_id;
+            this.min_damage = min_damage;
+            this.max_damage = max_damage;
             this.overlapCount = overlapCount;
             this.image = image;
         }
