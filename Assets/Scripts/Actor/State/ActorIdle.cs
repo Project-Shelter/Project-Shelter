@@ -10,6 +10,7 @@ public class ActorIdle : ActorBaseState
     public override void UpdateState() 
     {
         base.UpdateState();
+        Actor.Aim();
         if (!Actor.IsAttacking)
         {
             Actor.MoveBody.Turn();
