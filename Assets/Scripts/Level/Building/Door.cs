@@ -23,19 +23,18 @@ public class Door : MonoBehaviour, IPathway
 
     public void PassEntrance(IMovable movable)
     {
-        if (movable == (IMovable)ActorController.Instance.CurrentActor)
+        if (movable == (IMovable)ServiceLocator.GetService<ActorController>().CurrentActor)
         {
-            ActorController.Instance.CurrentActor.EnterBuilding(roof);
+            ServiceLocator.GetService<ActorController>().CurrentActor.EnterBuilding(roof);
         }
         movable.ChangeFloor(linkedFloor);
     }
 
     public void PassExit(IMovable movable)
     {
-        Debug.Log("Exit");
-        if (movable == (IMovable)ActorController.Instance.CurrentActor)
+        if (movable == (IMovable)ServiceLocator.GetService<ActorController>().CurrentActor)
         {
-            ActorController.Instance.CurrentActor.ExitBuilding();
+            ServiceLocator.GetService<ActorController>().CurrentActor.ExitBuilding();
         }
         movable.ChangeFloor(Define.Layer.Ground);
     }

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace ItemContainer
 {
-    public class UI_Inventory : UI_Container//, IDropHandler
+    public class UI_Inventory : UI_InvenSystem
     {
         enum Texts
         {
@@ -52,7 +52,6 @@ namespace ItemContainer
         {
             base.OnEnable();
             
-            Debug.Log("Enable");
             OpenInventoryBtn();
         }
 
@@ -60,13 +59,6 @@ namespace ItemContainer
         {
             base.OnDisable();
             FlushBtn();
-        }
-
-        public void OnDrop(PointerEventData eventData)
-        {
-            Debug.Log("Inven");
-            Debug.Log("OnDrop" + eventData.position);
-            dropedContainer = 0;
         }
 
         private void OpenInventoryBtn()
@@ -107,7 +99,7 @@ namespace ItemContainer
                 return;
             
             name.text = ItemDummyData.ItemDB.data[id].name;
-            comment.text = ItemDummyData.ItemDB.data[id].comment;
+            comment.text = ItemDummyData.ItemDB.data[id].description;
         }
         
         public void LoadWeight()

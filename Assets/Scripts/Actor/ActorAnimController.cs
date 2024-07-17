@@ -6,6 +6,7 @@ public enum ActorAnimParameter
 {
     IsMoving,
     IsAttacking,
+    IsConcealing,
     IsDead,
     LookDirection,
     MoveDirection,
@@ -32,6 +33,7 @@ public class ActorAnimController
     {
         AnimParameters.Add(ActorAnimParameter.IsMoving, Animator.StringToHash("IsMoving"));
         AnimParameters.Add(ActorAnimParameter.IsAttacking, Animator.StringToHash("IsAttacking"));
+        AnimParameters.Add(ActorAnimParameter.IsConcealing, Animator.StringToHash("IsConcealing"));
         AnimParameters.Add(ActorAnimParameter.IsDead, Animator.StringToHash("IsDead"));
         AnimParameters.Add(ActorAnimParameter.LookDirection, Animator.StringToHash("LookDirection"));
         AnimParameters.Add(ActorAnimParameter.MoveDirection, Animator.StringToHash("MoveDirection"));

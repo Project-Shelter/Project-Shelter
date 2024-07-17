@@ -6,6 +6,8 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
     #region CollisionVariables
 
+    public IInteractable interactable;
+    public BreakableObject concealment;
     private int countCollidingEnemy;
     private SlowDebuff collidingEnemyDebuff;
     private GameObject roof;
@@ -25,6 +27,10 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
             countCollidingEnemy++;
             Buff.AddBuff(collidingEnemyDebuff);
         }
+        if(other.TryGetComponent(out IInteractable interactable))
+        {
+            this.interactable = interactable;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -36,6 +42,10 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
             {
                 Buff.RemoveBuff(collidingEnemyDebuff);
             }
+        }
+        if (other.TryGetComponent(out IInteractable interactable))
+        {
+            this.interactable = null;
         }
     }
 

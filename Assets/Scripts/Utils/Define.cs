@@ -23,4 +23,10 @@ public class Define : MonoBehaviour
         Click,
         Drag,
     }
+
+    public enum Scene
+    {
+        Unknown,
+        Game,
+    }
 }

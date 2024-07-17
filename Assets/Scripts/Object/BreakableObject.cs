@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,6 +71,16 @@ public class BreakableObject : MonoBehaviour, ILivingEntity
     public void RestoreHP(float restoreHP)
     {
         livingEntity.RestoreHP(restoreHP);
+    }
+
+    public void AddOnDeath(Action action)
+    {
+        livingEntity.OnDeath += action;
+    }
+
+    public void RemoveOnDeath(Action action) 
+    {
+       livingEntity.OnDeath -= action;
     }
 
     #endregion

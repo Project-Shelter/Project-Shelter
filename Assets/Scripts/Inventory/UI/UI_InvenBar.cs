@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace ItemContainer
 {
-    public class UI_InvenBar : UI_Container//, IDropHandler
+    public class UI_InvenBar : UI_InvenSystem
     {
         public override void Init()
         {
@@ -18,15 +18,7 @@ namespace ItemContainer
                 slots[slot].OnDoubleClick += SlotDoubleClick;
             }
         }
-        
-        public void OnDrop(PointerEventData eventData)
-        {
-            Debug.Log("InvenBar");
-            Debug.Log("OnDrop" + eventData.position);
-            dropedContainer = 1;
-        }
 
-        
         private void SlotDoubleClick(int slot)
         {
             GiveItem(controller.container.slots[slot].Count, slot, 0);

@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType{
+    UseItem,
+    EctItem,
+    EquipItem,
+    ActionItem,
+}
+
 
 //정적 데이터: 마지막에 Data
 //동적 데이터: 마지막에 VO
@@ -14,7 +21,6 @@ namespace ItemContainer{
 
         //필요하다면 여기서 범위 체크
         private int count;
-
         public int Count
         {
             get
@@ -51,21 +57,24 @@ namespace ItemContainer{
     }
 
     //DB에 정적으로 저장/아이템 id가 동일하면 내용이 같은 것
+    //Entity? (Item_Skill_ID의 용도에 따라 달라질 듯 - 이게 프로그래밍 시 어떻게 될 지...)
     public class ItemData
     {
         public int id { get; private set; }
+        public string name { get; private set; }
+        public string description{ get; private set; }
+        public ItemType itemType { get; private set; }
         public int weight { get; private set; }
         public int overlapCount { get; private set; }
-        public string name { get; private set; }
-        public string comment { get; private set; }
         public Sprite image;
 
-        public ItemData(int id, int weight, int overlapCount, string name, string comment, Sprite image)
+        public ItemData(int id, string name, string description, ItemType itemType, int weight, int overlapCount, Sprite image)
         {
             this.id = id;
-            this.weight = weight;
             this.name = name;
-            this.comment = comment;
+            this.description = description;
+            this.itemType = itemType;
+            this.weight = weight;
             this.overlapCount = overlapCount;
             this.image = image;
         }

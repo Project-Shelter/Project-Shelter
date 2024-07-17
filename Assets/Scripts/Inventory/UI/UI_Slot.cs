@@ -50,7 +50,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void UpdateSlot(ItemVO item)
     {
         LoadItem(item);
-        
+
         if (Item.id is 0)
         {
             ClearSlot();
@@ -95,7 +95,6 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrag" + transform.position + " 복귀 " + originPosition);
         DropItem.Invoke(SlotNumber);
         transform.position = originPosition;
         isDraging = false;
@@ -117,7 +116,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(UI_Container.openContainer[2]) ShowBtn();
+        if(UI_InvenSystem.openContainer[2]) ShowBtn();
     }
     public void OnPointerExit(PointerEventData eventData)
     {

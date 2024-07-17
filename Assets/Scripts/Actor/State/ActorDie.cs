@@ -17,14 +17,12 @@ public class ActorDie : ActorBaseState
 
     public override void FixedUpdateState() { }
 
+    public override void UpdateWithNoCtrl() { }
+
     public override void ExitState() 
     {
-
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsDead, Actor.IsDead);
     }
 
-    protected override void ChangeFromState()
-    {
-        if (Actor.CanSwitch) Actor.StateMachine.SetState(ActorState.Switch);
-    }
+    protected override void ChangeFromState() { }
 }
