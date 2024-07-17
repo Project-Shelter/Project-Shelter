@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
     #region Interface Properties
 
+    public Action OnAttack { get; set; }
     [field:SerializeField]
     public float AttackDelay { get; private set; }
     [field: SerializeField]
@@ -22,13 +22,23 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
 
     [SerializeField] private int maxAmmo;
     [SerializeField] private int currentAmmo;
+    [SerializeField] private Transform firePos;
 
     private Projectile projectilePrefab;
+    private Animator animator;
+    private Actor owner;
 
     private void Awake()
     {
-        enabled = false;
         projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
+        animator = Util.GetOrAddComponent<Animator>(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    public void Init(Actor owner)
+    {
+        this.owner = owner;
+        gameObject.SetActive(true);
     }
 
     public void Attack()
@@ -37,14 +47,16 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         {
             return;
         }
-        Projectile projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+        OnAttack?.Invoke();
+        Projectile projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
         projectile.gameObject.layer = transform.gameObject.layer;
 
         Vector2 mousePos = InputHandler.MousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 dir = (worldPos - (Vector2)transform.position).normalized;
-         
+        
         projectile.Launch(dir, attackRange, projectileSpeed);
+        animator.SetTrigger("Attack");
         currentAmmo--;
     }
 

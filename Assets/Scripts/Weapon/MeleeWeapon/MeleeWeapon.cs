@@ -1,25 +1,38 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
 {
+    #region Interface Properties
+
+    public Action OnAttack { get; set; }
     [field:SerializeField]
     public float AttackDelay { get; private set; }
+
+    #endregion
+
     [SerializeField] private float damage;
     [SerializeField] private float attackRange;
-
     private Collider2D hitBox;
+    private Actor owner;
 
     private void Awake()
     {
         hitBox = Util.GetOrAddComponent<Collider2D>(gameObject);
         hitBox.enabled = false;
+        gameObject.SetActive(false);
+    }
+
+    public void Init(Actor owner)
+    {
+        this.owner = owner;
+        gameObject.SetActive(true);
     }
 
     public void Attack()
     {
+        OnAttack?.Invoke();
         hitBox.enabled = true;
         StartCoroutine(DisableHitBox());
     }

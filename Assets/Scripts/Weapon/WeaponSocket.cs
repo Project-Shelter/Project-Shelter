@@ -1,14 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class WeaponSocket : MonoBehaviour
 {
     public IWeapon Weapon { get; private set; } // 추후 무기 변경 방식에 따라 바뀔 수 있음
+    private Actor owner;
 
     private void Awake()
     {
+        owner = GetComponentInParent<Actor>();
+        UpdateWeapon();
+    }
+
+    private void Update()
+    {
+        if(owner.IsAiming)
+        {
+            RotateToMousePos();
+        }
+    }
+
+    // 나중엔 인자로 받아서 무기 변경 가능하게
+    private void UpdateWeapon()
+    {
         Weapon = Instantiate(Managers.Resources.Load<RangeWeapon>("Prefabs/Weapon/RangeWeapon"), transform);
+        Weapon.OnAttack += RotateToMousePos;
+        Weapon.Init(owner);
+    }
+
+    public void RotateToMousePos()
+    {
+        Vector2 mousePos = InputHandler.MousePosition;
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector2 dir = (worldPos - (Vector2)transform.position).normalized;
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
