@@ -20,13 +20,6 @@ public class ActorController
     public void Update()
     {
         CurrentActor.ActorUpdate();
-        SetCursor();
-    }
-    
-    private void SetCursor()
-    {
-        if (InputHandler.ClickRight) Cursor.SetCursor(InputHandler.AimCursor, InputHandler.CursorHotspot, CursorMode.Auto);
-        if (InputHandler.ClickRightUp) Cursor.SetCursor(InputHandler.DefaultCursor, InputHandler.CursorHotspot, CursorMode.Auto);
     }
 
     public void FixedUpdate()

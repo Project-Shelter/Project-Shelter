@@ -9,7 +9,8 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     [SerializeField] private bool isHumanActor = false;
     public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState); } }
-    public bool IsSwitching { get; private set; } 
+    public bool IsSwitching { get; private set; }
+    public bool IsAiming { get; private set; }
     public bool CanInteract { get { return InputHandler.ButtonE && Interactable != null; } }
     public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState) && Weapon != null; } }
     public bool CanReload { get { return InputHandler.ButtonR && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
@@ -73,6 +74,21 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         IsSwitching = false;
         if (gameObject.layer != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << gameObject.layer);
         if(roof != null) roof.SetActive(true);
+    }
+
+    public void Aim()
+    {
+        if (InputHandler.ClickRight)
+        {
+            Cursor.SetCursor(InputHandler.AimCursor, InputHandler.CursorHotspot, CursorMode.Auto);
+            IsAiming = true;
+        }
+
+        if (InputHandler.ClickRightUp)
+        {
+            Cursor.SetCursor(InputHandler.DefaultCursor, InputHandler.CursorHotspot, CursorMode.Auto);
+            IsAiming = false;
+        }
     }
 
     private IEnumerator Switch()
