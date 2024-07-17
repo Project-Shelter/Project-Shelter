@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class ActorAttackRange : ActorAttackState
 {
-    bool isAttacking;
-    public ActorAttackRange(Actor actor) : base(actor)
-    {
-    }
+    private float attackDuration;
+    public ActorAttackRange(Actor actor) : base(actor) {}
 
     public override void EnterState()
     {
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
-        isAttacking = true;
+        Actor.MoveBody.Turn();
+        Actor.Weapon.Attack();
+        attackDuration = Actor.Weapon.AttackDelay;
     }
 
     public override void UpdateState()
     {
         base.UpdateState();
-
+        attackDuration -= Time.deltaTime;
     }
 
     public override void FixedUpdateState()
@@ -32,7 +32,7 @@ public class ActorAttackRange : ActorAttackState
 
     protected override void ChangeFromState()
     {
-        if (!Actor.CanAttack && !isAttacking)
+        if (attackDuration < 0f || Actor.IsDead)
         {
             Actor.AttackStateMachine.SetState(AttackState.Idle);
         }

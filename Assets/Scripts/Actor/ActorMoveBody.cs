@@ -112,8 +112,8 @@ public class ActorMoveBody : MonoBehaviour
 
     public void Turn()
     {
-        LookDir = InputHandler.MouseSection;
-        if(LookDir == Direction.None) LookDir = MoveDir;
+        if (InputHandler.ClickRight || actor.IsAttacking) { LookDir = InputHandler.MouseSection; }
+        else { LookDir = MoveDir; }
 
         if (HorizontalAxis == 0 && VerticalAxis == 0) MoveDir = LookDir;
         else if (HorizontalAxis == 1) MoveDir = Direction.Right;

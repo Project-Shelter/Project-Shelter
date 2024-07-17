@@ -1,13 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class ActorAttackIdle : ActorAttackState
 {
-    public ActorAttackIdle(Actor actor) : base(actor)
-    {
-
-    }
+    public ActorAttackIdle(Actor actor) : base(actor){}
 
     public override void EnterState()
     {
@@ -31,7 +25,26 @@ public class ActorAttackIdle : ActorAttackState
     {
         if (Actor.CanAttack)
         {
-            Actor.AttackStateMachine.SetState(AttackState.Idle);
+            if (Actor.Weapon is IRangeWeapon range && !range.HasToBeReload)
+            {
+                Actor.AttackStateMachine.SetState(AttackState.Range);
+                return;
+            }
+
+            if (Actor.Weapon is IMeleeWeapon)
+            {
+                Actor.AttackStateMachine.SetState(AttackState.Melee);
+                return;
+            }
+        }
+
+        if (Actor.CanReload)
+        {
+            if (Actor.Weapon is IRangeWeapon range && range.CanReload)
+            {
+                Actor.AttackStateMachine.SetState(AttackState.Reload);
+                return;
+            }
         }
     }
 }

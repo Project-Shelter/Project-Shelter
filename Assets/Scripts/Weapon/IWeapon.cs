@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IWeapon
 {
-    public IEnumerator Attack();
+    float AttackDelay { get; }
+    void Attack();
 }

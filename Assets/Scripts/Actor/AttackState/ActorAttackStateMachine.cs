@@ -7,6 +7,7 @@ public enum AttackState
     Idle,
     Melee,
     Range,
+    Reload,
 }
 
 public class ActorAttackStateMachine
@@ -38,6 +39,7 @@ public class ActorAttackStateMachine
         stateDict.Add(AttackState.Idle, new ActorAttackIdle(actor));
         stateDict.Add(AttackState.Melee, new ActorAttackMelee(actor));
         stateDict.Add(AttackState.Range, new ActorAttackRange(actor));
+        stateDict.Add(AttackState.Reload, new ActorAttackReload(actor));
     }
 
 }

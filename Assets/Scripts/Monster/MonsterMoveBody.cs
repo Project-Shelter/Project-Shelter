@@ -32,6 +32,7 @@ public class MonsterMoveBody
     private int HorizontalAxis;
     private int VerticalAxis;
     private Direction moveDir;
+    private bool isKnockbacked;
 
     #endregion
 
@@ -58,6 +59,7 @@ public class MonsterMoveBody
 
     public void MoveToPos(Vector3 pos, float speed)
     {
+        if (isKnockbacked) return;
         Agent.isStopped = false;
         Agent.speed = speed;
         Agent.SetDestination(pos);
@@ -78,6 +80,7 @@ public class MonsterMoveBody
 
     public void Turn()
     {
+        if(isKnockbacked) return;
         bool isHorizontal = Math.Abs(Agent.velocity.x) > Math.Abs(Agent.velocity.y);
         HorizontalAxis = Agent.velocity.x > 0 ? 1 : Agent.velocity.x < 0 ? -1 : 0;
         VerticalAxis = Agent.velocity.y > 0 ? 1 : Agent.velocity.y < 0 ? -1 : 0;
@@ -91,5 +94,20 @@ public class MonsterMoveBody
     public void Stop()
     {
         Agent.isStopped = true;
+    }
+
+    public void Knockback(Vector2 dir)
+    {
+        owner.StartCoroutine(KnockbackCoroutine(dir));
+    }
+
+    private IEnumerator KnockbackCoroutine(Vector2 dir)
+    {
+        isKnockbacked = true;
+        Stop();
+        Agent.velocity = dir * 5f;
+        yield return new WaitForSeconds(0.3f);
+        Agent.velocity = Vector2.zero;
+        isKnockbacked = false;
     }
 }

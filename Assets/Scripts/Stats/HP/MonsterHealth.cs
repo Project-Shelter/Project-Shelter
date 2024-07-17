@@ -14,6 +14,8 @@ public class MonsterHealth : LivingEntity
     public override void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
     {
         base.OnDamage(damage, hitPoint, hitNormal);
+        // 넉백
+        owner.MoveBody.Knockback(hitNormal);
     }
 
     public override void RestoreHP(float restoreHP)

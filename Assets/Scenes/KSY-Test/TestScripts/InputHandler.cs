@@ -20,6 +20,7 @@ public class InputHandler : MonoSingleton<InputHandler>
     public static bool ButtonEnter { get; private set; } = false;
     public static bool ButtonESC { get; private set; } = false;
     public static bool ButtonE { get; private set; } = false;
+    public static bool ButtonR { get; private set; } = false;
 
     #endregion
     public static bool[] ButtonArray { get; private set; } = new bool[10];
@@ -35,14 +36,14 @@ public class InputHandler : MonoSingleton<InputHandler>
     public static Direction MouseSection { get; private set; }
     public static Texture2D DefaultCursor { get; private set; }
     public static Texture2D AimCursor { get; private set; }
-    public static Vector2 CursorHotspot = new(16f, 16f);
-
+    public static Vector2 CursorHotspot;
     #endregion
 
     private void Awake()
     {
         DefaultCursor = Resources.Load<Texture2D>("Arts/Cursor/Default");
         AimCursor = Resources.Load<Texture2D>("Arts/Cursor/Aim");
+        CursorHotspot = new(AimCursor.width / 2, AimCursor.height / 2);
     }
 
     private void Update()
@@ -53,10 +54,11 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKey(KeyCode.D))             ButtonD = true;       else ButtonD = false;
         if (Input.GetKeyDown(KeyCode.LeftControl))             ButtonCtrl = true;    else ButtonCtrl = false;
         if (Input.GetKeyDown(KeyCode.E)) ButtonE = true; else ButtonE = false;
+        if (Input.GetKeyDown(KeyCode.R)) ButtonR = true; else ButtonR = false;
         if (Input.GetKeyDown(KeyCode.Space))     ButtonSpace = true; else ButtonSpace = false;
         if (Input.GetKey(KeyCode.KeypadEnter))   ButtonEnter = true;   else ButtonEnter = false;
         if (Input.GetKey(KeyCode.Escape))        ButtonESC = true;     else ButtonESC = false;
-        if (Input.GetMouseButtonDown(0))             ClickLeft = true;     else ClickLeft = false;
+        if (Input.GetMouseButton(0))             ClickLeft = true;     else ClickLeft = false;
         if (Input.GetMouseButton(1))             ClickRight = true;    else ClickRight = false;
         if (Input.GetMouseButtonUp(1))              ClickRightUp = true; else ClickRightUp = false;
         MousePosition = Input.mousePosition;
@@ -72,8 +74,6 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     private Direction GetMouseSection(Vector2 mousePosition)
     {
-        if(!ClickRight) return Direction.None;
-
         Vector2 screenSize = new(Screen.width, Screen.height);
         float screenGradient = screenSize.y / screenSize.x;
 
