@@ -60,16 +60,16 @@ namespace ItemContainer
             MaxCapacity[0] = 18;
             
             invenSlots[0].Add(0,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 1));
             
             invenSlots[0].Add(1,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
             
             invenSlots[0].Add(2,
-                new ItemVO(3, 1));
+                new ItemVO(202006, 12));
             
             invenSlots[0].Add(3,
-                new ItemVO(1, 3));
+                new ItemVO(200001, 1));
         }
 
         private void InitInvenBar()
@@ -78,7 +78,7 @@ namespace ItemContainer
             MaxCapacity[1] = 6;
             
             invenSlots[1].Add(0,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 1));
         }
 
         private void InitChests()
@@ -90,64 +90,64 @@ namespace ItemContainer
             MaxCapacity[3] = 12;
 
             invenSlots[2].Add(0,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 2));
             
             invenSlots[2].Add(1,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
             
             invenSlots[2].Add(2,
-                new ItemVO(3, 1));
+                new ItemVO(202005, 1));
             
             invenSlots[2].Add(4,
-                new ItemVO(1, 3));
+                new ItemVO(200001, 1));
             
             invenSlots[2].Add(5,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 2));
             
             invenSlots[2].Add(6,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
             
             invenSlots[2].Add(7,
-                new ItemVO(3, 1));
+                new ItemVO(202006, 50));
             
             invenSlots[2].Add(8,
-                new ItemVO(1, 3));
+                new ItemVO(200001, 1));
             
             invenSlots[2].Add(9,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 1));
             
             invenSlots[2].Add(10,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
             
             invenSlots[2].Add(11,
-                new ItemVO(3, 1));
+                new ItemVO(202006, 18));
             
             invenSlots[3].Add(0,
-                new ItemVO(1, 5));
+                new ItemVO(202005, 20));
             
             invenSlots[3].Add(1,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
         }
 
         private void InitItemDB()
         {
-            ItemDB = new ItemDB();
-            
-            ItemDB.data.Add(1, 
-                new ItemData(1, "Potion", "Delicious Potion", ItemType.UseItem, 5, 1, 1, 1, 5,
-                    Managers.Resources.Load<Sprite>("Arts/Items/potion")));
-            
-            ItemDB.data.Add(2,
-                new ItemData(2, "Bullet", "Most powerful Bullet", ItemType.UseItem, 1, 1, 1, 1, 10,
-                    Managers.Resources.Load<Sprite>("Arts/Items/bullet")));
+            ItemDB = new ItemDB(DataManager.Instance.JsonToDict<ItemData>("/Data/ItemTable.json"));
 
-            ItemDB.data.Add(3,
-                new ItemData(3, "LOVE", "Mercy", ItemType.EtcItem, 0, 1, 1, 1, 1,
-                    Managers.Resources.Load<Sprite>("Arts/Items/love")));
-
-            ItemDB.data.Add(4,
-                new ItemData(4, "Book", "The Story of Love", ItemType.EquipItem, 20, 1, 1, 1, 3,
-                    Managers.Resources.Load<Sprite>("Arts/Items/Book")));
+            // ItemDB.data.Add(1, 
+            //     new ItemData(1, "Potion", "Delicious Potion", ItemType.UseItem, 5, 1, 1, 1, 5,
+            //         Managers.Resources.Load<Sprite>("Arts/Items/potion")));
+            //
+            // ItemDB.data.Add(2,
+            //     new ItemData(2, "Bullet", "Most powerful Bullet", ItemType.UseItem, 1, 1, 1, 1, 10,
+            //         Managers.Resources.Load<Sprite>("Arts/Items/bullet")));
+            //
+            // ItemDB.data.Add(3,
+            //     new ItemData(3, "LOVE", "Mercy", ItemType.EtcItem, 0, 1, 1, 1, 1,
+            //         Managers.Resources.Load<Sprite>("Arts/Items/love")));
+            //
+            // ItemDB.data.Add(4,
+            //     new ItemData(4, "Book", "The Story of Love", ItemType.EquipItem, 20, 1, 1, 1, 3,
+            //         Managers.Resources.Load<Sprite>("Arts/Items/Book")));
         }
     }
 }

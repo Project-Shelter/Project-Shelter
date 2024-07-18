@@ -54,6 +54,11 @@ namespace ItemContainer{
     public class ItemDB
     {
         //key : itemId
+
+        public ItemDB(Dictionary<int, ItemData> db)
+        {
+            data = db;
+        }
         public Dictionary<int, ItemData> data { get; private set; } = new Dictionary<int, ItemData>();
     }
 
@@ -96,7 +101,8 @@ namespace ItemContainer{
             this.min_damage = min_damage;
             this.max_damage = max_damage;
             this.overlapCount = overlapCount;
-            this.image = image;
+            Sprite sprite = Managers.Resources.Load<Sprite>($"Arts/Items/{name}");
+            if (sprite is not null) this.image = sprite;
         }
     }
 
