@@ -24,13 +24,13 @@ public class Concealment : MonoBehaviour, IInteractable
         this.actor = actor;
         actor.Anim.SetAnimParamter(ActorAnimParameter.IsConcealing, true);
         actor.Tr.position = coll.bounds.center;
-        actor.concealment = parentObject;
+        actor.Concealment = parentObject;
     }
 
     public void StopInteract()
     {
         Debug.Log("StopInteract");
         actor.Anim.SetAnimParamter(ActorAnimParameter.IsConcealing, false);
-        actor.concealment = null;
+        actor.Concealment = null;
     }
 }

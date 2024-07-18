@@ -44,7 +44,7 @@ public class ActorHealth : LivingEntity
         onDamageEffect.transform.position = hitPoint;
         onDamageEffect.Play();
         if(debuffByPart != null) { actor.Buff.AddBuff(debuffByPart); }
-        CoroutineHandler.StartStaticCoroutine(TurnRed(0.2f)); // 임시로 넣어놓은 값
+        actor.StartCoroutine(TurnRed(0.2f)); // 임시로 넣어놓은 값
     }
 
     private AttackedPart SelectAttackedPart()

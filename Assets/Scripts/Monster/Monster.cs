@@ -20,7 +20,7 @@ public partial class Monster : MonoBehaviour, ILivingEntity, IMovable
     public ILivingEntity DetectedTarget { get 
         {
             if (detectedTarget == null || detectedTarget.IsDead) return null;
-            if (detectedTarget is Actor actor && actor.StateMachine.CurrentState == ActorState.Interact) return actor.concealment;
+            if (detectedTarget is Actor actor && actor.StateMachine.CurrentState == ActorState.Interact) return actor.Concealment;
             return detectedTarget;
         } 
     }
