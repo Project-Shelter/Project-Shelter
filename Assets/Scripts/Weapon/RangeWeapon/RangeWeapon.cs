@@ -24,12 +24,14 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     [SerializeField] private int currentAmmo;
     [SerializeField] private Transform firePos;
 
+    private ParticleSystem fireEffect;
     private Projectile projectilePrefab;
     private Animator animator;
     private Actor owner;
 
     private void Awake()
     {
+        fireEffect = Util.GetOrAddComponent<ParticleSystem>(firePos.gameObject);
         projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
         animator = Util.GetOrAddComponent<Animator>(gameObject);
         gameObject.SetActive(false);
@@ -39,6 +41,11 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     {
         this.owner = owner;
         gameObject.SetActive(true);
+    }
+
+    private void Update()
+    {
+        owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
     }
 
     public void Attack()
@@ -54,9 +61,9 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         Vector2 mousePos = InputHandler.MousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 dir = (worldPos - (Vector2)transform.position).normalized;
-        
+
+        fireEffect.Play();
         projectile.Launch(dir, attackRange, projectileSpeed);
-        animator.SetTrigger("Attack");
         currentAmmo--;
     }
 
@@ -64,5 +71,10 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     {
         // 인벤에서 총알 빠져나가는 작업 필요
         currentAmmo = maxAmmo;
+    }
+
+    private void SetWeaponDirection(Direction dir)
+    {
+        animator.SetInteger("Direction", (int)dir);
     }
 }

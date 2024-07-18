@@ -31,11 +31,29 @@ public class WeaponSocket : MonoBehaviour
 
     public void RotateToMousePos()
     {
+        Direction direction = owner.MoveBody.LookDir;
+        float anglePreset = 0;
+        switch (direction)
+        {
+            case Direction.Up:
+                anglePreset = -90;
+                break;
+            case Direction.Down:
+                anglePreset = 90;
+                break;
+            case Direction.Left:
+                anglePreset = 180;
+                break;
+            case Direction.Right:
+                anglePreset = 0;
+                break;
+        }
+
         Vector2 mousePos = InputHandler.MousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 dir = (worldPos - (Vector2)transform.position).normalized;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle + anglePreset);
     }
 }
