@@ -25,14 +25,18 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     [SerializeField] private Transform firePos;
 
     private ParticleSystem fireEffect;
+    private ParticleSystemRenderer fireEffectRenderer;
     private Projectile projectilePrefab;
+    private SpriteRenderer sprite;
     private Animator animator;
     private Actor owner;
 
     private void Awake()
     {
         fireEffect = Util.GetOrAddComponent<ParticleSystem>(firePos.gameObject);
+        fireEffectRenderer = Util.GetOrAddComponent<ParticleSystemRenderer>(fireEffect.gameObject);
         projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
+        sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
         animator = Util.GetOrAddComponent<Animator>(gameObject);
         gameObject.SetActive(false);
     }
@@ -56,12 +60,14 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         }
         OnAttack?.Invoke();
         Projectile projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
-        projectile.gameObject.layer = transform.gameObject.layer;
+        projectile.gameObject.layer = owner.gameObject.layer;
 
         Vector2 mousePos = InputHandler.MousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 dir = (worldPos - (Vector2)transform.position).normalized;
 
+        fireEffectRenderer.sortingLayerID = sprite.sortingLayerID;
+        fireEffectRenderer.sortingOrder = sprite.sortingOrder;
         fireEffect.Play();
         projectile.Launch(dir, attackRange, projectileSpeed);
         currentAmmo--;

@@ -20,7 +20,6 @@ public class MonsterHealth : LivingEntity
     {
         base.OnDamage(damage, hitPoint, hitNormal);
 
-        Debug.Log(damage + " 데미지를 입었습니다. 남은 HP: " + HP);
         onDamageEffect.transform.position = hitPoint;
         onDamageEffect.Play();
         owner.StartCoroutine(TurnRed(0.2f)); // 임시로 넣어놓은 값

@@ -11,6 +11,7 @@ public class MonsterDie : MonsterBaseState
     public override void EnterState()
     {
         StateMachine.Owner.Coll.enabled = false;
+        // FallDown -> Blink -> SetActive(false)
         StateMachine.Owner.StartCoroutine(FallDown(5f));
     }
 

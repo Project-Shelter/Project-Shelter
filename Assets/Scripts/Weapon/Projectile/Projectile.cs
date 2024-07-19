@@ -9,13 +9,26 @@ public class Projectile : MonoBehaviour
 
     private Vector2 direction;
     private Vector3 startPos;
+
     private Rigidbody2D rigid;
+    private Collider2D collider;
+    private SpriteRenderer sprite;
+    private ParticleSystem explosionEffect;
+    private bool isExploded = false;
+
+    private void Awake()
+    {
+        rigid = Util.GetOrAddComponent<Rigidbody2D>(gameObject);
+        collider = Util.GetOrAddComponent<Collider2D>(gameObject);
+        sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
+        explosionEffect = Util.FindChild<ParticleSystem>(gameObject, "ExplosionEffect");
+    }
 
     public void Launch(Vector2 dir, float range, float speed)
     {
+        transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         startPos = transform.position;
         direction = dir.normalized;
-        rigid = Util.GetOrAddComponent<Rigidbody2D>(gameObject);
         rigid.velocity = direction * speed;
         this.range = range;
     }
@@ -23,6 +36,11 @@ public class Projectile : MonoBehaviour
     private void Update()
     {
         if (Vector2.Distance(startPos, transform.position) >= range)
+        {
+            Destroy(gameObject);
+        }
+
+        if(isExploded && !explosionEffect.IsAlive())
         {
             Destroy(gameObject);
         }
@@ -34,7 +52,20 @@ public class Projectile : MonoBehaviour
         if (target != null && !collision.CompareTag("Player"))
         {
             target.OnDamage(damage, transform.position, direction);
-            Destroy(gameObject);
+            Explode();
         }
+        else if (collision.CompareTag("Wall"))
+        {
+            Explode();
+        }
+    }
+
+    private void Explode()
+    {
+        explosionEffect.Play();
+        rigid.velocity = Vector2.zero;
+        sprite.enabled = false;
+        collider.enabled = false;
+        isExploded = true;
     }
 }

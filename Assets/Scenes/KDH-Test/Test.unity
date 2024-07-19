@@ -13664,7 +13664,7 @@ GameObject:
   - component: {fileID: 229602451}
   m_Layer: 10
   m_Name: Trash
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14588,7 +14588,7 @@ GameObject:
   - component: {fileID: 571297970}
   m_Layer: 12
   m_Name: Floor2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15735,29 +15735,29 @@ CompositeCollider2D:
   - m_Collider: {fileID: 1090333430}
     m_ColliderPaths:
     - - X: -29250000
-        Y: 24000000
+        Y: 23999998
       - X: -30750000
-        Y: 24000000
+        Y: 23999998
       - X: -30750000
-        Y: 4000000
+        Y: 3999999
       - X: -29250000
-        Y: 4000000
+        Y: 3999999
   - m_Collider: {fileID: 1090333429}
     m_ColliderPaths:
     - - X: -49250000
-        Y: 24000000
+        Y: 23999998
       - X: -50750000
-        Y: 24000000
+        Y: 23999998
       - X: -50750000
-        Y: 4000000
+        Y: 3999999
       - X: -49250000
-        Y: 4000000
+        Y: 3999999
   - m_Collider: {fileID: 1090333435}
     m_ColliderPaths:
     - - X: -30000000
-        Y: 4750000
+        Y: 4749999
       - X: -50000000
-        Y: 4750000
+        Y: 4749999
       - X: -50000000
         Y: 3250000
       - X: -30000000
@@ -15817,16 +15817,16 @@ CompositeCollider2D:
       - {x: 6, y: 3.9999704}
       - {x: 6.000029, y: -1.9999999}
     - - {x: -3.0000293, y: 0.32500002}
-      - {x: -2.9999707, y: 0.4}
-      - {x: -2.925, y: 0.4000293}
-      - {x: -2.9250293, y: 2.4}
-      - {x: -3.075, y: 2.3999708}
-      - {x: -3.0750294, y: 0.475}
-      - {x: -4.925, y: 0.4750294}
-      - {x: -4.9250293, y: 2.4}
-      - {x: -5.0750003, y: 2.3999708}
-      - {x: -5.0749707, y: 0.4}
-      - {x: -5, y: 0.3999706}
+      - {x: -2.9999707, y: 0.39999992}
+      - {x: -2.925, y: 0.4000292}
+      - {x: -2.9250293, y: 2.3999999}
+      - {x: -3.075, y: 2.3999705}
+      - {x: -3.0750294, y: 0.4749999}
+      - {x: -4.925, y: 0.47502932}
+      - {x: -4.9250293, y: 2.3999999}
+      - {x: -5.0750003, y: 2.3999705}
+      - {x: -5.0749707, y: 0.39999992}
+      - {x: -5, y: 0.3999705}
       - {x: -4.999971, y: 0.32500002}
     - - {x: 5.999971, y: -2.2499998}
       - {x: 5.999971, y: -1.9999999}
@@ -16335,7 +16335,7 @@ GameObject:
   - component: {fileID: 687695259}
   m_Layer: 11
   m_Name: Floor1
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17101,19 +17101,19 @@ CompositeCollider2D:
   - m_Collider: {fileID: 1578801280}
     m_ColliderPaths:
     - - X: -30000000
-        Y: 24500000
+        Y: 24499998
       - X: -50000000
-        Y: 24500000
+        Y: 24499998
       - X: -50000000
-        Y: 23500002
+        Y: 23500000
       - X: -30000000
-        Y: 23500002
+        Y: 23500000
   - m_Collider: {fileID: 1578801279}
     m_ColliderPaths:
     - - X: -49500000
-        Y: 24000000
+        Y: 23999998
       - X: -50500000
-        Y: 24000000
+        Y: 23999998
       - X: -50500000
         Y: -999999
       - X: -49500000
@@ -17121,9 +17121,9 @@ CompositeCollider2D:
   - m_Collider: {fileID: 1578801278}
     m_ColliderPaths:
     - - X: -29500000
-        Y: 24000000
+        Y: 23999998
       - X: -30500000
-        Y: 24000000
+        Y: 23999998
       - X: -30500000
         Y: -999999
       - X: -29500000
@@ -17146,15 +17146,15 @@ CompositeCollider2D:
       - {x: 6.000029, y: -3.9999998}
     - - {x: -4.9500294, y: -0.099999905}
       - {x: -4.9499702, y: 2.3500001}
-      - {x: -3.05, y: 2.3499708}
+      - {x: -3.05, y: 2.3499706}
       - {x: -3.0499709, y: -0.099999905}
       - {x: -2.95, y: -0.0999706}
-      - {x: -2.9500291, y: 2.4}
-      - {x: -3, y: 2.4000294}
-      - {x: -3.0000293, y: 2.45}
-      - {x: -5, y: 2.4499707}
-      - {x: -5.0000296, y: 2.4}
-      - {x: -5.05, y: 2.3999708}
+      - {x: -2.9500291, y: 2.3999999}
+      - {x: -3, y: 2.4000292}
+      - {x: -3.0000293, y: 2.4499998}
+      - {x: -5, y: 2.4499705}
+      - {x: -5.0000296, y: 2.3999999}
+      - {x: -5.05, y: 2.3999705}
       - {x: -5.0499706, y: -0.099999905}
     - - {x: -1.0000293, y: 0}
       - {x: -1.0000293, y: 0.93749994}
@@ -17620,7 +17620,7 @@ GameObject:
   - component: {fileID: 764456173}
   m_Layer: 10
   m_Name: Fence_3
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17876,7 +17876,7 @@ GameObject:
   - component: {fileID: 770596149}
   m_Layer: 10
   m_Name: Fence_8
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18891,7 +18891,7 @@ GameObject:
   - component: {fileID: 919530935}
   m_Layer: 10
   m_Name: Fence_1
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19111,7 +19111,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7503128, y: 0.2892356}
+  m_Size: {x: 1.3, y: 0.2892356}
   m_EdgeRadius: 0
 --- !u!114 &921907877
 MonoBehaviour:
@@ -19976,7 +19976,7 @@ GameObject:
   - component: {fileID: 1135043119}
   m_Layer: 10
   m_Name: Fence_2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20156,7 +20156,7 @@ GameObject:
   - component: {fileID: 1137456544}
   m_Layer: 10
   m_Name: Fence_10
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21228,7 +21228,7 @@ GameObject:
   - component: {fileID: 1327687023}
   m_Layer: 10
   m_Name: Fence
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21782,7 +21782,7 @@ GameObject:
   - component: {fileID: 1462816290}
   m_Layer: 10
   m_Name: Fence_7
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22592,7 +22592,7 @@ GameObject:
   - component: {fileID: 1610459295}
   m_Layer: 10
   m_Name: Fence_4
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23105,7 +23105,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7503128, y: 0.2892356}
+  m_Size: {x: 1.3, y: 0.2892356}
   m_EdgeRadius: 0
 --- !u!1001 &1728737004
 PrefabInstance:
@@ -23595,7 +23595,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -7, y: 5}
+  m_Offset: {x: -7, y: 4.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -23606,7 +23606,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7503128, y: 0.2892356}
+  m_Size: {x: 1, y: 0.2892356}
   m_EdgeRadius: 0
 --- !u!114 &1821716061
 MonoBehaviour:
@@ -24828,8 +24828,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -7, y: 5, z: 10}
-  m_EndPoint: {x: -7, y: 5, z: 0}
+  m_StartPoint: {x: -7, y: 4.15, z: 10}
+  m_EndPoint: {x: -7, y: 4.15, z: 0}
   m_Width: 0
   m_CostModifier: -1
   m_Bidirectional: 1
@@ -24848,7 +24848,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -7, y: 5}
+  m_Offset: {x: -7, y: 4.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -24859,7 +24859,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7503128, y: 0.2892356}
+  m_Size: {x: 1, y: 0.2892356}
   m_EdgeRadius: 0
 --- !u!114 &1874331753
 MonoBehaviour:
@@ -24888,8 +24888,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: -334000983
-  m_StartPoint: {x: -7, y: 5, z: 10}
-  m_EndPoint: {x: -7, y: 5, z: 0}
+  m_StartPoint: {x: -7, y: 4.15, z: 10}
+  m_EndPoint: {x: -7, y: 4.15, z: 0}
   m_Width: 0
   m_CostModifier: -1
   m_Bidirectional: 1
@@ -25205,7 +25205,7 @@ GameObject:
   - component: {fileID: 1976336940}
   m_Layer: 10
   m_Name: Fence_6
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25760,7 +25760,7 @@ GameObject:
   - component: {fileID: 2109635102}
   m_Layer: 10
   m_Name: Fence_5
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26179,7 +26179,7 @@ GameObject:
   - component: {fileID: 2145595035}
   m_Layer: 10
   m_Name: Fence_9
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26355,22 +26355,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3257586895599169776, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3257586895599169782, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3257586895599169782, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3257586895599169782, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3257586895599169782, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
-      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3257586895599169783, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
