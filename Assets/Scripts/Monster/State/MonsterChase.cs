@@ -128,5 +128,11 @@ public class MonsterChase : MonsterBaseState
             StateMachine.SetState("ObjAttack");
             return;
         }
+
+        if (StateMachine.Owner.IsDead)
+        {
+            StateMachine.SetState("Die");
+            return;
+        }
     }
 }

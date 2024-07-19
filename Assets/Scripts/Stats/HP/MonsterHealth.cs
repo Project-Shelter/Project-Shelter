@@ -12,7 +12,7 @@ public class MonsterHealth : LivingEntity
     public MonsterHealth(Monster owner, float minHP, float maxHP) : base(minHP, maxHP)
     {
         this.owner = owner;
-        sprite = Util.GetOrAddComponent<SpriteRenderer>(owner.gameObject);
+        sprite = owner.Sprite;
         onDamageEffect = Util.FindChild<ParticleSystem>(owner.gameObject, "OnDamageEffect");
     }
 
@@ -20,6 +20,7 @@ public class MonsterHealth : LivingEntity
     {
         base.OnDamage(damage, hitPoint, hitNormal);
 
+        Debug.Log(damage + " 데미지를 입었습니다. 남은 HP: " + HP);
         onDamageEffect.transform.position = hitPoint;
         onDamageEffect.Play();
         owner.StartCoroutine(TurnRed(0.2f)); // 임시로 넣어놓은 값
@@ -30,6 +31,11 @@ public class MonsterHealth : LivingEntity
     public override void RestoreHP(float restoreHP)
     {
         base.RestoreHP(restoreHP);
+    }
+
+    public override void Die()
+    {
+        base.Die();
     }
 
     private IEnumerator TurnRed(float time)
