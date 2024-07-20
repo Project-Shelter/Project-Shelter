@@ -69,6 +69,7 @@ public partial class Monster : MonoBehaviour, ILivingEntity, IMovable
 
     public void DetectTarget(ILivingEntity target)
     {
+        print(target + " detected");
         detectedTarget = target;
     }
 

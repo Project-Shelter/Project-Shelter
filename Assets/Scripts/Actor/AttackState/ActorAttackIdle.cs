@@ -5,12 +5,27 @@ public class ActorAttackIdle : ActorAttackState
 
     public override void EnterState()
     {
-        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
+        if(Actor.Weapon != null)
+        {
+            Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
+        }
+        else
+        {
+            Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
+        }
     }
 
     public override void UpdateState()
     {
-        base.UpdateState();
+        base.UpdateState(); 
+        if (Actor.WeaponSocket != null && Actor.Weapon != null)
+        {
+            Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
+        }
+        else
+        {
+            Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
+        }
     }
 
     public override void FixedUpdateState()

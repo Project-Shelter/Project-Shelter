@@ -41,6 +41,14 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         gameObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        if(owner != null)
+        {
+            animator.SetInteger("Direction", (int)owner.MoveBody.LookDir);
+        }
+    }
+
     public void Init(Actor owner)
     {
         this.owner = owner;

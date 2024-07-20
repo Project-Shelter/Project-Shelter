@@ -29,7 +29,7 @@ public class Concealment : MonoBehaviour, IInteractable
 
     public void StopInteract()
     {
-        Debug.Log("StopInteract");
+        if(actor == null) { return; }
         actor.Anim.SetAnimParamter(ActorAnimParameter.IsConcealing, false);
         actor.Concealment = null;
     }

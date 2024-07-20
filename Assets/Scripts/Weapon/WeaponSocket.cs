@@ -7,9 +7,10 @@ public class WeaponSocket : MonoBehaviour
     public IWeapon Weapon { get; private set; } // 추후 무기 변경 방식에 따라 바뀔 수 있음
     private Actor owner;
 
-    private void Awake()
+    private void Start()
     {
         owner = GetComponentInParent<Actor>();
+        owner.MoveBody.OnLookDirChanged += SetRotation;
         UpdateWeapon();
     }
 
@@ -55,5 +56,10 @@ public class WeaponSocket : MonoBehaviour
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle + anglePreset);
+    }
+
+    private void SetRotation(Direction dir)
+    {
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 }

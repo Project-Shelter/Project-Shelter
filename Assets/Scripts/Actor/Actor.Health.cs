@@ -5,7 +5,7 @@ using UnityEngine;
 
 public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
-    public Action<AttackedPart> AttackedAction = null;
+    public event Action<AttackedPart> AttackedAction = null;
 
     private void InitHelath()
     {

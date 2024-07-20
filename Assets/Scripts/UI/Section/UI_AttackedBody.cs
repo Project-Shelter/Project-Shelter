@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using static ActorHealth;
 using System;
 
 public class UI_AttackedBody : UI_Section
