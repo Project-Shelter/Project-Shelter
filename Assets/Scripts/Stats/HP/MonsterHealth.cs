@@ -16,9 +16,9 @@ public class MonsterHealth : LivingEntity
         onDamageEffect = Util.FindChild<ParticleSystem>(owner.gameObject, "OnDamageEffect");
     }
 
-    public override void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
+    public override void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal, ILivingEntity attacker)
     {
-        base.OnDamage(damage, hitPoint, hitNormal);
+        base.OnDamage(damage, hitPoint, hitNormal, attacker);
 
         onDamageEffect.transform.position = hitPoint;
         onDamageEffect.Play();

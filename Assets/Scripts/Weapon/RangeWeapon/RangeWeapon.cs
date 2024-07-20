@@ -69,7 +69,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         fireEffectRenderer.sortingLayerID = sprite.sortingLayerID;
         fireEffectRenderer.sortingOrder = sprite.sortingOrder;
         fireEffect.Play();
-        projectile.Launch(dir, attackRange, projectileSpeed);
+        projectile.Launch(dir, attackRange, projectileSpeed, owner);
         currentAmmo--;
     }
 

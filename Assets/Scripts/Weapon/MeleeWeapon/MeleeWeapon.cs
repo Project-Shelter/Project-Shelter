@@ -49,7 +49,7 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
         if (target != null && !collision.CompareTag("Player"))
         {
             Vector2 dir = (collision.transform.position - transform.position).normalized;
-            target.OnDamage(damage, transform.position, dir);
+            target.OnDamage(damage, transform.position, dir, owner);
         }
     }
 }

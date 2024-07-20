@@ -23,7 +23,7 @@ public class LivingEntity : ILivingEntity
         IsDead = false;
     }
 
-    public virtual void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
+    public virtual void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal, ILivingEntity attacker)
     {
         if (IsDead) return;
         HP -= damage;

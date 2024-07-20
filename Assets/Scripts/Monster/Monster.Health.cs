@@ -5,9 +5,10 @@ using UnityEngine;
 
 public partial class Monster : MonoBehaviour, ILivingEntity, IMovable
 {
-    public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
+    public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal, ILivingEntity attacker)
     {
-        health.OnDamage(damage, hitPoint, hitNormal);
+        health.OnDamage(damage, hitPoint, hitNormal, attacker);
+        DetectTarget(attacker);
     }
 
     public void RestoreHP(float restoreHP)

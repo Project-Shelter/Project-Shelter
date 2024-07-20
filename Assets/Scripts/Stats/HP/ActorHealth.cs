@@ -34,12 +34,12 @@ public class ActorHealth : LivingEntity
         debuffsByPart[AttackedPart.Normal] = null;
     }
 
-    public override void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
+    public override void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal, ILivingEntity attacker)
     {
         nowAttackedPart = SelectAttackedPart();
         IBuff debuffByPart = debuffsByPart[nowAttackedPart];
         if (nowAttackedPart == AttackedPart.Head) { damage *= 1.5f; }
-        base.OnDamage(damage, hitPoint, hitNormal);
+        base.OnDamage(damage, hitPoint, hitNormal, attacker);
 
         onDamageEffect.transform.position = hitPoint;
         onDamageEffect.Play();

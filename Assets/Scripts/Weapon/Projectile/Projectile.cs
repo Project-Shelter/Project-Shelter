@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
 
     private Vector2 direction;
     private Vector3 startPos;
+    private Actor shooter;
 
     private Rigidbody2D rigid;
     private Collider2D collider;
@@ -24,13 +25,14 @@ public class Projectile : MonoBehaviour
         explosionEffect = Util.FindChild<ParticleSystem>(gameObject, "ExplosionEffect");
     }
 
-    public void Launch(Vector2 dir, float range, float speed)
+    public void Launch(Vector2 dir, float range, float speed, Actor shooter)
     {
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         startPos = transform.position;
         direction = dir.normalized;
         rigid.velocity = direction * speed;
         this.range = range;
+        this.shooter = shooter;
     }
 
     private void Update()
@@ -51,7 +53,7 @@ public class Projectile : MonoBehaviour
         IDamageable target = collision.GetComponent<IDamageable>();
         if (target != null && !collision.CompareTag("Player"))
         {
-            target.OnDamage(damage, transform.position, direction);
+            target.OnDamage(damage, transform.position, direction, shooter);
             Explode();
         }
         else if (collision.CompareTag("Wall"))
