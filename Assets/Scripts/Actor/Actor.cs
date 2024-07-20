@@ -8,7 +8,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     #region ActorStates
 
     [SerializeField] private bool isHumanActor = false;
-    public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState); } }
+    public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState) && AttackStateMachine.CurrentState == AttackState.Idle; } }
     public bool IsSwitching { get; private set; }
     public bool IsAiming { get; private set; }
     public bool CanInteract { get { return InputHandler.ButtonE && Interactable != null; } }
@@ -27,6 +27,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public ActorStat Stat { get; private set; } // = new ActorStat(); //추후 부활 (인스펙터에서 수치변동용)
     public WeaponSocket WeaponSocket { get; private set; }
     public IWeapon Weapon => WeaponSocket.Weapon;
+    public Action<float, float> ReloadAction = null;
     public ActorStateMachine StateMachine { get; private set; }
     public ActorAttackStateMachine AttackStateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
