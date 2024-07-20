@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace ItemContainer
 {
-    //기본적인 인벤토리 기능(Repository)
-    public class ContainerController
+    //Container Model
+    public class ContainerModel
     {
         public ContainerVO container { get; protected set; }
         public int number { get; protected set; }
 
         public Action AddItemAction = null;
         public Action RemoveItemAction = null;
-        public ContainerController(int num)
+        public ContainerModel(int num)
         {
             container = new ContainerVO(ItemDummyData.MaxCapacity[num]);
             SetContainer(num);

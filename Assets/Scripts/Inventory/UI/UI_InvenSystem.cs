@@ -41,14 +41,14 @@ namespace ItemContainer
 
             for (int i = 0; i < item.Count / overlapCount; i++)
             {
-                int slot = controller.AddItem(item.id, overlapCount);
+                int slot = Model.AddItem(item.id, overlapCount);
                 if (slot is -1) return false;
                 UpdateSlot(slot);
             }
             
             if (item.Count % overlapCount != 0)
             {
-                int slot = controller.AddItem(item.id, item.Count % overlapCount);
+                int slot = Model.AddItem(item.id, item.Count % overlapCount);
                 if (slot is -1) return false;
                 UpdateSlot(slot);
             }
@@ -59,7 +59,7 @@ namespace ItemContainer
         //아이템 전송
         public void GiveItem(int count, int slot, int receiver)
         {
-            bool temp = containers[receiver].GetItem(new ItemVO(controller.container.slots[slot].id, count));
+            bool temp = containers[receiver].GetItem(new ItemVO(Model.container.slots[slot].id, count));
             if(temp) ThrowItem(count, slot);
         }
 
@@ -67,11 +67,11 @@ namespace ItemContainer
         {
             if (dropedContainer is -1)
             {
-                ThrowItem(controller.container.slots[slot].Count, slot);
+                ThrowItem(Model.container.slots[slot].Count, slot);
                 return;
             }
             Debug.Log(dropedContainer);
-            GiveItem(controller.container.slots[slot].Count, slot, dropedContainer);
+            GiveItem(Model.container.slots[slot].Count, slot, dropedContainer);
             dropedContainer = -1;
         }
 
@@ -81,7 +81,7 @@ namespace ItemContainer
             {
                 if (slots[i].IsOn)
                 {
-                    GiveItem(controller.container.slots[i].Count, i, receiver);
+                    GiveItem(Model.container.slots[i].Count, i, receiver);
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace ItemContainer
 
         //아이템 버리기
         private void ThrowItem(int count, int slot){
-            controller.RemoveItem(slot, count);
+            Model.RemoveItem(slot, count);
             UpdateSlot(slot);
         }
 
@@ -103,7 +103,7 @@ namespace ItemContainer
             {
                 if (slots[i].IsOn)
                 {
-                    ThrowItem(controller.container.slots[i].Count, i);
+                    ThrowItem(Model.container.slots[i].Count, i);
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace ItemContainer
                 slots[i].subBtn.onClick.AddListener(delegate
                 {
                     int receiver = (sendNumber == 2) ? 0 : 2;
-                    if (receiver is 0 && containers[0].controller.container.slots.Count == maxCapacity) receiver = 1;
+                    if (receiver is 0 && containers[0].Model.container.slots.Count == maxCapacity) receiver = 1;
                     GiveItem(1, slot, receiver);
                 });
                 

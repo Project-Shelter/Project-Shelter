@@ -10,7 +10,7 @@ namespace ItemContainer
     {
         public int containerID { get; protected set; } = -1;
         public int maxCapacity { get; protected set; }
-        public ContainerController controller { get; protected set; }
+        public ContainerModel Model { get; protected set; }
         public UI_Slot[] slots { get; protected set; }
 
         public virtual void Start()
@@ -21,10 +21,10 @@ namespace ItemContainer
             Init();
             InitView();
 
-            controller.AddItemAction -= InitView;
-            controller.AddItemAction += InitView;
-            controller.RemoveItemAction -= InitView;
-            controller.RemoveItemAction += InitView;
+            Model.AddItemAction -= InitView;
+            Model.AddItemAction += InitView;
+            Model.RemoveItemAction -= InitView;
+            Model.RemoveItemAction += InitView;
         }
         public virtual void OnEnable()
         {
@@ -38,7 +38,7 @@ namespace ItemContainer
         protected void InitContainer()
         {
             if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
-            controller = ContainerInjector.InjectContainer(containerID);
+            Model = ContainerInjector.InjectContainer(containerID);
         }
 
         public override void Init()
@@ -79,7 +79,7 @@ namespace ItemContainer
         
         private void OpenInventory()
         {
-            controller?.SetContainer(containerID);
+            Model?.SetContainer(containerID);
             InitView();
         }
         
@@ -99,8 +99,8 @@ namespace ItemContainer
         protected void UpdateSlot(int slot)
         {
             if (slot is -1) return;
-            if(controller.container.slots.ContainsKey(slot))
-                slots[slot].UpdateSlot(controller.container.slots[slot]);
+            if(Model.container.slots.ContainsKey(slot))
+                slots[slot].UpdateSlot(Model.container.slots[slot]);
             else slots[slot].UpdateSlot(ItemDummyData.NullItem);
         }
         

@@ -84,7 +84,7 @@ namespace ItemContainer
 
         private void SlotDoubleClick(int slot)
         {
-            GiveItem(controller.container.slots[slot].Count, slot, 1);
+            GiveItem(Model.container.slots[slot].Count, slot, 1);
         }
         
         private void ClickItem(int slot)
