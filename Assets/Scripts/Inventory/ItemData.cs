@@ -51,6 +51,26 @@ namespace ItemContainer{
         }
     }
 
+    public class ItemEntity : DBData
+    {
+        [JsonProperty("Item_ID")]
+        public int item_id;
+        [JsonProperty("Item_Count")]
+        public int count;
+        
+        public ItemEntity(int id, int itemId, int count)
+        {
+            ID = id;
+            this.item_id = item_id;
+            this.count = count;
+        }
+
+        public ItemVO CreateItemVo()
+        {
+            return new ItemVO(item_id, count);
+        }
+    }
+
     public class ItemDB
     {
         //key : itemId
@@ -64,8 +84,8 @@ namespace ItemContainer{
 
     public class DBData
     {
-        [JsonProperty("Item_ID")]
-        public int id { get; protected set; }
+        [JsonProperty("ID")]
+        public int ID { get; protected set; }
     }
 
     //DB에 정적으로 저장/아이템 id가 동일하면 내용이 같은 것
@@ -92,7 +112,7 @@ namespace ItemContainer{
 
         public ItemData(int id, string name, string description, ItemType itemType, int weight, int skill_id, int min_damage, int max_damage, int overlapCount, Sprite image)
         {
-            this.id = id;
+            ID = id;
             this.name = name;
             this.description = description;
             this.itemType = itemType;

@@ -8,19 +8,25 @@ using ItemContainer;
 
 public class DataManager : MonoSingleton<DataManager>
 {
-    public Dictionary<int, T> JsonToDict<T>(string filePath) where T : DBData
+    private const string TablePattern = @"\[[^]]*\]";
+    private const string DataPattern = @"\{[^}]*\}";
+    public Dictionary<int, T>[] JsonToDict<T>(string filePath) where T : DBData
     {
-        Dictionary<int, T> returnDict = new Dictionary<int, T>();
         string jsonData = File.ReadAllText(Application.dataPath + filePath);
         jsonData =  jsonData.Substring(1, jsonData.Length - 2);
-        List<string> jsonList = ExtractJson(jsonData);
-        
-        Debug.Log(jsonData);
-
-        foreach (var jsonString in jsonList)
+        List<string> tableList = ExtractString(jsonData, TablePattern);
+        Dictionary<int, T>[] returnDict = new Dictionary<int, T>[tableList.Count];
+            
+        int index = 0;
+        foreach (var tableString in tableList)
         {
-            T data = JsonConvert.DeserializeObject<T>(jsonString);
-            returnDict.Add(data.id, data);
+            returnDict[index] = new Dictionary<int, T>();
+            List<string> jsonList = ExtractString(tableString, DataPattern);
+            foreach (var jsonString in jsonList) {
+                T data = JsonConvert.DeserializeObject<T>(jsonString);
+                returnDict[index].Add(data.ID, data);
+            }
+            index++;
         }
         
         return returnDict;
@@ -32,10 +38,9 @@ public class DataManager : MonoSingleton<DataManager>
     }
     
     //문자열에서 json 문자열을 추출해 list에 저장
-    private List<string> ExtractJson(string input)
+    private List<string> ExtractString(string input, string pattern)
     {
         List<string> jsonList = new List<string>();
-        string pattern =  @"\{[^}]*\}";
         MatchCollection matches = Regex.Matches(input, pattern);
 
         Debug.Log(matches.Count);

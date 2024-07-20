@@ -55,21 +55,17 @@ namespace ItemContainer
         }
 
         private void InitInventory()
-        {
-            invenSlots[0] = new Dictionary<int, ItemVO>();
+        { 
+            //개선 요망
+            Dictionary<int, ItemVO> dict = new Dictionary<int, ItemVO>();
+            Dictionary<int, ItemEntity> temp = DataManager.Instance.JsonToDict<ItemEntity>("/Data/ItemSetting.json")[0];
+            foreach (var entity in temp)
+            {
+                dict.Add(entity.Key, entity.Value.CreateItemVo());
+            }
+
+            invenSlots[0] = dict;
             MaxCapacity[0] = 18;
-            
-            invenSlots[0].Add(0,
-                new ItemVO(200001, 1));
-            
-            invenSlots[0].Add(1,
-                new ItemVO(200010, 8));
-            
-            invenSlots[0].Add(2,
-                new ItemVO(202006, 12));
-            
-            invenSlots[0].Add(3,
-                new ItemVO(200001, 1));
         }
 
         private void InitInvenBar()
@@ -131,23 +127,7 @@ namespace ItemContainer
 
         private void InitItemDB()
         {
-            ItemDB = new ItemDB(DataManager.Instance.JsonToDict<ItemData>("/Data/ItemTable.json"));
-
-            // ItemDB.data.Add(1, 
-            //     new ItemData(1, "Potion", "Delicious Potion", ItemType.UseItem, 5, 1, 1, 1, 5,
-            //         Managers.Resources.Load<Sprite>("Arts/Items/potion")));
-            //
-            // ItemDB.data.Add(2,
-            //     new ItemData(2, "Bullet", "Most powerful Bullet", ItemType.UseItem, 1, 1, 1, 1, 10,
-            //         Managers.Resources.Load<Sprite>("Arts/Items/bullet")));
-            //
-            // ItemDB.data.Add(3,
-            //     new ItemData(3, "LOVE", "Mercy", ItemType.EtcItem, 0, 1, 1, 1, 1,
-            //         Managers.Resources.Load<Sprite>("Arts/Items/love")));
-            //
-            // ItemDB.data.Add(4,
-            //     new ItemData(4, "Book", "The Story of Love", ItemType.EquipItem, 20, 1, 1, 1, 3,
-            //         Managers.Resources.Load<Sprite>("Arts/Items/Book")));
+            ItemDB = new ItemDB(DataManager.Instance.JsonToDict<ItemData>("/Data/ItemTable.json")[0]);
         }
     }
 }
