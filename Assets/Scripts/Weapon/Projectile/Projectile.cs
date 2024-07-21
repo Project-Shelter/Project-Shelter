@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
     private Actor shooter;
 
     private Rigidbody2D rigid;
-    private Collider2D collider;
+    private Collider2D coll;
     private SpriteRenderer sprite;
     private ParticleSystem explosionEffect;
     private bool isExploded = false;
@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rigid = Util.GetOrAddComponent<Rigidbody2D>(gameObject);
-        collider = Util.GetOrAddComponent<Collider2D>(gameObject);
+        coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
         explosionEffect = Util.FindChild<ParticleSystem>(gameObject, "ExplosionEffect");
     }
@@ -50,6 +50,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(isExploded) return;
         IDamageable target = collision.GetComponent<IDamageable>();
         if (target != null && !collision.CompareTag("Player"))
         {
@@ -67,7 +68,7 @@ public class Projectile : MonoBehaviour
         explosionEffect.Play();
         rigid.velocity = Vector2.zero;
         sprite.enabled = false;
-        collider.enabled = false;
+        coll.enabled = false;
         isExploded = true;
     }
 }
