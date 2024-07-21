@@ -9,7 +9,7 @@ public class ActorDash : ActorBaseState
 
     public override void EnterState()
     {
-        Actor.WeaponSocket.gameObject.SetActive(false);
+        Actor.WeaponSocket.SetWeaponActive(false);
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsRunning, true);
         InitDashTime();
     }
@@ -39,7 +39,7 @@ public class ActorDash : ActorBaseState
 
     public override void ExitState()
     {
-        Actor.WeaponSocket.gameObject.SetActive(true);
+        Actor.WeaponSocket.SetWeaponActive(true);
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsRunning, false);
         Actor.MoveBody.DashOnCool();
     }

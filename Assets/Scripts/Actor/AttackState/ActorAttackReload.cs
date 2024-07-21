@@ -35,14 +35,20 @@ public class ActorAttackReload : ActorAttackState
         {
             rangeWeapon.Reload();
         }
-        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
+        reloadDuration = reloadDelay;
     }
 
     protected override void ChangeFromState()
     {
+        if(!Actor.StateMachine.CanAttackStates.Contains(Actor.StateMachine.CurrentState))
+        {
+            Actor.AttackStateMachine.SetState(AttackState.Idle);
+            return;
+        }
         if (reloadDuration >= reloadDelay || Actor.IsDead)
         {
             Actor.AttackStateMachine.SetState(AttackState.Idle);
+            return;
         }
     }
 }

@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ActorAttackMelee : ActorAttackState
 {
+    private IMeleeWeapon meleeWeapon;
     private float attackDuration;
     public ActorAttackMelee(Actor actor) : base(actor) { }
 
     public override void EnterState()
     {
+        meleeWeapon = Actor.Weapon as IMeleeWeapon;
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
         Actor.MoveBody.Turn();
-        Actor.Weapon.Attack();
-        attackDuration = Actor.Weapon.AttackDelay;
+        meleeWeapon.Attack();
+        attackDuration = meleeWeapon.AttackDelay;
     }
 
     public override void UpdateState()
@@ -27,6 +29,7 @@ public class ActorAttackMelee : ActorAttackState
 
     public override void ExitState()
     {
+        meleeWeapon.EndAttack();
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
     }
 

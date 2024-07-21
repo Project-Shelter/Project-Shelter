@@ -1,3 +1,4 @@
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 public class ActorAttackIdle : ActorAttackState
 {
@@ -5,27 +6,12 @@ public class ActorAttackIdle : ActorAttackState
 
     public override void EnterState()
     {
-        if(Actor.Weapon != null)
-        {
-            Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
-        }
-        else
-        {
-            Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
-        }
+        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
     }
 
     public override void UpdateState()
     {
-        base.UpdateState(); 
-        if (Actor.WeaponSocket != null && Actor.Weapon != null)
-        {
-            Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
-        }
-        else
-        {
-            Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
-        }
+        base.UpdateState();
     }
 
     public override void FixedUpdateState()
@@ -38,6 +24,12 @@ public class ActorAttackIdle : ActorAttackState
 
     protected override void ChangeFromState()
     {
+        if(Actor.Weapon == null)
+        {
+            Actor.AttackStateMachine.SetState(AttackState.Disarm);
+            return;
+        }
+
         if (Actor.CanAttack)
         {
             if (Actor.Weapon is IRangeWeapon range && !range.HasToBeReload)

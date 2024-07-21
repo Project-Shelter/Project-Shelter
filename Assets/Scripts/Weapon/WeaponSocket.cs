@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class WeaponSocket : MonoBehaviour
 {
-    public IWeapon Weapon { get; private set; } // 추후 무기 변경 방식에 따라 바뀔 수 있음
+    private IWeapon weapon;
+    public IWeapon Weapon {
+        get 
+        {
+            if (weapon.IsActived) { return weapon; }
+            else { return null; } 
+        }
+        private set 
+        {
+            weapon = value;
+        } 
+    } 
+    // 추후 무기 변경 방식에 따라 바뀔 수 있음
     private Actor owner;
+    private bool isRange = false;
 
     private void Start()
     {
@@ -16,18 +29,44 @@ public class WeaponSocket : MonoBehaviour
 
     private void Update()
     {
-        if(owner.IsAiming)
+        if(owner.IsAiming && isRange)
         {
             RotateToMousePos();
         }
     }
 
     // 나중엔 인자로 받아서 무기 변경 가능하게
-    private void UpdateWeapon()
+    public void UpdateWeapon()
     {
-        Weapon = Instantiate(Managers.Resources.Load<RangeWeapon>("Prefabs/Weapon/RangeWeapon"), transform);
-        Weapon.OnAttack += RotateToMousePos;
-        Weapon.Init(owner);
+        weapon = Instantiate(Managers.Resources.Load<MeleeWeapon>("Prefabs/Weapon/MeleeWeapon"), transform);
+        weapon.Init(owner);
+        weapon.SetActive(true);
+
+        if(weapon is IRangeWeapon)
+        {
+            isRange = true;
+            UpdateRangeWeapon(weapon as IRangeWeapon);
+        }
+        else if(weapon is IMeleeWeapon)
+        {
+            isRange = false;
+            UpdateMeleeWeapon(weapon as IMeleeWeapon);
+        }
+    }
+
+    private void UpdateMeleeWeapon(IMeleeWeapon meleeWeapon)
+    {
+
+    }
+
+    private void UpdateRangeWeapon(IRangeWeapon rangeWeapon)
+    {
+        rangeWeapon.OnAttack += RotateToMousePos;
+    }
+
+    public void SetWeaponActive(bool value)
+    {
+        if (weapon != null) { weapon.SetActive(value); }
     }
 
     public void RotateToMousePos()

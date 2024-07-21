@@ -49,7 +49,7 @@ public class MonsterDie : MonsterBaseState
         while (Mathf.Abs(angle - targetAngle) > 0.1f)
         {
             StateMachine.Owner.Tr.rotation = 
-                Quaternion.Euler(0, 0, Mathf.MoveTowards(StateMachine.Owner.Tr.rotation.eulerAngles.z, targetAngle, rotateByFrame));
+                Quaternion.Euler(0, 0, Mathf.MoveTowards(angle, targetAngle, rotateByFrame));
             angle = StateMachine.Owner.Tr.rotation.eulerAngles.z;
             angle = (angle > 180) ? angle - 360 : angle;
             yield return null;

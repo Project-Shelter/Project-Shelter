@@ -5,6 +5,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
     #region Interface Properties
 
+    public bool IsActived { get; private set; }
     public Action OnAttack { get; set; }
     [field:SerializeField]
     public float AttackDelay { get; private set; }
@@ -38,7 +39,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
         animator = Util.GetOrAddComponent<Animator>(gameObject);
-        gameObject.SetActive(false);
+        SetActive(false);
     }
 
     private void OnEnable()
@@ -52,12 +53,21 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     public void Init(Actor owner)
     {
         this.owner = owner;
-        gameObject.SetActive(true);
+        owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
+        SetActive(true);
     }
 
-    private void Update()
+    public void SetActive(bool value)
     {
-        owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
+        IsActived = value;
+        if (value)
+        {
+            sprite.enabled = true;
+        }
+        else
+        {
+            sprite.enabled = false;
+        }
     }
 
     public void Attack()
