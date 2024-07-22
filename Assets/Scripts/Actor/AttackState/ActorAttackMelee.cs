@@ -6,6 +6,7 @@ public class ActorAttackMelee : ActorAttackState
 {
     private IMeleeWeapon meleeWeapon;
     private float attackDuration;
+    private float afterAttackDuration;
     public ActorAttackMelee(Actor actor) : base(actor) { }
 
     public override void EnterState()
@@ -15,12 +16,21 @@ public class ActorAttackMelee : ActorAttackState
         Actor.MoveBody.Turn();
         meleeWeapon.Attack();
         attackDuration = meleeWeapon.AttackDelay;
+        afterAttackDuration = meleeWeapon.AfterAttackDelay;
     }
 
     public override void UpdateState()
     {
         base.UpdateState();
         attackDuration -= Time.deltaTime;
+        if (attackDuration < 0)
+        {
+            if(afterAttackDuration == meleeWeapon.AfterAttackDelay)
+            {
+               meleeWeapon.EndAttack();
+            }
+            afterAttackDuration -= Time.deltaTime;
+        }
     }
 
     public override void FixedUpdateState()
@@ -29,13 +39,12 @@ public class ActorAttackMelee : ActorAttackState
 
     public override void ExitState()
     {
-        meleeWeapon.EndAttack();
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
     }
 
     protected override void ChangeFromState()
     {
-        if (attackDuration < 0f || Actor.IsDead)
+        if (afterAttackDuration < 0f || Actor.IsDead)
         {
             Actor.AttackStateMachine.SetState(AttackState.Idle);
         }

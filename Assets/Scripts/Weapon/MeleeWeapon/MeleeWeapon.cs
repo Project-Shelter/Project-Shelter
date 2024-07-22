@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
     public Action OnAttack { get; set; }
     [field:SerializeField]
     public float AttackDelay { get; private set; }
+    [field:SerializeField]
+    public float AfterAttackDelay { get; private set; }
 
     #endregion
 
@@ -21,13 +24,29 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
     private SpriteRenderer sprite;
     private Collider2D hitBox;
     private Actor owner;
-    private Coroutine rotateCoroutine;
+    private ParticleSystem swingEffect;
+    private ParticleSystem onHitEffect;
+    private bool isAttacking;
+    private bool isAttacked;
+    private Direction attackDir;
+
+    private float angle;
+    private float targetAngle;
+    private float rotateByTick;
+
+    private float rotateTime;
+
+    private List<IDamageable> attackedEntities;
 
     private void Awake()
     {
         animator = Util.GetOrAddComponent<Animator>(gameObject);
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
         hitBox = Util.GetOrAddComponent<Collider2D>(gameObject);
+        swingEffect = Util.FindChild<ParticleSystem>(gameObject, "SwingEffect");
+        onHitEffect = Util.FindChild<ParticleSystem>(gameObject, "OnHitEffect");
+        var effectMain = swingEffect.main;
+        effectMain.duration = AttackDelay;
         hitBox.enabled = false;
         SetActive(false);
     }
@@ -36,6 +55,7 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
     {
         this.owner = owner;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
+        attackedEntities = new List<IDamageable>();
         SetActive(true);
     }
 
@@ -55,17 +75,61 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
     public void Attack()
     {
         OnAttack?.Invoke();
+        swingEffect.Play();
         hitBox.enabled = true;
-        animator.SetBool("Attack", true);
-        rotateCoroutine = owner.StartCoroutine(RotateWhenAttacks(owner.MoveBody.LookDir));
+        isAttacking = true;
+        isAttacked = false;
+        attackDir = owner.MoveBody.LookDir;
+        attackedEntities.Clear();
+
+        float rotateSign = 0;
+        switch (attackDir)
+        {
+            case Direction.Up:
+
+                break;
+            case Direction.Down:
+
+                break;
+            case Direction.Left:
+
+                break;
+            case Direction.Right:
+                rotateSign = -1;
+                break;
+        }
+        angle = transform.rotation.eulerAngles.z;
+        angle = (angle > 180) ? angle - 360 : angle;
+        targetAngle = angle + 90 * rotateSign;
+        rotateTime = 0;
     }
 
     public void EndAttack()
     {
         hitBox.enabled = false;
-        animator.SetBool("Attack", false);
-        owner.StopCoroutine(rotateCoroutine);
-        transform.rotation = Quaternion.Euler(0f, 0f, transform.rotation.eulerAngles.z);
+        isAttacking = false;
+        isAttacked = true;
+
+        float rotateSign = 0;
+        switch (attackDir)
+        {
+            case Direction.Up:
+
+                break;
+            case Direction.Down:
+
+                break;
+            case Direction.Left:
+
+                break;
+            case Direction.Right:
+                rotateSign = 1;
+                break;
+        }
+        angle = transform.rotation.eulerAngles.z;
+        angle = (angle > 180) ? angle - 360 : angle;
+        targetAngle = angle + 90 * rotateSign;
+        rotateTime = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -73,8 +137,14 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
         IDamageable target = collision.GetComponent<IDamageable>();
         if (target != null && !collision.CompareTag("Player"))
         {
-            Vector2 dir = (collision.transform.position - transform.position).normalized;
-            target.OnDamage(damage, transform.position, dir, owner);
+            attackedEntities.Add(target);
+            Vector2 targetCenter = collision.bounds.center;
+            Vector2 hitPoint = hitBox.ClosestPoint(targetCenter);
+            Vector2 hitNormal = (targetCenter - (Vector2)transform.position).normalized;
+            target.OnDamage(damage, hitPoint, hitNormal, owner);
+            Debug.Log(hitPoint);
+            onHitEffect.transform.position = hitPoint;
+            onHitEffect.Play();
         }
     }
 
@@ -83,30 +153,29 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
         animator.SetInteger("Direction", (int)dir);
     }
 
-    private IEnumerator RotateWhenAttacks(Direction dir)
+    private void LateUpdate()
     {
-        float fallDir;
-        if(dir == Direction.Right)
-        {
-            fallDir = 1;
-        }
-        else
-        {
-            fallDir = -1;
-        }
-
-        float angle = transform.rotation.eulerAngles.y;
-        float targetAngle = 180 * fallDir;
-        float rotateByTick = Mathf.DeltaAngle(angle, targetAngle) / (AttackDelay / Time.fixedDeltaTime);
-        Debug.Log(Mathf.DeltaAngle(angle, targetAngle));
-
-        while (true)
-        {
-            transform.rotation =
-                Quaternion.Euler(0, Mathf.MoveTowards(angle, targetAngle, rotateByTick), transform.rotation.eulerAngles.z);
-            angle = transform.rotation.eulerAngles.y;
+        if (isAttacking)
+        { 
+            rotateTime += Time.deltaTime;
+            rotateByTick = 90 / (AttackDelay * 0.7f) * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(0, 0, Mathf.MoveTowards(angle, targetAngle, rotateByTick));
+            angle = transform.rotation.eulerAngles.z;
             angle = (angle > 180) ? angle - 360 : angle;
-            yield return Time.fixedDeltaTime;
+        }
+        if(isAttacked)
+        {
+            rotateTime += Time.deltaTime;
+            rotateByTick = 90 / AfterAttackDelay * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(0, 0, Mathf.MoveTowards(angle, targetAngle, rotateByTick));
+            angle = transform.rotation.eulerAngles.z;
+            angle = (angle > 180) ? angle - 360 : angle;
+            if (angle == targetAngle)
+            {
+                isAttacked = false;
+                Debug.Log(rotateTime);
+            }
+
         }
     }
 }

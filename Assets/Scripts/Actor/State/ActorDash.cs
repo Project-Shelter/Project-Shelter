@@ -11,6 +11,7 @@ public class ActorDash : ActorBaseState
     {
         Actor.WeaponSocket.SetWeaponActive(false);
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsRunning, true);
+        Actor.MoveBody.Turn();
         InitDashTime();
     }
 
