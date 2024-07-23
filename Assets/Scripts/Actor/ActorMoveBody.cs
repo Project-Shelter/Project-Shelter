@@ -82,8 +82,7 @@ public class ActorMoveBody : MonoBehaviour
     }
     public void Move()
     {
-        if (actor.IsAttacking) { Move(actor.Stat.moveSpeed.GetValue() / 2); }
-        else { Move(actor.Stat.moveSpeed.GetValue());}
+        Move(actor.Stat.moveSpeed.GetValue());
     }
 
     public void Dash()

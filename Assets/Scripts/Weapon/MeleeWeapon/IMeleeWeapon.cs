@@ -5,5 +5,6 @@ using UnityEngine;
 public interface IMeleeWeapon : IWeapon
 {
     float AfterAttackDelay { get; }
+    void AfterAttack();
     void EndAttack();
 }

@@ -27,7 +27,7 @@ public class ActorAttackMelee : ActorAttackState
         {
             if(afterAttackDuration == meleeWeapon.AfterAttackDelay)
             {
-               meleeWeapon.EndAttack();
+                meleeWeapon.AfterAttack();
             }
             afterAttackDuration -= Time.deltaTime;
         }
@@ -39,6 +39,7 @@ public class ActorAttackMelee : ActorAttackState
 
     public override void ExitState()
     {
+        meleeWeapon.EndAttack();
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, false);
     }
 
