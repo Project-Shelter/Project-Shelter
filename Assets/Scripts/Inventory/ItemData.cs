@@ -87,9 +87,30 @@ namespace ItemContainer{
         [JsonProperty("ID")]
         public int ID { get; protected set; }
     }
+    public class ItemEffect : DBData
+    {
+        [JsonProperty("Item_ID")]
+        public int ItemId;
+        [JsonProperty("ItemName")]
+        public string ItemName;
+        [JsonProperty("Item_Resource")]
+        public string ItemResource;
+        [JsonProperty("Item_Type")]
+        public ItemType ItemType;
+        [JsonProperty("Runtime")]
+        public float Runtime;
+        [JsonProperty("AfterRuntime")]
+        public float AfterRuntime;
+        [JsonProperty("ItemDetail_ID")]
+        public int ItemDetailID;
+    }
 
-    //DB에 정적으로 저장/아이템 id가 동일하면 내용이 같은 것
-    //Entity? (Item_Skill_ID의 용도에 따라 달라질 듯 - 이게 프로그래밍 시 어떻게 될 지...)
+    public class ItemEffectDetail : DBData
+    {
+        
+    }
+    
+    //추후 리팩할게요...(Rename...ㅠ)
     public class ItemData : DBData
     {
         [JsonProperty("Item_Name")]
