@@ -7,6 +7,8 @@ namespace ItemContainer
     {
         //정적 DB
         public static ItemDB ItemDB { get; private set; }
+        public static Dictionary<int, ItemEffect> ItemEffects{ get; private set; }
+        public static Dictionary<int, List<int>> ItemEffectRelations{ get; private set; }
         public static Sprite PlainImage;
 
         public static ItemVO NullItem = new ItemVO();
@@ -40,7 +42,7 @@ namespace ItemContainer
         }
         
         public static Dictionary<int, ItemVO>[] invenSlots = new Dictionary<int, ItemVO>[countContainer];
-        public static int[] MaxCapacity = new int[countContainer];
+        public static int[] MaxCapacity= {18, 6, 12, 8};
         void Awake()
         {
             PlainImage = Managers.Resources.Load<Sprite>("Arts/Items/plain");
@@ -49,9 +51,14 @@ namespace ItemContainer
             InitInvenBar();
             InitInventory();
             InitChests();
+            InitTrade();
             
             //Init 용도 - Awake 겹쳐서 따로 뺐음.
             ContainerInjector.ContainerInit();
+        }
+
+        private void InitTrade()
+        {
         }
 
         private void InitInventory()
@@ -65,13 +72,11 @@ namespace ItemContainer
             }
 
             invenSlots[0] = dict;
-            MaxCapacity[0] = 18;
         }
 
         private void InitInvenBar()
         {
             invenSlots[1] = new Dictionary<int, ItemVO>();
-            MaxCapacity[1] = 6;
             
             invenSlots[1].Add(0,
                 new ItemVO(200001, 1));
@@ -81,9 +86,6 @@ namespace ItemContainer
         {
             invenSlots[2] = new Dictionary<int, ItemVO>();
             invenSlots[3] = new Dictionary<int, ItemVO>();
-
-            MaxCapacity[2] = 12;
-            MaxCapacity[3] = 12;
 
             invenSlots[2].Add(0,
                 new ItemVO(200001, 2));
@@ -128,6 +130,15 @@ namespace ItemContainer
         private void InitItemDB()
         {
             ItemDB = new ItemDB(DataManager.Instance.JsonToDict<ItemData>("/Data/ItemTable.json")[0]);
+            ItemEffects = DataManager.Instance.JsonToDict<ItemEffect>("/Data/SkillTable.json")[0];
+            Dictionary<int, ItemEffectRelation> effectRelation = DataManager.Instance.JsonToDict<ItemEffectRelation>("/Data/SkillTable.json")[1];
+            ItemEffectRelations = new Dictionary<int, List<int>>();
+            foreach (var data in effectRelation)
+            {
+                if (!ItemEffectRelations.ContainsKey(data.Value.ItemID))
+                    ItemEffectRelations.Add(data.Value.ItemID, new List<int>());
+                ItemEffectRelations[data.Value.ItemID].Add(data.Key);
+            }
         }
     }
 }

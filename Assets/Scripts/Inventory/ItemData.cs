@@ -10,6 +10,15 @@ public enum ItemType{
     ActionItem,
 }
 
+public enum EffectType
+{
+    Heal,
+    HealHunger,
+    HealThirsty,
+    HealInfection,
+    Damage,
+}
+
 
 //정적 데이터: 마지막에 Data
 //동적 데이터: 마지막에 VO
@@ -89,27 +98,32 @@ namespace ItemContainer{
     }
     public class ItemEffect : DBData
     {
-        [JsonProperty("Item_ID")]
-        public int ItemId;
-        [JsonProperty("ItemName")]
-        public string ItemName;
-        [JsonProperty("Item_Resource")]
-        public string ItemResource;
-        [JsonProperty("Item_Type")]
-        public ItemType ItemType;
         [JsonProperty("Runtime")]
         public float Runtime;
         [JsonProperty("AfterRuntime")]
         public float AfterRuntime;
-        [JsonProperty("ItemDetail_ID")]
-        public int ItemDetailID;
+        [JsonProperty("Effect_Type")]
+        public EffectType Type;
+        [JsonProperty("EffectValue")]
+        public float Value;
+        [JsonProperty("Effect_Range")]
+        public int Radius;
+        [JsonProperty("Effect_Range2")]
+        public int Range;
+        [JsonProperty("RunningTime")]
+        public float Duration;
+        [JsonProperty("CoolTime")]
+        public float CoolTime;
+        [JsonProperty("Durability")]
+        public float Durability;
     }
 
-    public class ItemEffectDetail : DBData
+    public class ItemEffectRelation : DBData
     {
-        
+        [JsonProperty("Item_ID")]
+        public int ItemID;
     }
-    
+
     //추후 리팩할게요...(Rename...ㅠ)
     public class ItemData : DBData
     {
@@ -152,6 +166,11 @@ namespace ItemContainer{
     {
         public ContainerVO(int maxCapacity)
         {
+            this.maxCapacity = maxCapacity;
+        }
+        public ContainerVO(Dictionary<int, ItemVO> slots, int maxCapacity)
+        {
+            this.slots = slots;
             this.maxCapacity = maxCapacity;
         }
         public int maxCapacity { get; set; }

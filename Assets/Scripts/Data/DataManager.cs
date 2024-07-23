@@ -43,8 +43,6 @@ public class DataManager : MonoSingleton<DataManager>
         List<string> jsonList = new List<string>();
         MatchCollection matches = Regex.Matches(input, pattern);
 
-        Debug.Log(matches.Count);
-
         foreach (Match match in matches)
         {
             jsonList.Add(match.Value);
