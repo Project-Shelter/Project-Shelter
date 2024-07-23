@@ -10,12 +10,29 @@ namespace ItemContainer
     {
         public int containerID { get; protected set; } = -1;
         public int maxCapacity { get; protected set; }
-        public ContainerModel Model { get; protected set; }
+        public ContainerModel Model = null;
         public UI_Slot[] slots { get; protected set; }
 
-        public virtual void Start()
+        public void SetContainerToStart(ContainerModel model)
         {
-            InitContainer();
+            Model = model;
+            maxCapacity = model.container.maxCapacity;
+            slots = new UI_Slot[maxCapacity];
+            Init();
+            InitView();
+
+            Model.AddItemAction -= InitView;
+            Model.AddItemAction += InitView;
+            Model.RemoveItemAction -= InitView;
+            Model.RemoveItemAction += InitView;
+        }
+
+        //기존 start. Inventory System에서만 사용하기 위해 분리.
+        protected void StartContainer()
+        {
+            if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+            Model ??= ContainerInjector.InjectContainer(containerID);
+            
             maxCapacity = ItemDummyData.MaxCapacity[containerID];
             slots = new UI_Slot[maxCapacity];
             Init();
@@ -26,6 +43,13 @@ namespace ItemContainer
             Model.RemoveItemAction -= InitView;
             Model.RemoveItemAction += InitView;
         }
+
+        //모든 init이 여기에서 일어나지 않음 주의.
+        protected void InitContainer()
+        {
+            if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+            Model = ContainerInjector.InjectContainer(containerID);
+        }
         public virtual void OnEnable()
         {
             OpenInventory();
@@ -34,13 +58,6 @@ namespace ItemContainer
         {
             CloseInventory();
         }
-
-        protected void InitContainer()
-        {
-            if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
-            Model = ContainerInjector.InjectContainer(containerID);
-        }
-
         public override void Init()
         {
             base.Init();
@@ -69,7 +86,7 @@ namespace ItemContainer
         }
 
         //최초출력
-        private void InitView()
+        public void InitView()
         {
             for (int i = 0; i < maxCapacity; i++)
             {
@@ -77,9 +94,8 @@ namespace ItemContainer
             }
         }
         
-        private void OpenInventory()
+        protected virtual void OpenInventory()
         {
-            Model?.SetContainer(containerID);
             InitView();
         }
         

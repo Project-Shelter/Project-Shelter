@@ -108,11 +108,11 @@ namespace ItemContainer
             }
         }
 
-        public override void Start()
+        public virtual void Start()
         {
             SetContainerNumber();
             maxCapacity = ItemDummyData.MaxCapacity[sendNumber];
-            base.Start();
+            StartContainer();
         }
         
         public override void OnEnable()

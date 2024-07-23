@@ -54,5 +54,11 @@ namespace ItemContainer
         {
             GiveItem(Model.container.slots[slot].Count, slot, 0);
         }
+
+        protected override void OpenInventory()
+        {
+            Model?.SetContainer(containerID);
+            base.OpenInventory();
+        }
     }
 }
