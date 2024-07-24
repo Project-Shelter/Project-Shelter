@@ -26,7 +26,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public ActorController Controller { get; private set; }
     public ActorStat Stat { get; private set; } // = new ActorStat(); //추후 부활 (인스펙터에서 수치변동용)
     public WeaponSocket WeaponSocket { get; private set; }
-    public IWeapon Weapon => WeaponSocket.Weapon;
+    public IWeapon Weapon { get { if (WeaponSocket == null) return null; else return WeaponSocket.Weapon; } }
     public Action<float, float> ReloadAction = null;
     public ActorStateMachine StateMachine { get; private set; }
     public ActorAttackStateMachine AttackStateMachine { get; private set; }
@@ -109,8 +109,9 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Controller = ServiceLocator.GetService<ActorController>();
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
-        WeaponSocket = Util.FindChild<WeaponSocket>(this.gameObject, "WeaponSocket");
         MoveBody = GetComponent<ActorMoveBody>();
+        WeaponSocket = Util.FindChild<WeaponSocket>(this.gameObject, "WeaponSocket");
+        WeaponSocket.Init();
         ActionRadius = new ActorActionRadius(this);
         Anim = new ActorAnimController(this);
         Buff = new BuffAttacher(this);

@@ -23,6 +23,10 @@ public class WeaponSocket : MonoBehaviour
     private void Start()
     {
         owner = GetComponentInParent<Actor>();
+    }
+
+    public void Init()
+    {
         owner.MoveBody.OnLookDirChanged += SetRotationZero;
         UpdateWeapon();
     }
@@ -99,7 +103,6 @@ public class WeaponSocket : MonoBehaviour
 
     private void SetRotationZero(Direction dir)
     {
-        print("SetRotationZero");
         transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 }

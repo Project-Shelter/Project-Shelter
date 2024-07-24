@@ -160,11 +160,15 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
         {
             Vector2 targetCenter = collision.bounds.center;
             Vector2 hitPoint = hitBox.ClosestPoint(targetCenter);
-            Vector2 hitNormal = (targetCenter - (Vector2)transform.position).normalized;
+            Vector2 hitNormal = (targetCenter - (Vector2)owner.Tr.position).normalized;
             target.OnDamage(damage, hitPoint, hitNormal, owner);
             Debug.Log(hitPoint);
+
+            Vector2 onHitPos = targetCenter - hitNormal * 0.1f;
+
             onHitEffect.transform.position = hitPoint;
             onHitEffect.Play();
+            Debug.Log(onHitEffect.transform.position);
         }
     }
 }
