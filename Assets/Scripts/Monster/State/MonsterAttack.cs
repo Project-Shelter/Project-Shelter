@@ -72,5 +72,11 @@ public class MonsterAttack : MonsterBaseState
                 StateMachine.SetState("Move");
             }
         }
+
+        if (StateMachine.Owner.IsDead)
+        {
+            StateMachine.SetState("Die");
+            return;
+        }
     }
 }

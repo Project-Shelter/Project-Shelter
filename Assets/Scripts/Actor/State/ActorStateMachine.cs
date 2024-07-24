@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum ActorState
 {
@@ -20,7 +21,6 @@ public class ActorStateMachine
     {
         this.actor = actor;
         InitState();
-        SetState(ActorState.Idle);
     }
 
     public void StateUpdate() { stateDict[CurrentState].UpdateState(); }
@@ -46,6 +46,9 @@ public class ActorStateMachine
 
         CanSwitchStates = new List<ActorState> { ActorState.Idle, ActorState.Walk, ActorState.Interact, ActorState.Die };
         CanAttackStates = new List<ActorState> { ActorState.Idle, ActorState.Walk };
+
+        CurrentState = ActorState.Idle;
+        stateDict[CurrentState].EnterState();
     }
     
 }

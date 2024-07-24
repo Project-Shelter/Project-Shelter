@@ -133,5 +133,11 @@ public class MonsterMove : MonsterBaseState
         {
             StateMachine.SetState("Chase");
         }
+
+        if (StateMachine.Owner.IsDead)
+        {
+            StateMachine.SetState("Die");
+            return;
+        }
     }
 }

@@ -7,7 +7,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     #region CollisionVariables
 
     public IInteractable Interactable { get; private set; }
-    public BreakableObject concealment;
+    public BreakableObject Concealment { get; set; }
     private int countCollidingEnemy;
     private SlowDebuff collidingEnemyDebuff;
     private GameObject roof;

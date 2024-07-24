@@ -5,7 +5,7 @@ using UnityEngine;
 
 public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
-    public Action<AttackedPart> AttackedAction = null;
+    public event Action<AttackedPart> AttackedAction = null;
 
     private void InitHelath()
     {
@@ -20,9 +20,9 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         }
     }
 
-    public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
+    public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal, ILivingEntity attacker)
     {
-        health.OnDamage(damage, hitPoint, hitNormal);
+        health.OnDamage(damage, hitPoint, hitNormal, attacker);
         if (health.nowAttackedPart != AttackedPart.Normal)
         {
             AttackedAction?.Invoke(health.nowAttackedPart);

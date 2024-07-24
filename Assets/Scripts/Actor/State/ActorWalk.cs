@@ -6,12 +6,13 @@ public class ActorWalk : ActorBaseState
 
     public override void EnterState()
     {
-        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsMoving, true);
+        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsWalking, true);
     }
 
     public override void UpdateState()
     {
         base.UpdateState();
+        Actor.Aim();
         if (!Actor.IsAttacking)
         {
             Actor.MoveBody.Turn();
@@ -32,7 +33,7 @@ public class ActorWalk : ActorBaseState
 
     public override void ExitState() 
     {
-        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsMoving, false);
+        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsWalking, false);
     }
 
     protected override void ChangeFromState()

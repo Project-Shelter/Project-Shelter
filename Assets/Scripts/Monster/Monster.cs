@@ -11,6 +11,7 @@ public partial class Monster : MonoBehaviour, ILivingEntity, IMovable
     public Transform Tr { get; private set; }
     public Collider2D Coll { get; private set; }
     public Animator Anim { get; private set; }
+    public SpriteRenderer Sprite { get; private set; }
     public MonsterStat Stat { get; private set; }
     private MonsterHealth health;
     public bool IsDead { get { return health.IsDead; } }
@@ -20,7 +21,7 @@ public partial class Monster : MonoBehaviour, ILivingEntity, IMovable
     public ILivingEntity DetectedTarget { get 
         {
             if (detectedTarget == null || detectedTarget.IsDead) return null;
-            if (detectedTarget is Actor actor && actor.StateMachine.CurrentState == ActorState.Interact) return actor.concealment;
+            if (detectedTarget is Actor actor && actor.StateMachine.CurrentState == ActorState.Interact) return actor.Concealment;
             return detectedTarget;
         } 
     }
@@ -35,6 +36,7 @@ public partial class Monster : MonoBehaviour, ILivingEntity, IMovable
         Tr = transform;
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Anim = Util.GetOrAddComponent<Animator>(gameObject);
+        Sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
         Stat = GetComponent<MonsterStat>();
         health = new MonsterHealth(this, Stat.minHP, Stat.maxHP);
         MoveBody = new MonsterMoveBody(this);

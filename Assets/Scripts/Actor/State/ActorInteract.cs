@@ -24,7 +24,11 @@ public class ActorInteract : ActorBaseState
             };
     }
 
-    public override void UpdateState() { base.UpdateState(); }
+    public override void UpdateState() 
+    { 
+        base.UpdateState();
+        Actor.Aim();
+    }
 
     public override void FixedUpdateState() { }
 

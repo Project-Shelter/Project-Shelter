@@ -53,9 +53,9 @@ public class BreakableObject : MonoBehaviour, ILivingEntity
 
     #region ILivingEntity
 
-    public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
+    public void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal, ILivingEntity attacker)
     {
-        livingEntity.OnDamage(damage, hitPoint, hitNormal);
+        livingEntity.OnDamage(damage, hitPoint, hitNormal, attacker);
     }
 
     public void Bleeding(float bleedingTick)
