@@ -7,6 +7,8 @@ namespace ItemContainer
     {
         //정적 DB
         public static ItemDB ItemDB { get; private set; }
+        public static Dictionary<int, ItemEffect> ItemEffects{ get; private set; }
+        public static Dictionary<int, List<int>> ItemEffectRelations{ get; private set; }
         public static Sprite PlainImage;
 
         public static ItemVO NullItem = new ItemVO();
@@ -40,7 +42,7 @@ namespace ItemContainer
         }
         
         public static Dictionary<int, ItemVO>[] invenSlots = new Dictionary<int, ItemVO>[countContainer];
-        public static int[] MaxCapacity = new int[countContainer];
+        public static int[] MaxCapacity= {18, 6, 12, 8};
         void Awake()
         {
             PlainImage = Managers.Resources.Load<Sprite>("Arts/Items/plain");
@@ -49,36 +51,35 @@ namespace ItemContainer
             InitInvenBar();
             InitInventory();
             InitChests();
+            InitTrade();
             
             //Init 용도 - Awake 겹쳐서 따로 뺐음.
             ContainerInjector.ContainerInit();
         }
 
-        private void InitInventory()
+        private void InitTrade()
         {
-            invenSlots[0] = new Dictionary<int, ItemVO>();
-            MaxCapacity[0] = 18;
-            
-            invenSlots[0].Add(0,
-                new ItemVO(1, 5));
-            
-            invenSlots[0].Add(1,
-                new ItemVO(2, 8));
-            
-            invenSlots[0].Add(2,
-                new ItemVO(3, 1));
-            
-            invenSlots[0].Add(3,
-                new ItemVO(1, 3));
+        }
+
+        private void InitInventory()
+        { 
+            //개선 요망
+            Dictionary<int, ItemVO> dict = new Dictionary<int, ItemVO>();
+            Dictionary<int, ItemEntity> temp = DataManager.Instance.JsonToDict<ItemEntity>("/Data/ItemSetting.json")[0];
+            foreach (var entity in temp)
+            {
+                dict.Add(entity.Key, entity.Value.CreateItemVo());
+            }
+
+            invenSlots[0] = dict;
         }
 
         private void InitInvenBar()
         {
             invenSlots[1] = new Dictionary<int, ItemVO>();
-            MaxCapacity[1] = 6;
             
             invenSlots[1].Add(0,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 1));
         }
 
         private void InitChests()
@@ -86,68 +87,58 @@ namespace ItemContainer
             invenSlots[2] = new Dictionary<int, ItemVO>();
             invenSlots[3] = new Dictionary<int, ItemVO>();
 
-            MaxCapacity[2] = 12;
-            MaxCapacity[3] = 12;
-
             invenSlots[2].Add(0,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 2));
             
             invenSlots[2].Add(1,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
             
             invenSlots[2].Add(2,
-                new ItemVO(3, 1));
+                new ItemVO(202005, 1));
             
             invenSlots[2].Add(4,
-                new ItemVO(1, 3));
+                new ItemVO(200001, 1));
             
             invenSlots[2].Add(5,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 2));
             
             invenSlots[2].Add(6,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
             
             invenSlots[2].Add(7,
-                new ItemVO(3, 1));
+                new ItemVO(202006, 50));
             
             invenSlots[2].Add(8,
-                new ItemVO(1, 3));
+                new ItemVO(200001, 1));
             
             invenSlots[2].Add(9,
-                new ItemVO(1, 5));
+                new ItemVO(200001, 1));
             
             invenSlots[2].Add(10,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
             
             invenSlots[2].Add(11,
-                new ItemVO(3, 1));
+                new ItemVO(202006, 18));
             
             invenSlots[3].Add(0,
-                new ItemVO(1, 5));
+                new ItemVO(202005, 20));
             
             invenSlots[3].Add(1,
-                new ItemVO(2, 8));
+                new ItemVO(200010, 8));
         }
 
         private void InitItemDB()
         {
-            ItemDB = new ItemDB();
-            
-            ItemDB.data.Add(1, 
-                new ItemData(1, "Potion", "Delicious Potion", ItemType.UseItem, 5, 5,
-                    Managers.Resources.Load<Sprite>("Arts/Items/potion")));
-            
-            ItemDB.data.Add(2,
-                new ItemData(2, "Bullet", "Most powerful Bullet", ItemType.UseItem, 1, 10,
-                    Managers.Resources.Load<Sprite>("Arts/Items/bullet")));
-
-            ItemDB.data.Add(3,
-                new ItemData(3, "LOVE", "Mercy", ItemType.EctItem, 0, 1,
-                    Managers.Resources.Load<Sprite>("Arts/Items/love")));
-
-            ItemDB.data.Add(4,
-                new ItemData(4, "Book", "The Story of Love", ItemType.EquipItem, 20, 3,
-                    Managers.Resources.Load<Sprite>("Arts/Items/Book")));
+            ItemDB = new ItemDB(DataManager.Instance.JsonToDict<ItemData>("/Data/ItemTable.json")[0]);
+            ItemEffects = DataManager.Instance.JsonToDict<ItemEffect>("/Data/SkillTable.json")[0];
+            Dictionary<int, ItemEffectRelation> effectRelation = DataManager.Instance.JsonToDict<ItemEffectRelation>("/Data/SkillTable.json")[1];
+            ItemEffectRelations = new Dictionary<int, List<int>>();
+            foreach (var data in effectRelation)
+            {
+                if (!ItemEffectRelations.ContainsKey(data.Value.ItemID))
+                    ItemEffectRelations.Add(data.Value.ItemID, new List<int>());
+                ItemEffectRelations[data.Value.ItemID].Add(data.Key);
+            }
         }
     }
 }

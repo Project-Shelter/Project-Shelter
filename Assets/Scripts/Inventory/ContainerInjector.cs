@@ -6,18 +6,18 @@ namespace ItemContainer
 {
     public class ContainerInjector : MonoBehaviour
     {
-        private static List<ContainerController> _containers = new List<ContainerController>();
+        private static List<ContainerModel> _containers = new List<ContainerModel>();
 
         public static int countContainer = 3;
         public static void ContainerInit()
         {
             for (int i = 0; i < countContainer; i++)
             {
-                _containers.Add(new ContainerController(i));
+                _containers.Add(new ContainerModel(i));
             }
         }
 
-        public static ContainerController InjectContainer(int num)
+        public static ContainerModel InjectContainer(int num)
         {
             return _containers[num];
         }

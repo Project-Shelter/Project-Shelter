@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
@@ -6,23 +7,26 @@ using UnityEngine;
 
 namespace ItemContainer
 {
-    //기본적인 인벤토리 기능(Repository)
-    public class ContainerController
+    //Container Model
+    public class ContainerModel
     {
         public ContainerVO container { get; protected set; }
-        public int number { get; protected set; }
 
         public Action AddItemAction = null;
         public Action RemoveItemAction = null;
-        public ContainerController(int num)
+        public ContainerModel(int num)
         {
             container = new ContainerVO(ItemDummyData.MaxCapacity[num]);
             SetContainer(num);
         }
 
+        public ContainerModel(Dictionary<int, ItemVO> slots, int maxCapacity)
+        {
+            container = new ContainerVO(slots, maxCapacity);
+        }
+
         public void SetContainer(int num)
         {
-            number = num;
             container.slots = ItemDummyData.invenSlots[num];
         }
         

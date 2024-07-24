@@ -16,7 +16,7 @@ namespace ItemContainer
             {
                 if (slots[i].Item.id is not 0)
                 {
-                    GiveItem(controller.container.slots[i].Count, i, receiver);
+                    GiveItem(Model.container.slots[i].Count, i, receiver);
                 }
             }
         }
@@ -52,7 +52,13 @@ namespace ItemContainer
         
         private void SlotDoubleClick(int slot)
         {
-            GiveItem(controller.container.slots[slot].Count, slot, 0);
+            GiveItem(Model.container.slots[slot].Count, slot, 0);
+        }
+
+        protected override void OpenInventory()
+        {
+            Model?.SetContainer(containerID);
+            base.OpenInventory();
         }
     }
 }

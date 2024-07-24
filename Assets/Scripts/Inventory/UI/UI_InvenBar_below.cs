@@ -9,9 +9,9 @@ public class UI_InvenBar_below : UI_Container
     //선택한 슬롯
     public int selectedSlot = 0;
 
-    public override void Start()
+    public void Start()
     {
-        base.Start();
+        base.StartContainer();
         slots[selectedSlot].slotBtn.isOn = true;
 
         for (int i = 0; i < 6; i++)

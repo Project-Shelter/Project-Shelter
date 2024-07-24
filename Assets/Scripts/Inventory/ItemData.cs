@@ -1,12 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public enum ItemType{
     UseItem,
-    EctItem,
+    EtcItem,
     EquipItem,
     ActionItem,
+}
+
+public enum EffectType
+{
+    Heal,
+    HealHunger,
+    HealThirsty,
+    HealInfection,
+    Damage,
 }
 
 
@@ -50,33 +60,104 @@ namespace ItemContainer{
         }
     }
 
+    public class ItemEntity : DBData
+    {
+        [JsonProperty("Item_ID")]
+        public int item_id;
+        [JsonProperty("Item_Count")]
+        public int count;
+        
+        public ItemEntity(int id, int itemId, int count)
+        {
+            ID = id;
+            this.item_id = item_id;
+            this.count = count;
+        }
+
+        public ItemVO CreateItemVo()
+        {
+            return new ItemVO(item_id, count);
+        }
+    }
+
     public class ItemDB
     {
         //key : itemId
+
+        public ItemDB(Dictionary<int, ItemData> db)
+        {
+            data = db;
+        }
         public Dictionary<int, ItemData> data { get; private set; } = new Dictionary<int, ItemData>();
     }
 
-    //DB에 정적으로 저장/아이템 id가 동일하면 내용이 같은 것
-    //Entity? (Item_Skill_ID의 용도에 따라 달라질 듯 - 이게 프로그래밍 시 어떻게 될 지...)
-    public class ItemData
+    public class DBData
     {
-        public int id { get; private set; }
+        [JsonProperty("ID")]
+        public int ID { get; protected set; }
+    }
+    public class ItemEffect : DBData
+    {
+        [JsonProperty("Runtime")]
+        public float Runtime;
+        [JsonProperty("AfterRuntime")]
+        public float AfterRuntime;
+        [JsonProperty("Effect_Type")]
+        public EffectType Type;
+        [JsonProperty("EffectValue")]
+        public float Value;
+        [JsonProperty("Effect_Range")]
+        public int Radius;
+        [JsonProperty("Effect_Range2")]
+        public int Range;
+        [JsonProperty("RunningTime")]
+        public float Duration;
+        [JsonProperty("CoolTime")]
+        public float CoolTime;
+        [JsonProperty("Durability")]
+        public float Durability;
+    }
+
+    public class ItemEffectRelation : DBData
+    {
+        [JsonProperty("Item_ID")]
+        public int ItemID;
+    }
+
+    //추후 리팩할게요...(Rename...ㅠ)
+    public class ItemData : DBData
+    {
+        [JsonProperty("Item_Name")]
         public string name { get; private set; }
+        [JsonProperty("Item_Description")]
         public string description{ get; private set; }
+        [JsonProperty("Item_Type")]
         public ItemType itemType { get; private set; }
+        [JsonProperty("Item_Weight")]
         public int weight { get; private set; }
+        [JsonProperty("Item_Skill_ID")]
+        public int skill_id { get; private set; }
+        [JsonProperty("Item_Min_Dmg")]
+        public int min_damage { get; private set; }
+        [JsonProperty("Item_Max_Dmg")]
+        public int max_damage { get; private set; }
+        [JsonProperty("Item_OvelapCount")]
         public int overlapCount { get; private set; }
         public Sprite image;
 
-        public ItemData(int id, string name, string description, ItemType itemType, int weight, int overlapCount, Sprite image)
+        public ItemData(int id, string name, string description, ItemType itemType, int weight, int skill_id, int min_damage, int max_damage, int overlapCount, Sprite image)
         {
-            this.id = id;
+            ID = id;
             this.name = name;
             this.description = description;
             this.itemType = itemType;
             this.weight = weight;
+            this.skill_id = skill_id;
+            this.min_damage = min_damage;
+            this.max_damage = max_damage;
             this.overlapCount = overlapCount;
-            this.image = image;
+            Sprite sprite = Managers.Resources.Load<Sprite>($"Arts/Items/{name}");
+            if (sprite is not null) this.image = sprite;
         }
     }
 
@@ -85,6 +166,11 @@ namespace ItemContainer{
     {
         public ContainerVO(int maxCapacity)
         {
+            this.maxCapacity = maxCapacity;
+        }
+        public ContainerVO(Dictionary<int, ItemVO> slots, int maxCapacity)
+        {
+            this.slots = slots;
             this.maxCapacity = maxCapacity;
         }
         public int maxCapacity { get; set; }
