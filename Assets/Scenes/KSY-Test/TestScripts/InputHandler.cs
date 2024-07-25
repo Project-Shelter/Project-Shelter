@@ -11,6 +11,7 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     #region Player
 
+    public static bool ButtonAny { get; private set; } = false;
     public static bool ButtonW { get; private set; } = false;
     public static bool ButtonS { get; private set; } = false;
     public static bool ButtonA { get; private set; } = false;
@@ -48,6 +49,7 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     private void Update()
     {
+        if(Input.anyKeyDown)                     ButtonAny = true;      else ButtonAny = false;
         if (Input.GetKey(KeyCode.W))             ButtonW = true;       else ButtonW = false;
         if (Input.GetKey(KeyCode.S))             ButtonS = true;       else ButtonS = false;
         if (Input.GetKey(KeyCode.A))             ButtonA = true;       else ButtonA = false;

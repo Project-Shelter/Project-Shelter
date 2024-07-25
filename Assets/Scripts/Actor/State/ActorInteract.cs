@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class ActorInteract : ActorBaseState
 {
-    public ActorInteract(Actor actor) : base(actor) { }
-
     private PlayerCamera camera;
+    public ActorInteract(Actor actor) : base(actor) 
+    {
+        camera = ServiceLocator.GetService<PlayerCamera>();
+    }
 
     public override void EnterState()
     {
         Actor.MoveBody.Stop();
         Actor.Interactable.Interact(Actor);
-        camera = ServiceLocator.GetService<PlayerCamera>();
         camera.SetZoom(true);
         Actor.Controller.BeforeSwitchActorAction +=
             () => {
@@ -55,6 +56,20 @@ public class ActorInteract : ActorBaseState
 
     protected override void ChangeFromState()
     {
-        if (InputHandler.ButtonE) Actor.StateMachine.SetState(ActorState.Idle);
+        if (Actor.IsDead)
+        {
+            Actor.StateMachine.SetState(ActorState.Die);
+            return;
+        }
+        if (InputHandler.ButtonE) 
+        {
+            Actor.StateMachine.SetState(ActorState.Idle);
+            return;
+        }
+        if (Actor.Concealment == null && InputHandler.ButtonAny)
+        {
+            Actor.StateMachine.SetState(ActorState.Idle);
+            return;
+        }
     }
 }
