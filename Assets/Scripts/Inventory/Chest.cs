@@ -10,8 +10,8 @@ public class Chest : MonoBehaviour
     private bool canOpenChest = false;
     private bool isChestOpened = false;
     private Animator animator;
-    private static UI_PopUI chest;
-    private static UI_PopUI inventory;
+    private UI_PopUI chest;
+    private UI_PopUI inventory;
 
     [SerializeField] private float chestOpenTime = 2.0f;
     private float openingTime;

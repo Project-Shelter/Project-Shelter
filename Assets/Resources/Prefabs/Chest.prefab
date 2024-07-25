@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1175019507}
   - component: {fileID: 1175019506}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ChestCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -583,7 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670649d77bd87074ab3d3c0f5a6d4b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestOpenTime: 2
+  chestOpenTime: 0.1
   slider: {fileID: 5383638171532671022}
 --- !u!1 &8662030949343938186
 GameObject:
