@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     #region ActorStates
 
     [SerializeField] private bool isHumanActor = false;
-    public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState) && AttackStateMachine.CurrentState == AttackState.Idle; } }
+    public bool CanSwitch { get { return InputHandler.ButtonCtrl && StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState) && AttackStateMachine.CanSwitchStates.Contains(AttackStateMachine.CurrentState) && !IsSwitching; } }
     public bool IsSwitching { get; private set; }
     public bool IsAiming { get; private set; }
     public bool CanInteract { get { return InputHandler.ButtonE && Interactable != null; } }
