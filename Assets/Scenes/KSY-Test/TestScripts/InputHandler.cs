@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.EventSystems;
 
 //Input 방식 변경... Delegate 혹은 새로운 입력 시스템 사용
 public class InputHandler : MonoSingleton<InputHandler>
@@ -60,9 +61,9 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKeyDown(KeyCode.Space))     ButtonSpace = true; else ButtonSpace = false;
         if (Input.GetKey(KeyCode.KeypadEnter))   ButtonEnter = true;   else ButtonEnter = false;
         if (Input.GetKey(KeyCode.Escape))        ButtonESC = true;     else ButtonESC = false;
-        if (Input.GetMouseButton(0))             ClickLeft = true;     else ClickLeft = false;
-        if (Input.GetMouseButton(1))             ClickRight = true;    else ClickRight = false;
-        if (Input.GetMouseButtonUp(1))              ClickRightUp = true; else ClickRightUp = false;
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) ClickLeft = true;     else ClickLeft = false;
+        if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject())             ClickRight = true;    else ClickRight = false;
+        if (Input.GetMouseButtonUp(1) && !EventSystem.current.IsPointerOverGameObject())              ClickRightUp = true; else ClickRightUp = false;
         MousePosition = Input.mousePosition;
         MouseSection = GetMouseSection(MousePosition);
 
