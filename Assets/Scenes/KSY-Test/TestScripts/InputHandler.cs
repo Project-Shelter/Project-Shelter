@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 //Input 방식 변경... Delegate 혹은 새로운 입력 시스템 사용
 public class InputHandler : MonoSingleton<InputHandler>
@@ -50,7 +51,7 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     private void Update()
     {
-        if(Input.anyKeyDown)                     ButtonAny = true;      else ButtonAny = false;
+        if (Keyboard.current.anyKey.wasPressedThisFrame) ButtonAny = true;      else ButtonAny = false;
         if (Input.GetKey(KeyCode.W))             ButtonW = true;       else ButtonW = false;
         if (Input.GetKey(KeyCode.S))             ButtonS = true;       else ButtonS = false;
         if (Input.GetKey(KeyCode.A))             ButtonA = true;       else ButtonA = false;

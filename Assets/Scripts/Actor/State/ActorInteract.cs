@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,13 @@ using UnityEngine;
 public class ActorInteract : ActorBaseState
 {
     private PlayerCamera camera;
+    private Action ZoomTrueAction;
+    private Action ZoomFalseAction;
     public ActorInteract(Actor actor) : base(actor) 
     {
         camera = ServiceLocator.GetService<PlayerCamera>();
+        ZoomTrueAction = () => { if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(true); } };
+        ZoomFalseAction = () => { if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(false); } };
     }
 
     public override void EnterState()
@@ -15,14 +20,8 @@ public class ActorInteract : ActorBaseState
         Actor.MoveBody.Stop();
         Actor.Interactable.Interact(Actor);
         camera.SetZoom(true);
-        Actor.Controller.BeforeSwitchActorAction +=
-            () => {
-                if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(false); }
-            };
-        Actor.Controller.SwitchActorAction +=
-            () => {
-                if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(true); }
-            };
+        Actor.Controller.BeforeSwitchActorAction += ZoomFalseAction;
+        Actor.Controller.SwitchActorAction += ZoomTrueAction;
     }
 
     public override void UpdateState() 
@@ -44,14 +43,8 @@ public class ActorInteract : ActorBaseState
     {
         if (Actor.Interactable != null) { Actor.Interactable.StopInteract(); }
         camera.SetZoom(false);
-        Actor.Controller.BeforeSwitchActorAction -=
-            () => {
-                if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(false); }
-            };
-        Actor.Controller.SwitchActorAction -=
-            () => {
-                if (Actor == Actor.Controller.CurrentActor) { camera.SetZoom(true); }
-            };
+        Actor.Controller.BeforeSwitchActorAction -= ZoomFalseAction;
+        Actor.Controller.SwitchActorAction -= ZoomTrueAction;
     }
 
     protected override void ChangeFromState()
