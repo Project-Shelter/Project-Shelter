@@ -15,6 +15,7 @@ public class ActorAttackStateMachine
 {
     private Actor actor;
     private Dictionary<AttackState, ActorAttackState> stateDict = new Dictionary<AttackState, ActorAttackState>();
+    public List<AttackState> CanSwitchStates { get; private set; }
     public AttackState CurrentState { get; private set; }
     public ActorAttackStateMachine(Actor actor)
     {
@@ -41,6 +42,8 @@ public class ActorAttackStateMachine
         stateDict.Add(AttackState.Range, new ActorAttackRange(actor));
         stateDict.Add(AttackState.Reload, new ActorAttackReload(actor));
         stateDict.Add(AttackState.Disarm, new ActorAttackDisarm(actor));
+
+        CanSwitchStates = new List<AttackState> { AttackState.Idle, AttackState.Disarm };
 
         CurrentState = AttackState.Idle;
         stateDict[CurrentState].EnterState();
