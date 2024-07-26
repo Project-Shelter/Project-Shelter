@@ -11,6 +11,7 @@ namespace ItemContainer
         public static int countContainer = 3;
         public static void ContainerInit()
         {
+            _containers.Clear();
             for (int i = 0; i < countContainer; i++)
             {
                 _containers.Add(new ContainerModel(i));

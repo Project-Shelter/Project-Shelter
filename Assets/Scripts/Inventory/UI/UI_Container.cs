@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ItemContainer
 {
-    public class UI_Container : UI_Section
+    public class UI_Container : UI_Popup
     {
         public int containerID { get; protected set; } = -1;
         public int maxCapacity { get; protected set; }

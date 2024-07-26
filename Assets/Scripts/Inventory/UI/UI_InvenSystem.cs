@@ -156,16 +156,18 @@ namespace ItemContainer
                         pickItem(sendNumber);
                     } });
                 
+                UI_DroppableSlot tempSlot = slots[i] as UI_DroppableSlot;
+                if (tempSlot is null) Debug.Log("tempSlot is not Droppable");
                 //- 버튼
-                slots[i].subBtn.onClick.AddListener(delegate
+                tempSlot.subBtn.onClick.AddListener(delegate
                 {
                     int receiver = (sendNumber == 2) ? 0 : 2;
                     if (receiver is 0 && containers[0].Model.container.slots.Count == maxCapacity) receiver = 1;
                     GiveItem(1, slot, receiver);
                 });
                 
-                slots[i].DropItem -= DropItem;
-                slots[i].DropItem += DropItem;
+                tempSlot.DropItem -= DropItem;
+                tempSlot.DropItem += DropItem;
             }
         }
         
