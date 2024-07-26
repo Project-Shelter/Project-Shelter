@@ -22,7 +22,8 @@ namespace ItemContainer
             if(gameObject.name.Substring(gameObject.name.Length - 3) == "YOU")
             {
                 trader = 1;
-                //itemTableNumber = 날짜
+                itemTableNumber = DayNight.Instance.dayCount + 700;
+                Debug.Log(itemTableNumber);
             }
         }
 

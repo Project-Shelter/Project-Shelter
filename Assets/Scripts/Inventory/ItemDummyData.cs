@@ -59,6 +59,19 @@ namespace ItemContainer
 
         private void InitTrade()
         {
+            invenSlots[700] = new Dictionary<int, ItemVO>()
+            {
+                { 0, new ItemVO(200001, 2) },
+                { 1, new ItemVO(200010, 8) },
+                { 2, new ItemVO(202005, 1) }
+            };
+            invenSlots[701] = new Dictionary<int, ItemVO>()
+            {
+                { 0, new ItemVO(200001, 2) },
+                { 1, new ItemVO(200010, 8) },
+                { 2, new ItemVO(202005, 1) },
+                { 3, new ItemVO(200001, 1) }
+            };
         }
 
         private void InitInventory()
