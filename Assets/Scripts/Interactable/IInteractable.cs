@@ -1,5 +1,11 @@
 public interface IInteractable
 {
-    void Interact(Actor actor);
+    // EnterState
+    void StartInteract(Actor actor);
+    // UpdateState
+    void Interacting();
+    // ExitState
     void StopInteract();
+    // UpdateState
+    bool CanKeepInteracting();
 }

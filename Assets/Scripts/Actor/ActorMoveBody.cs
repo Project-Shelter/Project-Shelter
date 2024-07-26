@@ -15,7 +15,7 @@ public class ActorMoveBody : MonoBehaviour
 
     #region Movement States
 
-    public bool CanMove { get { return ((HorizontalAxis != 0) || (VerticalAxis != 0)); } }
+    public bool CanMove { get { return ((HorizontalAxis != 0) || (VerticalAxis != 0)) && !Managers.UI.IsPopupOn(); } }
     public bool CanDash { get { return InputHandler.ButtonSpace && isPassedDashCool; } }
     public Direction LookDir 
     {

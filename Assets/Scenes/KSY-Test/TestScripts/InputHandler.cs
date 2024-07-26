@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 //Input 방식 변경... Delegate 혹은 새로운 입력 시스템 사용
 public class InputHandler : MonoSingleton<InputHandler>
@@ -11,6 +13,7 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     #region Player
 
+    public static bool ButtonAny { get; private set; } = false;
     public static bool ButtonW { get; private set; } = false;
     public static bool ButtonS { get; private set; } = false;
     public static bool ButtonA { get; private set; } = false;
@@ -20,6 +23,7 @@ public class InputHandler : MonoSingleton<InputHandler>
     public static bool ButtonEnter { get; private set; } = false;
     public static bool ButtonESC { get; private set; } = false;
     public static bool ButtonE { get; private set; } = false;
+    public static bool ButtonEDown { get; private set; } = false;
     public static bool ButtonR { get; private set; } = false;
 
     #endregion
@@ -48,19 +52,21 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     private void Update()
     {
+        if (Keyboard.current.anyKey.wasPressedThisFrame) ButtonAny = true;      else ButtonAny = false;
         if (Input.GetKey(KeyCode.W))             ButtonW = true;       else ButtonW = false;
         if (Input.GetKey(KeyCode.S))             ButtonS = true;       else ButtonS = false;
         if (Input.GetKey(KeyCode.A))             ButtonA = true;       else ButtonA = false;
         if (Input.GetKey(KeyCode.D))             ButtonD = true;       else ButtonD = false;
         if (Input.GetKeyDown(KeyCode.LeftControl))             ButtonCtrl = true;    else ButtonCtrl = false;
-        if (Input.GetKeyDown(KeyCode.E)) ButtonE = true; else ButtonE = false;
+        if (Input.GetKey(KeyCode.E)) ButtonE = true; else ButtonE = false;
+        if (Input.GetKeyDown(KeyCode.E)) ButtonEDown = true; else ButtonEDown = false;
         if (Input.GetKeyDown(KeyCode.R)) ButtonR = true; else ButtonR = false;
         if (Input.GetKeyDown(KeyCode.Space))     ButtonSpace = true; else ButtonSpace = false;
         if (Input.GetKey(KeyCode.KeypadEnter))   ButtonEnter = true;   else ButtonEnter = false;
         if (Input.GetKey(KeyCode.Escape))        ButtonESC = true;     else ButtonESC = false;
-        if (Input.GetMouseButton(0))             ClickLeft = true;     else ClickLeft = false;
-        if (Input.GetMouseButton(1))             ClickRight = true;    else ClickRight = false;
-        if (Input.GetMouseButtonUp(1))              ClickRightUp = true; else ClickRightUp = false;
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) ClickLeft = true;     else ClickLeft = false;
+        if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject())             ClickRight = true;    else ClickRight = false;
+        if (Input.GetMouseButtonUp(1) && !EventSystem.current.IsPointerOverGameObject())              ClickRightUp = true; else ClickRightUp = false;
         MousePosition = Input.mousePosition;
         MouseSection = GetMouseSection(MousePosition);
 
