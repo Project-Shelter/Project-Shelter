@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ItemContainer
 {
@@ -7,6 +8,8 @@ namespace ItemContainer
     {
         private UI_Container itemTable;
         private UI_Container tradeTable;
+        public Button tradeButton;
+        public UI_Container otherTradeTable;
         private int itemTableNumber = 0;
         public int trader { get; private set; }= 0; //0 - me, 1 - you
         
@@ -65,6 +68,7 @@ namespace ItemContainer
             if (moveItemID is 0) return;
             tradeTable.Model.AddItem(moveItemID, 1);
             itemTable.Model.RemoveItem(slot, 1);
+            UpdateTradeButton();
         }
         
         //trade -> item
@@ -74,20 +78,56 @@ namespace ItemContainer
             if (moveItemID is 0) return;
             itemTable.Model.AddItem(tradeTable.slots[slot].Item.id, 1);
             tradeTable.Model.RemoveItem(slot, 1);
+            UpdateTradeButton();
         }
 
         //Trade 버튼 클릭
         public void Trade()
         {
+            //아이템 이동
+            foreach (var item in otherTradeTable.Model.container.slots)
+            {
+                itemTable.Model.AddItem(item.Value.id, item.Value.Count);
+            }
+            //이동 후 UI TradeTable 비우기
+            otherTradeTable.Model.container.slots.Clear();
+            //테이블 변화 UI 반영
+            otherTradeTable.InitView();
+            itemTable.InitView();
+
+            //플레이어일 시, 인벤토리(DB)에 반영
             if (trader == 0)
             {
-                //상대방 trade를 가져와야 ...
                 ItemDummyData.invenSlots[0] = itemTable.Model.container.slots;
             }
-            
-            tradeTable.Model.container.slots.Clear();
-            itemTable.InitView();
-            tradeTable.InitView();
+        }
+
+        public bool CanTrade()
+        {
+            int playerValue = 0;
+            int otherValue = 0;
+            foreach (var item in tradeTable.Model.container.slots)
+            {
+                playerValue += ItemDummyData.ItemDB.data[item.Value.id].weight * item.Value.Count;
+            }
+            foreach (var item in otherTradeTable.Model.container.slots)
+            {
+                otherValue += ItemDummyData.ItemDB.data[item.Value.id].weight * item.Value.Count;
+            }
+
+            return playerValue >= otherValue;
+        }
+
+        public void UpdateTradeButton()
+        {
+            if (CanTrade())
+            {
+                tradeButton.interactable = true;
+            }
+            else
+            {
+                tradeButton.interactable = false;
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ItemContainer
 
         public static ItemVO NullItem = new ItemVO();
 
-        public const int countContainer = 10;
+        public const int countContainer = 1000;
         public const int currentMaxWeight = 200;
 
         public static int currentWeight
