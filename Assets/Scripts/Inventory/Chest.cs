@@ -28,8 +28,8 @@ public class Chest : MonoBehaviour, IInteractable
 
         chestNum = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
         timeSlider.maxValue = chestOpenTime;
-        chest ??= go.transform.GetChild(3).GetComponent<PopupContainer>();
-        inventory ??= go.transform.GetChild(2).GetComponent<PopupContainer>();
+        chest ??= root.transform.GetChild(3).GetComponent<PopupContainer>();
+        inventory ??= root.transform.GetChild(2).GetComponent<PopupContainer>();
     }
 
     private void Update()
