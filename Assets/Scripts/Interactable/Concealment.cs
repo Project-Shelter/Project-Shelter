@@ -19,7 +19,7 @@ public class Concealment : MonoBehaviour, IInteractable
         parentObject.AddOnDeath(StopInteract);
     }
 
-    public void Interact(Actor actor)
+    public void StartInteract(Actor actor)
     {
         this.actor = actor;
         actor.Anim.SetAnimParamter(ActorAnimParameter.IsConcealing, true);
@@ -32,5 +32,19 @@ public class Concealment : MonoBehaviour, IInteractable
         if(actor == null) { return; }
         actor.Anim.SetAnimParamter(ActorAnimParameter.IsConcealing, false);
         actor.Concealment = null;
+    }
+
+    public void Interacting()
+    {
+        actor.Aim();
+    }
+
+    public bool CanKeepInteracting()
+    {
+        if (InputHandler.ButtonEDown)
+        {
+            return false;
+        }
+        return true;
     }
 }

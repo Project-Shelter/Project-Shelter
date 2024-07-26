@@ -20,8 +20,8 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     }
     public bool IsSwitching { get; private set; }
     public bool IsAiming { get; private set; }
-    public bool CanInteract { get { return InputHandler.ButtonE && Interactable != null; } }
-    public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
+    public bool CanInteract { get { return InputHandler.ButtonEDown && Interactable != null && !Managers.UI.IsPopupOn(); } }
+    public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState) && !Managers.UI.IsPopupOn(); } }
     public bool CanReload { get { return InputHandler.ButtonR && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
     public bool IsAttacking { get { return AttackStateMachine.CurrentState == AttackState.Range || AttackStateMachine.CurrentState == AttackState.Melee; } }
     public bool IsDead { get { return health.IsDead; } }

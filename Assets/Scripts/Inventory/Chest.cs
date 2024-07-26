@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Google.Apis.Auth.OAuth2.Requests;
 using ItemContainer;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,8 +7,6 @@ using UnityEngine.UI;
 public class Chest : MonoBehaviour, IInteractable
 {
     private int chestNum;
-    private bool isChestOpened = false;
-    private bool isChestOpening = false;
 
     private PopupContainer chest;
     private PopupContainer inventory;
@@ -19,8 +15,10 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField] private float chestOpenTime = 2.0f;
     private float openingTime = 0f;
 
+    private bool isOpening = false;
+    private bool canOpen = false;
+
     private Actor actor;
-    private Coroutine tryOpenCoroutine;
 
     private void Start()
     {
@@ -34,54 +32,53 @@ public class Chest : MonoBehaviour, IInteractable
 
     private void Update()
     {
-        if (!(isChestOpening || isChestOpened) && openingTime > 0) 
+        bool isOpened = chest.popup.gameObject.activeSelf;
+        //print("isOpened: " + isOpened + " isOpening: " + isOpening + " openingTime: " + openingTime);
+        if (!(isOpening || isOpened) && openingTime > 0) 
         {
             openingTime = Mathf.MoveTowards(openingTime, 0f, Time.deltaTime); 
             timeSlider.value = openingTime;
         }
     }
 
-    public void Interact(Actor actor)
+    public void StartInteract(Actor actor)
     {
         this.actor = actor;
-        isChestOpening = true;
-        tryOpenCoroutine = actor.StartCoroutine(TryToOpenChest());
+        isOpening = true;
+    }
+
+    public void Interacting()
+    {
+        openingTime += Time.deltaTime;
+        timeSlider.value = openingTime;
+        if (openingTime >= chestOpenTime)
+        {
+            isOpening = false;
+        }
     }
 
     public void StopInteract()
     {
-        CloseChest();
-        actor.StopCoroutine(tryOpenCoroutine);
+        if (!isOpening)
+        {
+            OpenChest();
+        }
+        isOpening = false;
     }
 
-    private IEnumerator TryToOpenChest()
+    public bool CanKeepInteracting()
     {
-        while (isChestOpening)
+        if (!InputHandler.ButtonE || !isOpening)
         {
-            openingTime += Time.deltaTime;
-            timeSlider.value = openingTime;
-            if (openingTime >= chestOpenTime)
-            {
-                OpenChest();
-                isChestOpening = false;
-            }
-            yield return null;
+            return false;
         }
+        return true;
     }
 
     private void OpenChest()
     {
-        isChestOpened = true;
         UI_Chest.ChangeChest(chestNum);
         chest.Open();
         inventory.Open();
-    }
-
-    private void CloseChest()
-    {
-        isChestOpening = false;
-        isChestOpened = false;
-        chest.Close();
-        inventory.Close();
     }
 }

@@ -23,6 +23,7 @@ public class InputHandler : MonoSingleton<InputHandler>
     public static bool ButtonEnter { get; private set; } = false;
     public static bool ButtonESC { get; private set; } = false;
     public static bool ButtonE { get; private set; } = false;
+    public static bool ButtonEDown { get; private set; } = false;
     public static bool ButtonR { get; private set; } = false;
 
     #endregion
@@ -57,7 +58,8 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKey(KeyCode.A))             ButtonA = true;       else ButtonA = false;
         if (Input.GetKey(KeyCode.D))             ButtonD = true;       else ButtonD = false;
         if (Input.GetKeyDown(KeyCode.LeftControl))             ButtonCtrl = true;    else ButtonCtrl = false;
-        if (Input.GetKeyDown(KeyCode.E)) ButtonE = true; else ButtonE = false;
+        if (Input.GetKey(KeyCode.E)) ButtonE = true; else ButtonE = false;
+        if (Input.GetKeyDown(KeyCode.E)) ButtonEDown = true; else ButtonEDown = false;
         if (Input.GetKeyDown(KeyCode.R)) ButtonR = true; else ButtonR = false;
         if (Input.GetKeyDown(KeyCode.Space))     ButtonSpace = true; else ButtonSpace = false;
         if (Input.GetKey(KeyCode.KeypadEnter))   ButtonEnter = true;   else ButtonEnter = false;

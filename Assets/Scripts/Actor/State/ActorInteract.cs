@@ -8,6 +8,8 @@ public class ActorInteract : ActorBaseState
     private PlayerCamera camera;
     private Action ZoomTrueAction;
     private Action ZoomFalseAction;
+
+    private bool canInteract;
     public ActorInteract(Actor actor) : base(actor) 
     {
         camera = ServiceLocator.GetService<PlayerCamera>();
@@ -18,7 +20,8 @@ public class ActorInteract : ActorBaseState
     public override void EnterState()
     {
         Actor.MoveBody.Stop();
-        Actor.Interactable.Interact(Actor);
+        Actor.Interactable.StartInteract(Actor);
+        canInteract = true;
         camera.SetZoom(true);
         Actor.Controller.BeforeSwitchActorAction += ZoomFalseAction;
         Actor.Controller.SwitchActorAction += ZoomTrueAction;
@@ -27,7 +30,8 @@ public class ActorInteract : ActorBaseState
     public override void UpdateState() 
     { 
         base.UpdateState();
-        Actor.Aim();
+        Actor.Interactable.Interacting();
+        canInteract = Actor.Interactable.CanKeepInteracting();
     }
 
     public override void FixedUpdateState() { }
@@ -54,12 +58,7 @@ public class ActorInteract : ActorBaseState
             Actor.StateMachine.SetState(ActorState.Die);
             return;
         }
-        if (InputHandler.ButtonE) 
-        {
-            Actor.StateMachine.SetState(ActorState.Idle);
-            return;
-        }
-        if (Actor.Concealment == null && InputHandler.ButtonAny)
+        if (Actor.Interactable == null || !canInteract) 
         {
             Actor.StateMachine.SetState(ActorState.Idle);
             return;
