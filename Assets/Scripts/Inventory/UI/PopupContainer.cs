@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using ItemContainer;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class UI_PopUI : MonoBehaviour
+public class PopupContainer : MonoBehaviour
 {
-    public GameObject UIobj;
+    protected GameObject go;
+    public UI_Popup popup;
     private Button popupBtn;
 
     public void Awake()
@@ -14,25 +17,28 @@ public class UI_PopUI : MonoBehaviour
     }
     public void Start(){
         popupBtn.onClick.AddListener(Open);
+        go = popup.gameObject;
     }
     
     public virtual void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if(UIobj.activeSelf) Close();
+            if(go.activeSelf) Close();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(UIobj.activeSelf) Close();
+            if(go.activeSelf) Close();
         }
     }
 
-    public void Open(){
-        UIobj.SetActive(true);
+    public void Open()
+    {
+        Managers.UI.EnablePopupUI(popup);
     }
 
-    public void Close(){
-        UIobj.SetActive(false);
+    public void Close()
+    {
+        Managers.UI.DisableAllPopupUI();
     }
 }

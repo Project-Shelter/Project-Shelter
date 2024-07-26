@@ -78,6 +78,27 @@ public class UIManager
         
         return popupUI;
     }
+    
+    public void EnablePopupUI(UI_Popup popup)
+    {
+        popup.gameObject.SetActive(true);
+        _popupStack.Push(popup);
+    }
+    
+    public void DisablePopupUI(UI_Popup popup)
+    {
+        if (popup == null)
+            return;
+
+        if (_popupStack.Peek() != popup)
+        {
+            Debug.Log("@ERROR@ 맨 위의 팝업이 아닌 다른 팝업을 지우려고 시도했습니다. ");
+            return;
+        }
+
+        _popupStack.Pop();
+        popup.gameObject.SetActive(false);
+    }
 
     public void ClosePopupUI(UI_Popup popup)
     {
@@ -90,7 +111,13 @@ public class UIManager
             return;
         }
         
-        ClosePopupUI();
+        if (_popupStack.Count == 0)
+            return;
+        UI_Popup pop = _popupStack.Pop();
+        pop.gameObject.SetActive(false);
+        pop = null;
+
+        _order--;
     }
 
     public void ClosePopupUI()
@@ -108,6 +135,15 @@ public class UIManager
     {
         while (_popupStack.Count > 0)
             ClosePopupUI();
+    }
+    
+    public void DisableAllPopupUI()
+    {
+        while (_popupStack.Count > 0)
+        {
+            UI_Popup popup = _popupStack.Pop();
+            popup.gameObject.SetActive(false);
+        }
     }
 
     public void Clear()

@@ -10,8 +10,8 @@ public class Chest : MonoBehaviour
     private bool canOpenChest = false;
     private bool isChestOpened = false;
     private Animator animator;
-    private UI_PopUI chest;
-    private UI_PopUI inventory;
+    private PopupContainer chest;
+    private PopupContainer inventory;
 
     [SerializeField] private float chestOpenTime = 2.0f;
     private float openingTime;
@@ -20,8 +20,8 @@ public class Chest : MonoBehaviour
     private void Awake()
     {
         GameObject go = GameObject.Find("UI_Inventory");
-        chest ??= go.transform.GetChild(3).GetComponent<UI_PopUI>();
-        inventory ??= go.transform.GetChild(2).GetComponent<UI_PopUI>();
+        chest ??= go.transform.GetChild(3).GetComponent<PopupContainer>();
+        inventory ??= go.transform.GetChild(2).GetComponent<PopupContainer>();
         animator = GetComponent<Animator>();
         number = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
         openingTime = 0f;
