@@ -19,6 +19,8 @@ public class UI_InvenBar_below : UI_Container
             int index = i;
             slots[index].slotBtn.onValueChanged.AddListener((on)=> ChangeSlot(index));
         }
+
+        ServiceLocator.GetService<ActorController>().SwitchActorAction += OpenInventory;
     }
 
     private void ChangeSlot(int slotNumber)
