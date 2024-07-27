@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,7 +115,175 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 325
+        width: 112
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c92e5e450281cd547ac78a93ed4eed46
+      internalID: -912143135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 306
+        width: 93
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c82d061453cac74cb3bc34b96884084
+      internalID: 524164927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 305
+        width: 44
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff488dfab72249149b057d1735ab4962
+      internalID: 1687269198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 166
+        width: 93
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b27725a242d38394aa0135fd665d7714
+      internalID: 2106601735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 185
+        width: 112
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 860ccba6591908b46b7b15c5ce7887f4
+      internalID: -583101521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 170
+        width: 93
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7022181ef1ae3b147925a25910beef02
+      internalID: 878243718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 30
+        width: 44
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1859296ff4b144645b12e377ef3f50e5
+      internalID: 1746021469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 30
+        width: 93
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 190ee8fa7e659314086f45fa56c56856
+      internalID: 135258543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +294,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_0: -912143135
+      Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_1: 524164927
+      Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_2: 1687269198
+      Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_3: 2106601735
+      Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_4: -583101521
+      Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_5: 878243718
+      Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_6: 1746021469
+      Brown_MEDIUMTRUCK_CLEAN_8D_000-sheet_7: 135258543
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
