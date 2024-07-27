@@ -15,7 +15,7 @@ public class ActorMoveBody : MonoBehaviour
 
     #region Movement States
 
-    public bool CanMove { get { return ((HorizontalAxis != 0) || (VerticalAxis != 0)); } }
+    public bool CanMove { get { return ((HorizontalAxis != 0) || (VerticalAxis != 0)) && !Managers.UI.IsPopupOn(); } }
     public bool CanDash { get { return InputHandler.ButtonSpace && isPassedDashCool; } }
     public Direction LookDir 
     {
@@ -67,7 +67,7 @@ public class ActorMoveBody : MonoBehaviour
     {
         directionAxis = input.Get<Vector2>();
     }
-    
+        
     private void Awake()
     {
         actor = GetComponent<Actor>();
@@ -112,8 +112,8 @@ public class ActorMoveBody : MonoBehaviour
 
     public void Turn()
     {
-        LookDir = InputHandler.MouseSection;
-        if(LookDir == Direction.None) LookDir = MoveDir;
+        if (InputHandler.ClickRight || actor.IsAttacking) { LookDir = InputHandler.MouseSection; }
+        else { LookDir = MoveDir; }
 
         if (HorizontalAxis == 0 && VerticalAxis == 0) MoveDir = LookDir;
         else if (HorizontalAxis == 1) MoveDir = Direction.Right;

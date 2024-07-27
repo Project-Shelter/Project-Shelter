@@ -1,77 +1,84 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using ItemContainer;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Chest : MonoBehaviour
+public class Chest : MonoBehaviour, IInteractable
 {
-    private bool canOpenChest = false;
-    private bool isChestOpened = false;
-    private Animator animator;
+    private int chestNum;
+
     private PopupContainer chest;
     private PopupContainer inventory;
 
+    [SerializeField] private Slider timeSlider;
     [SerializeField] private float chestOpenTime = 2.0f;
-    private float openingTime;
-    [SerializeField] private Slider slider;
-    private int number;
-    private void Awake()
+    private float openingTime = 0f;
+
+    private bool isOpening = false;
+    private bool canOpen = false;
+
+    private Actor actor;
+
+    private void Start()
     {
-        GameObject go = GameObject.Find("UI_Inventory");
-        chest ??= go.transform.GetChild(3).GetComponent<PopupContainer>();
-        inventory ??= go.transform.GetChild(2).GetComponent<PopupContainer>();
-        animator = GetComponent<Animator>();
-        number = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
-        openingTime = 0f;
-        slider.maxValue = chestOpenTime;
+        GameObject root = Util.FindChild(Managers.UI.Root, "UI_Inventory", true);
+
+        chestNum = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+        timeSlider.maxValue = chestOpenTime;
+        chest ??= root.transform.GetChild(3).GetComponent<PopupContainer>();
+        inventory ??= root.transform.GetChild(2).GetComponent<PopupContainer>();
     }
+
     private void Update()
     {
-        if (Input.GetKey(KeyCode.E) && (canOpenChest && !isChestOpened))
+        bool isOpened = chest.popup.gameObject.activeSelf;
+        //print("isOpened: " + isOpened + " isOpening: " + isOpening + " openingTime: " + openingTime);
+        if (!(isOpening || isOpened) && openingTime > 0) 
         {
-            if (openingTime < chestOpenTime) { openingTime += Time.deltaTime; }
-            if (openingTime >= chestOpenTime)
-            {
-                OpenChest();
-            }
+            openingTime = Mathf.MoveTowards(openingTime, 0f, Time.deltaTime); 
+            timeSlider.value = openingTime;
         }
-        else if(Input.GetKeyDown(KeyCode.E) && (isChestOpened && canOpenChest))
+    }
+
+    public void StartInteract(Actor actor)
+    {
+        this.actor = actor;
+        isOpening = true;
+    }
+
+    public void Interacting()
+    {
+        openingTime += Time.deltaTime;
+        timeSlider.value = openingTime;
+        if (openingTime >= chestOpenTime)
+        {
+            isOpening = false;
+        }
+    }
+
+    public void StopInteract()
+    {
+        if (!isOpening)
         {
             OpenChest();
         }
-        else
+        isOpening = false;
+    }
+
+    public bool CanKeepInteracting()
+    {
+        if (!InputHandler.ButtonE || !isOpening)
         {
-            if (!isChestOpened && openingTime >= Time.deltaTime) { openingTime -= Time.deltaTime; }
+            return false;
         }
-        slider.value = openingTime;
+        return true;
     }
 
     private void OpenChest()
     {
-        isChestOpened = true;
-        animator.SetBool("IsOpened", true);
-
-        UI_Chest.ChangeChest(number);
+        UI_Chest.ChangeChest(chestNum);
         chest.Open();
         inventory.Open();
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Actor actor = other.GetComponent<Actor>();
-        if (actor != null && actor == ActorController.Instance.CurrentActor)
-        {
-            canOpenChest = true; 
-        }
-    }
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        Actor actor = other.GetComponent<Actor>();
-        if (actor != null && actor == ActorController.Instance.CurrentActor)
-        {
-            canOpenChest = false; 
-        }
     }
 }

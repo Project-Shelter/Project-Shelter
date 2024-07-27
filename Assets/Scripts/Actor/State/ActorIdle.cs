@@ -10,7 +10,11 @@ public class ActorIdle : ActorBaseState
     public override void UpdateState() 
     {
         base.UpdateState();
-        Actor.MoveBody.Turn();
+        Actor.Aim();
+        if (!Actor.IsAttacking)
+        {
+            Actor.MoveBody.Turn();
+        }
     }
 
     public override void FixedUpdateState() { }
@@ -25,7 +29,7 @@ public class ActorIdle : ActorBaseState
 
     protected override void ChangeFromState()
     {
-        if (Actor.CanConceal) Actor.StateMachine.SetState(ActorState.Conceal);
+        if (Actor.CanInteract) Actor.StateMachine.SetState(ActorState.Interact);
         if (Actor.MoveBody.CanMove) Actor.StateMachine.SetState(ActorState.Walk);
         if (Actor.MoveBody.CanDash) Actor.StateMachine.SetState(ActorState.Dash);
     }

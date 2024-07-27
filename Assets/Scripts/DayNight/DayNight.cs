@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class DayNight : MonoSingleton<DayNight>
+public class DayNight
 {
     // Temporary Variable
     //public TextMeshProUGUI timerText;
@@ -41,7 +41,7 @@ public class DayNight : MonoSingleton<DayNight>
     private readonly string dayText = " <sprite=1>";
     private readonly string nightText = " <sprite=3>";
 
-    private void Awake()
+    public DayNight()
     {
         timeWhenDayBegins = new HourMinute(hourWhenDayBegins, minuteWhenDayBegins);
         timeWhenNightBegins = new HourMinute(hourWhenNightBegins, minuteWhenNightBegins);
@@ -58,16 +58,17 @@ public class DayNight : MonoSingleton<DayNight>
         }
 
         gameClock = new Clock(hourWhenDayBegins, minuteWhenDayBegins);
+        InitTime();
     }
 
-    private void Start()
+    private void InitTime()
     {
         isDay = true;
         dayCount = 0;
         realSeconds = 0;
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         realSeconds += Time.deltaTime;
         if(realSeconds >= realSecondsForTimePass)

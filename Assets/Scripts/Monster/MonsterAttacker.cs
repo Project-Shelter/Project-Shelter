@@ -100,7 +100,7 @@ public class MonsterAttacker
             if (hit == target.Coll)
             {
                 Debug.Log("Attack to " + target);
-                target.OnDamage(owner.Stat.attackDamage.GetValue(), hitPoint, hitNormal);
+                target.OnDamage(owner.Stat.attackDamage.GetValue(), hitPoint, hitNormal, owner);
                 return true;
             }
         }

@@ -1,13 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-    
+
 public enum ActorState
 {
     Idle,
     Walk,
     Dash,
-    Conceal,
+    Interact,
     Die,
 }
 
@@ -16,12 +15,12 @@ public class ActorStateMachine
     private Actor actor;
     private Dictionary<ActorState, ActorBaseState> stateDict = new Dictionary<ActorState, ActorBaseState>();
     public List<ActorState> CanSwitchStates { get; private set; }
+    public List<ActorState> CanAttackStates { get; private set; }
     public ActorState CurrentState { get; private set; }
     public ActorStateMachine(Actor actor)
     {
         this.actor = actor;
         InitState();
-        SetState(ActorState.Idle);
     }
 
     public void StateUpdate() { stateDict[CurrentState].UpdateState(); }
@@ -42,10 +41,14 @@ public class ActorStateMachine
         stateDict.Add(ActorState.Idle, new ActorIdle(actor));
         stateDict.Add(ActorState.Walk, new ActorWalk(actor));
         stateDict.Add(ActorState.Dash, new ActorDash(actor));
-        stateDict.Add(ActorState.Conceal, new ActorConceal(actor));
+        stateDict.Add(ActorState.Interact, new ActorInteract(actor));
         stateDict.Add(ActorState.Die, new ActorDie(actor));
 
-        CanSwitchStates = new List<ActorState> { ActorState.Idle, ActorState.Walk, ActorState.Conceal, ActorState.Die };
+        CanSwitchStates = new List<ActorState> { ActorState.Idle, ActorState.Walk, ActorState.Interact, ActorState.Die };
+        CanAttackStates = new List<ActorState> { ActorState.Idle, ActorState.Walk };
+
+        CurrentState = ActorState.Idle;
+        stateDict[CurrentState].EnterState();
     }
     
 }

@@ -34,17 +34,17 @@ public class ActorHealth : LivingEntity
         debuffsByPart[AttackedPart.Normal] = null;
     }
 
-    public override void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal)
+    public override void OnDamage(float damage, Vector2 hitPoint, Vector2 hitNormal, ILivingEntity attacker)
     {
         nowAttackedPart = SelectAttackedPart();
         IBuff debuffByPart = debuffsByPart[nowAttackedPart];
         if (nowAttackedPart == AttackedPart.Head) { damage *= 1.5f; }
-        base.OnDamage(damage, hitPoint, hitNormal);
+        base.OnDamage(damage, hitPoint, hitNormal, attacker);
 
         onDamageEffect.transform.position = hitPoint;
         onDamageEffect.Play();
         if(debuffByPart != null) { actor.Buff.AddBuff(debuffByPart); }
-        CoroutineHandler.StartStaticCoroutine(TurnRed(0.2f)); // 임시로 넣어놓은 값
+        actor.StartCoroutine(TurnRed(0.2f)); // 임시로 넣어놓은 값
     }
 
     private AttackedPart SelectAttackedPart()

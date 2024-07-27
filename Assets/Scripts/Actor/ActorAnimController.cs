@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum ActorAnimParameter
 {
-    IsMoving,
+    IsWalking,
+    IsRunning,
     IsAttacking,
     IsConcealing,
     IsDead,
@@ -31,7 +32,8 @@ public class ActorAnimController
 
     private void GetParameterId()
     {
-        AnimParameters.Add(ActorAnimParameter.IsMoving, Animator.StringToHash("IsMoving"));
+        AnimParameters.Add(ActorAnimParameter.IsWalking, Animator.StringToHash("IsWalking"));
+        AnimParameters.Add(ActorAnimParameter.IsRunning, Animator.StringToHash("IsRunning"));
         AnimParameters.Add(ActorAnimParameter.IsAttacking, Animator.StringToHash("IsAttacking"));
         AnimParameters.Add(ActorAnimParameter.IsConcealing, Animator.StringToHash("IsConcealing"));
         AnimParameters.Add(ActorAnimParameter.IsDead, Animator.StringToHash("IsDead"));

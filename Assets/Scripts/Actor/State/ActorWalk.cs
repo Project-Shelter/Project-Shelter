@@ -1,16 +1,23 @@
+using UnityEngine;
+
 public class ActorWalk : ActorBaseState
 {
     public ActorWalk(Actor actor) : base(actor) {}
 
     public override void EnterState()
     {
-        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsMoving, true);
+        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsWalking, true);
     }
 
     public override void UpdateState()
     {
         base.UpdateState();
-        Actor.MoveBody.Turn();
+        Actor.Aim();
+        if (!Actor.IsAttacking)
+        {
+            Actor.MoveBody.Turn();
+        }
+        
     }
 
     public override void FixedUpdateState()
@@ -26,12 +33,12 @@ public class ActorWalk : ActorBaseState
 
     public override void ExitState() 
     {
-        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsMoving, false);
+        Actor.Anim.SetAnimParamter(ActorAnimParameter.IsWalking, false);
     }
 
     protected override void ChangeFromState()
     {
-        if (Actor.CanConceal) Actor.StateMachine.SetState(ActorState.Conceal);
+        if (Actor.CanInteract) Actor.StateMachine.SetState(ActorState.Interact);
         if (Actor.MoveBody.CanDash) Actor.StateMachine.SetState(ActorState.Dash);
         if (!Actor.MoveBody.CanMove) Actor.StateMachine.SetState(ActorState.Idle);
     }

@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-
-//Actor의 행동정의 최상위 클래스
 public abstract class ActorBaseState
 {
     protected Actor Actor { get; private set; }
@@ -12,12 +6,10 @@ public abstract class ActorBaseState
         Actor = actor;
     }
     
-    //Start, Update, FixedUpdate, Disable
     public abstract void EnterState();
     public virtual void UpdateState() { if(!Actor.IsSwitching) ChangeFromState(); }
     public abstract void FixedUpdateState();
     public abstract void UpdateWithNoCtrl();
     public abstract void ExitState();
     protected abstract void ChangeFromState();
-
 }
