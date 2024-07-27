@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,7 +115,175 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: AMBULANCE_CLEAN_8D0000-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 328
+        width: 103
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bf2e9676bfd31b468060bc4ccba737e
+      internalID: -944432996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_CLEAN_8D0000-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 307
+        width: 84
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b94dcca15f5323948a151a4a549619d3
+      internalID: 229472711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_CLEAN_8D0000-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 306
+        width: 38
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 783df73b5b7b593428d223e7e2c20ef1
+      internalID: 1063155370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_CLEAN_8D0000-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 167
+        width: 84
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43f49c2a3eb6a5b46912289c59fc0caa
+      internalID: 348379708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_CLEAN_8D0000-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 188
+        width: 103
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 040db283fdeb9b34a87d1604accb0a52
+      internalID: -939478513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_CLEAN_8D0000-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 168
+        width: 84
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a92cd37f8fb49d947a7091d2800583ab
+      internalID: 2105516361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_CLEAN_8D0000-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 27
+        width: 38
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df553309ceda8d34e8e428ab1026f18c
+      internalID: 759794098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_CLEAN_8D0000-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 28
+        width: 84
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db7713be89b92a84f8f2f6de0ee7d384
+      internalID: 1437351802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +294,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      AMBULANCE_CLEAN_8D0000-sheet_0: -944432996
+      AMBULANCE_CLEAN_8D0000-sheet_1: 229472711
+      AMBULANCE_CLEAN_8D0000-sheet_2: 1063155370
+      AMBULANCE_CLEAN_8D0000-sheet_3: 348379708
+      AMBULANCE_CLEAN_8D0000-sheet_4: -939478513
+      AMBULANCE_CLEAN_8D0000-sheet_5: 2105516361
+      AMBULANCE_CLEAN_8D0000-sheet_6: 759794098
+      AMBULANCE_CLEAN_8D0000-sheet_7: 1437351802
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

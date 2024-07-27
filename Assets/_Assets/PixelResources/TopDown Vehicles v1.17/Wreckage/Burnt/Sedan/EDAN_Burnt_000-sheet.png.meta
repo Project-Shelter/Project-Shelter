@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,7 +115,175 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: EDAN_Burnt_000-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 229
+        width: 83
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60a7ea5044aaff14e9c0e1b72c2da38d
+      internalID: -1869653586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EDAN_Burnt_000-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 212
+        width: 71
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc73d5db5b757064eab064b51e1ee9eb
+      internalID: 1478438622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EDAN_Burnt_000-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 212
+        width: 38
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6310f1bf28642ef40b13afca16120426
+      internalID: -1148848915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EDAN_Burnt_000-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 112
+        width: 71
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0942fa444265094c8fd57bfb7c08fca
+      internalID: 421049744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EDAN_Burnt_000-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 129
+        width: 83
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 353ea3e765a55e648a393b6b738b8ccf
+      internalID: -1427603146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EDAN_Burnt_000-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 113
+        width: 71
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 333f20c9209a6d242ae29b24b0fcb5cb
+      internalID: 1470297884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EDAN_Burnt_000-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 13
+        width: 38
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d210b596f80fdd740a230adcab32fc7c
+      internalID: -591763220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EDAN_Burnt_000-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 14
+        width: 71
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c84e0854e9a5b1745ab738f0d981a3e4
+      internalID: 226401326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +294,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      EDAN_Burnt_000-sheet_0: -1869653586
+      EDAN_Burnt_000-sheet_1: 1478438622
+      EDAN_Burnt_000-sheet_2: -1148848915
+      EDAN_Burnt_000-sheet_3: 421049744
+      EDAN_Burnt_000-sheet_4: -1427603146
+      EDAN_Burnt_000-sheet_5: 1470297884
+      EDAN_Burnt_000-sheet_6: -591763220
+      EDAN_Burnt_000-sheet_7: 226401326
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

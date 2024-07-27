@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,7 +115,175 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Black_HatchBack_CLEAN_8D_000-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 226
+        width: 79
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dba35aed96d4ba84aaad2f9fe7aed285
+      internalID: 692691756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Black_HatchBack_CLEAN_8D_000-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 215
+        width: 67
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07651a20d11e3b5458a5ff7eed010a19
+      internalID: -692293502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Black_HatchBack_CLEAN_8D_000-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 213
+        width: 42
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 770f54b4b540cbd46b6a0d856a2e07bd
+      internalID: -985722808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Black_HatchBack_CLEAN_8D_000-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 115
+        width: 67
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1777b5ef463f97c4691c009c24530285
+      internalID: 546045109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Black_HatchBack_CLEAN_8D_000-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 126
+        width: 79
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9bf1f3852b0c5948a9a9711501d5898
+      internalID: -1379143940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Black_HatchBack_CLEAN_8D_000-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 116
+        width: 67
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74f942bb57a60e041b1dd7f1144ed7d2
+      internalID: 1980366906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Black_HatchBack_CLEAN_8D_000-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 17
+        width: 42
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5af27e58b80736d4fac68ce6e456eaea
+      internalID: 1775850151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Black_HatchBack_CLEAN_8D_000-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 16
+        width: 67
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02a962ee9faaf4a43990b46f3d97405e
+      internalID: -445841587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +294,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Black_HatchBack_CLEAN_8D_000-sheet_0: 692691756
+      Black_HatchBack_CLEAN_8D_000-sheet_1: -692293502
+      Black_HatchBack_CLEAN_8D_000-sheet_2: -985722808
+      Black_HatchBack_CLEAN_8D_000-sheet_3: 546045109
+      Black_HatchBack_CLEAN_8D_000-sheet_4: -1379143940
+      Black_HatchBack_CLEAN_8D_000-sheet_5: 1980366906
+      Black_HatchBack_CLEAN_8D_000-sheet_6: 1775850151
+      Black_HatchBack_CLEAN_8D_000-sheet_7: -445841587
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

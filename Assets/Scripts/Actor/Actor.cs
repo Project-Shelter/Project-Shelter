@@ -49,9 +49,13 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     #endregion
 
-    private void Start()
+    private void Awake()
     {
         InitVariables();
+    }
+
+    private void Start()
+    {
         LateInitVariables();
         InitHelath();
     }
@@ -116,19 +120,19 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     {
         Tr = transform;
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
-        Controller = ServiceLocator.GetService<ActorController>();
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         MoveBody = GetComponent<ActorMoveBody>();
         WeaponSocket = Util.FindChild<WeaponSocket>(this.gameObject, "WeaponSocket");
-        WeaponSocket.Init();
         ActionRadius = new ActorActionRadius(this);
-        Anim = new ActorAnimController(this);
         Buff = new BuffAttacher(this);
         ActorSwitchEffect = Util.FindChild<ParticleSystem>(this.gameObject, "ActorSwitchEffect");
     }
 
     private void LateInitVariables()
     {
+        Controller = ServiceLocator.GetService<ActorController>();
+        WeaponSocket.Init();
+        Anim = new ActorAnimController(this);
         StateMachine = new ActorStateMachine(this);
         AttackStateMachine = new ActorAttackStateMachine(this);
         InitCollisionVariables();
