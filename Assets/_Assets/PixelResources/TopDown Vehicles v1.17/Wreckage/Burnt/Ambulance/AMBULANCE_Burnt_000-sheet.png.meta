@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,7 +115,175 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: AMBULANCE_Burnt_000-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 328
+        width: 104
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99763e605495c6f42b0cf7625dd17513
+      internalID: -1374228257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_Burnt_000-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 306
+        width: 85
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 007134fe16b173740879c0580d9bcba4
+      internalID: -315263655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_Burnt_000-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 304
+        width: 39
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dbdcaccd8511b346900e62d6907223f
+      internalID: 1450261988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_Burnt_000-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 165
+        width: 84
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 198bbf649160f384081bac6e68adc2b5
+      internalID: 1192467810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_Burnt_000-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 188
+        width: 104
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a4fdb2481d13884da62faeb62fb6e21
+      internalID: -1230366181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_Burnt_000-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 166
+        width: 85
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe9dae91e63e7a64f84182eb8cfe71ba
+      internalID: -457735962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_Burnt_000-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 25
+        width: 39
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74e90b67c58877a40a10fdd1ab5a154d
+      internalID: -1193081531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AMBULANCE_Burnt_000-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 27
+        width: 84
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c2b3df7936ce69429ad8a1970c09ffb
+      internalID: 1914882809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +294,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      AMBULANCE_Burnt_000-sheet_0: -1374228257
+      AMBULANCE_Burnt_000-sheet_1: -315263655
+      AMBULANCE_Burnt_000-sheet_2: 1450261988
+      AMBULANCE_Burnt_000-sheet_3: 1192467810
+      AMBULANCE_Burnt_000-sheet_4: -1230366181
+      AMBULANCE_Burnt_000-sheet_5: -457735962
+      AMBULANCE_Burnt_000-sheet_6: -1193081531
+      AMBULANCE_Burnt_000-sheet_7: 1914882809
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
