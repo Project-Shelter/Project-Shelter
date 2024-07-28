@@ -1,3 +1,4 @@
+using ItemContainer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,23 +7,18 @@ using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
 {
-    #region Interface Properties
-
     public bool IsActived { get; private set; }
     public Action OnAttack { get; set; }
-    [field:SerializeField]
+
+    // Weapon Info
     public float AttackDelay { get; private set; }
-    [field:SerializeField]
     public float AfterAttackDelay { get; private set; }
-
-    #endregion
-
-    [SerializeField] private float damage;
-    [SerializeField] private float attackRange;
+    private float damage;
+    private float attackRange;
 
     private Animator animator;
     private SpriteRenderer sprite;
-    private Collider2D hitBox;
+    private BoxCollider2D hitBox;
     private Actor owner;
     private ParticleSystem swingEffect;
     private ParticleSystem onHitEffect;
@@ -41,7 +37,7 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
     {
         animator = Util.GetOrAddComponent<Animator>(gameObject);
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
-        hitBox = Util.GetOrAddComponent<Collider2D>(gameObject);
+        hitBox = Util.GetOrAddComponent<BoxCollider2D>(gameObject);
         swingEffect = Util.FindChild<ParticleSystem>(gameObject, "SwingEffect");
         onHitEffect = Util.FindChild<ParticleSystem>(gameObject, "OnHitEffect");
 
@@ -51,10 +47,17 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
         SetActive(false);
     }
 
-    public void Init(Actor owner)
+    public void Init(Actor owner, ItemEffect weaponInfo)
     {
         this.owner = owner;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
+
+        AttackDelay = weaponInfo.Runtime;
+        AfterAttackDelay = weaponInfo.AfterRuntime;
+        damage = weaponInfo.Value;
+        attackRange = weaponInfo.Range;
+
+        hitBox.size = new Vector2(attackRange, attackRange);
         SetActive(true);
     }
 
@@ -170,5 +173,9 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
             onHitEffect.Play();
             Debug.Log(onHitEffect.transform.position);
         }
+    }
+    public void OnDestroy()
+    {
+        owner.MoveBody.OnLookDirChanged -= SetWeaponDirection;
     }
 }

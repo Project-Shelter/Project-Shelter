@@ -35,6 +35,7 @@ public class InputHandler : MonoSingleton<InputHandler>
 
     public static bool ClickRight { get; private set; } = false;
     public static bool ClickRightUp { get; private set; } = false;
+    public static bool ClickLeftDown { get; private set; } = false;
     public static bool ClickLeft { get; private set; } = false;
     public static Vector2 MousePosition { get; private set; }
     public static Direction MouseSection { get; private set; }
@@ -64,7 +65,8 @@ public class InputHandler : MonoSingleton<InputHandler>
         if (Input.GetKeyDown(KeyCode.Space))     ButtonSpace = true; else ButtonSpace = false;
         if (Input.GetKey(KeyCode.KeypadEnter))   ButtonEnter = true;   else ButtonEnter = false;
         if (Input.GetKey(KeyCode.Escape))        ButtonESC = true;     else ButtonESC = false;
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) ClickLeft = true;     else ClickLeft = false;
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) ClickLeftDown = true;     else ClickLeftDown = false;
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) ClickLeft = true;     else ClickLeft = false;
         if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject())             ClickRight = true;    else ClickRight = false;
         if (Input.GetMouseButtonUp(1) && !EventSystem.current.IsPointerOverGameObject())              ClickRightUp = true; else ClickRightUp = false;
         MousePosition = Input.mousePosition;

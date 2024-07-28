@@ -1,29 +1,24 @@
+using ItemContainer;
 using System;
 using UnityEngine;
 
 public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
-    #region Interface Properties
-
     public bool IsActived { get; private set; }
     public Action OnAttack { get; set; }
-    [field:SerializeField]
-    public float AttackDelay { get; private set; }
-    [field: SerializeField]
-    public float ReloadDelay { get; private set; }
     public bool CanReload => currentAmmo < maxAmmo;
     public bool HasToBeReload => currentAmmo <= 0;
 
-    #endregion
+    // Weapon Info
+    public float AttackDelay { get; private set; }
+    public float ReloadDelay { get; private set; }
+    private float damage;
+    private float attackRange;
+    private float projectileSpeed;
+    private int maxAmmo;
 
-    // 나중에는 json으로 데이터를 불러올 것.
-    [SerializeField] private int damage;
-    [SerializeField] private float attackRange;
-    [SerializeField] private float projectileSpeed;
-
-    [SerializeField] private int maxAmmo;
-    [SerializeField] private int currentAmmo;
-    [SerializeField] private Transform firePos;
+    private int currentAmmo;
+    private Transform firePos;
 
     private ParticleSystem fireEffect;
     private ParticleSystemRenderer fireEffectRenderer;
@@ -34,6 +29,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
 
     private void Awake()
     {
+        firePos = Util.FindChild<Transform>(gameObject, "FirePos");
         fireEffect = Util.GetOrAddComponent<ParticleSystem>(firePos.gameObject);
         fireEffectRenderer = Util.GetOrAddComponent<ParticleSystemRenderer>(fireEffect.gameObject);
         projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
@@ -50,10 +46,19 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         }
     }
 
-    public void Init(Actor owner)
+    public void Init(Actor owner, ItemEffect weaponInfo)
     {
         this.owner = owner;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
+        SetWeaponDirection(owner.MoveBody.LookDir);
+
+        AttackDelay = weaponInfo.Runtime;
+        ReloadDelay = weaponInfo.AfterRuntime;
+        damage = weaponInfo.Value;
+        attackRange = weaponInfo.Range;
+        projectileSpeed = 10f; // weaponInfo.ProjectileSpeed;
+        maxAmmo = 10; // weaponInfo.MaxAmmo;
+
         SetActive(true);
     }
 
@@ -100,5 +105,9 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     private void SetWeaponDirection(Direction dir)
     {
         animator.SetInteger("Direction", (int)dir);
+    }
+    public void OnDestroy()
+    {
+        owner.MoveBody.OnLookDirChanged -= SetWeaponDirection;
     }
 }

@@ -12,19 +12,26 @@ public class UI_InvenBar_below : UI_Container
     public void Start()
     {
         base.StartContainer();
-        slots[selectedSlot].slotBtn.isOn = true;
 
         for (int i = 0; i < 6; i++)
         {
             int index = i;
             slots[index].slotBtn.onValueChanged.AddListener((on)=> ChangeSlot(index));
         }
+        slots[selectedSlot].slotBtn.isOn = true;
+
+
+        ServiceLocator.GetService<ActorController>().SwitchActorAction += () =>
+        {
+            ServiceLocator.GetService<ActorController>().CurrentActor.SetItem(GetSelectedItem());
+        };
     }
 
     private void ChangeSlot(int slotNumber)
     {
-        //Action.Invoke -> 바뀌는 거
+        if(selectedSlot == slotNumber) return;
         selectedSlot = slotNumber;
+        ServiceLocator.GetService<ActorController>().CurrentActor.SetItem(GetSelectedItem());
     }
 
     //좌우 select 이동
