@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Concealment : MonoBehaviour, IInteractable
+public class Concealment : Interactable
 {
     private BreakableObject parentObject;
     private Collider2D coll;
-    private Actor actor;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         parentObject = GetComponentInParent<BreakableObject>();
         coll = GetComponent<Collider2D>();
     }
@@ -19,27 +19,27 @@ public class Concealment : MonoBehaviour, IInteractable
         parentObject.AddOnDeath(StopInteract);
     }
 
-    public void StartInteract(Actor actor)
+    public override void StartInteract(Actor actor)
     {
-        this.actor = actor;
+        base.StartInteract(actor);
         actor.Anim.SetAnimParamter(ActorAnimParameter.IsConcealing, true);
         actor.Tr.position = coll.bounds.center;
         actor.Concealment = parentObject;
     }
 
-    public void StopInteract()
+    public override void StopInteract()
     {
         if(actor == null) { return; }
         actor.Anim.SetAnimParamter(ActorAnimParameter.IsConcealing, false);
         actor.Concealment = null;
     }
 
-    public void Interacting()
+    public override void Interacting()
     {
         actor.Aim();
     }
 
-    public bool CanKeepInteracting()
+    public override bool CanKeepInteracting()
     {
         if (InputHandler.ButtonEDown)
         {
