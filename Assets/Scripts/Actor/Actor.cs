@@ -116,13 +116,13 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     {
         if (InputHandler.ClickRight)
         {
-            Cursor.SetCursor(InputHandler.AimCursor, InputHandler.CursorHotspot, CursorMode.Auto);
+            Cursor.SetCursor(InputHandler.AimCursor, InputHandler.AimHotspot, CursorMode.Auto);
             IsAiming = true;
         }
 
         if (InputHandler.ClickRightUp)
         {
-            Cursor.SetCursor(InputHandler.DefaultCursor, InputHandler.CursorHotspot, CursorMode.Auto);
+            Cursor.SetCursor(InputHandler.DefaultCursor, InputHandler.DefaultHotspot, CursorMode.Auto);
             IsAiming = false;
         }
     }

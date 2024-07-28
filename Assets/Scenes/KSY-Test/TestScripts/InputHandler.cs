@@ -41,14 +41,16 @@ public class InputHandler : MonoSingleton<InputHandler>
     public static Direction MouseSection { get; private set; }
     public static Texture2D DefaultCursor { get; private set; }
     public static Texture2D AimCursor { get; private set; }
-    public static Vector2 CursorHotspot;
+    public static Vector2 DefaultHotspot;
+    public static Vector2 AimHotspot;
     #endregion
 
     private void Awake()
     {
         DefaultCursor = Resources.Load<Texture2D>("Arts/Cursor/Default");
         AimCursor = Resources.Load<Texture2D>("Arts/Cursor/Aim");
-        CursorHotspot = new(AimCursor.width / 2, AimCursor.height / 2);
+        DefaultHotspot = new(10, 10);
+        AimHotspot = new(AimCursor.width / 2, AimCursor.height / 2);
     }
 
     private void Update()
