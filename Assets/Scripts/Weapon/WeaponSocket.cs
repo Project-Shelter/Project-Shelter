@@ -1,14 +1,16 @@
+using ItemContainer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponSocket : MonoBehaviour
 {
+    private GameObject weaponObject;
     private IWeapon weapon;
     public IWeapon Weapon {
         get 
         {
-            if (weapon.IsActived) { return weapon; }
+            if (weapon != null && weapon.IsActived) { return weapon; }
             else { return null; } 
         }
         private set 
@@ -28,7 +30,6 @@ public class WeaponSocket : MonoBehaviour
     public void Init()
     {
         owner.MoveBody.OnLookDirChanged += SetRotationZero;
-        UpdateWeapon();
     }
 
     private void Update()
@@ -40,10 +41,13 @@ public class WeaponSocket : MonoBehaviour
     }
 
     // 나중엔 인자로 받아서 무기 변경 가능하게
-    public void UpdateWeapon()
+    public void SetWeapon(ItemData weaponData)
     {
-        weapon = Instantiate(Managers.Resources.Load<MeleeWeapon>("Prefabs/Weapon/MeleeWeapon"), transform);
-        weapon.Init(owner);
+        if(weaponData == null) { DestroyWeapon(); return; }
+        weaponObject = Instantiate(Managers.Resources.Load<GameObject>("Prefabs/Weapon/" + weaponData.name), transform);
+        weapon = weaponObject.GetComponent<IWeapon>();
+        int effectID = ItemDummyData.ItemEffectRelations[weaponData.ID][0];
+        weapon.Init(owner, ItemDummyData.ItemEffects[effectID]);
         weapon.SetActive(true);
 
         if(weapon is IRangeWeapon)
@@ -56,6 +60,13 @@ public class WeaponSocket : MonoBehaviour
             isRange = false;
             UpdateMeleeWeapon(weapon as IMeleeWeapon);
         }
+    }
+
+    private void DestroyWeapon()
+    {
+        if(weapon == null) { return; }
+        Destroy(weaponObject);
+        weapon = null;
     }
 
     private void UpdateMeleeWeapon(IMeleeWeapon meleeWeapon)

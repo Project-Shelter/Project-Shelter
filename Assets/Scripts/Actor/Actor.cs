@@ -1,3 +1,4 @@
+using ItemContainer;
 using System;
 using System.Collections;
 using System.Linq;
@@ -21,7 +22,8 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public bool IsSwitching { get; private set; }
     public bool IsAiming { get; private set; }
     public bool CanInteract { get { return InputHandler.ButtonEDown && Interactable != null && !Managers.UI.IsPopupOn(); } }
-    public bool CanAttack { get { return InputHandler.ClickLeft && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState) && !Managers.UI.IsPopupOn(); } }
+    public bool CanAttack { get { return InputHandler.ClickLeftDown && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState) && !Managers.UI.IsPopupOn(); } }
+    public bool CanUse { get { return InputHandler.ClickLeftDown && Item != null && !Managers.UI.IsPopupOn(); } }
     public bool CanReload { get { return InputHandler.ButtonR && StateMachine.CanAttackStates.Contains(StateMachine.CurrentState); } }
     public bool IsAttacking { get { return AttackStateMachine.CurrentState == AttackState.Range || AttackStateMachine.CurrentState == AttackState.Melee; } }
     public bool IsDead { get { return health.IsDead; } }
@@ -37,6 +39,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public WeaponSocket WeaponSocket { get; private set; }
     public IWeapon Weapon { get { if (WeaponSocket == null) return null; else return WeaponSocket.Weapon; } }
     public Action<float, float> ReloadAction = null;
+    public ItemVO Item { get; private set; }
     public ActorStateMachine StateMachine { get; private set; }
     public ActorAttackStateMachine AttackStateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
@@ -90,17 +93,36 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         if(roof != null) roof.SetActive(true);
     }
 
+    public void SetItem(ItemVO item)
+    {
+        if (item == null) return;
+
+        if(ItemDummyData.ItemDB.data.TryGetValue(item.id, out ItemData itemData))
+        {
+            if (itemData.itemType == ItemType.EquipItem)
+            {
+                WeaponSocket.SetWeapon(itemData);
+                Item = null;
+            }
+            else if (itemData.itemType == ItemType.UseItem)
+            {
+                WeaponSocket.SetWeapon(null);
+                Item = item;
+            }
+        }
+    }
+
     public void Aim()
     {
         if (InputHandler.ClickRight)
         {
-            Cursor.SetCursor(InputHandler.AimCursor, InputHandler.CursorHotspot, CursorMode.Auto);
+            Cursor.SetCursor(InputHandler.AimCursor, InputHandler.AimHotspot, CursorMode.Auto);
             IsAiming = true;
         }
 
         if (InputHandler.ClickRightUp)
         {
-            Cursor.SetCursor(InputHandler.DefaultCursor, InputHandler.CursorHotspot, CursorMode.Auto);
+            Cursor.SetCursor(InputHandler.DefaultCursor, InputHandler.DefaultHotspot, CursorMode.Auto);
             IsAiming = false;
         }
     }
