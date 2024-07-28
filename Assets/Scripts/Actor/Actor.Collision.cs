@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +29,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         }
         if(other.TryGetComponent(out IInteractable interactable))
         {
+            interactable.ShowGuide(true);
             Interactable = interactable;
         }
     }
@@ -45,6 +46,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         }
         if (other.TryGetComponent(out IInteractable interactable))
         {
+            interactable.ShowGuide(false);
             Interactable = null;
         }
     }
