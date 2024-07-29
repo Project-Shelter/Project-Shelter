@@ -1,29 +1,26 @@
+using ItemContainer;
 using System;
 using UnityEngine;
 
 public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
-    #region Interface Properties
-
-    public bool IsActived { get; private set; }
+    public bool IsVisible { get; private set; }
+    public Action<int, int> OnAmmoChanged { get; set; }
     public Action OnAttack { get; set; }
-    [field:SerializeField]
+
+    // Weapon Info
     public float AttackDelay { get; private set; }
-    [field: SerializeField]
     public float ReloadDelay { get; private set; }
-    public bool CanReload => currentAmmo < maxAmmo;
-    public bool HasToBeReload => currentAmmo <= 0;
-
-    #endregion
-
-    // 나중에는 json으로 데이터를 불러올 것.
-    [SerializeField] private int damage;
-    [SerializeField] private float attackRange;
-    [SerializeField] private float projectileSpeed;
-
-    [SerializeField] private int maxAmmo;
-    [SerializeField] private int currentAmmo;
-    [SerializeField] private Transform firePos;
+    private float damage;
+    private float attackRange;
+    private float projectileSpeed;
+    public int MaxAmmo { get; private set; }
+    private int currentAmmo;
+    public int CurrentAmmo { 
+        get { return currentAmmo; } 
+        private set { currentAmmo = value; OnAmmoChanged?.Invoke(MaxAmmo, value); } 
+    }
+    private Transform firePos;
 
     private ParticleSystem fireEffect;
     private ParticleSystemRenderer fireEffectRenderer;
@@ -32,34 +29,33 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     private Animator animator;
     private Actor owner;
 
-    private void Awake()
+    public void Init()
     {
+        firePos = Util.FindChild<Transform>(gameObject, "FirePos");
         fireEffect = Util.GetOrAddComponent<ParticleSystem>(firePos.gameObject);
         fireEffectRenderer = Util.GetOrAddComponent<ParticleSystemRenderer>(fireEffect.gameObject);
-        projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
+        projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Projectile/Projectile");
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
         animator = Util.GetOrAddComponent<Animator>(gameObject);
-        SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        if(owner != null)
-        {
-            animator.SetInteger("Direction", (int)owner.MoveBody.LookDir);
-        }
-    }
-
-    public void Init(Actor owner)
+    public void Active(Actor owner, ItemEffect weaponInfo)
     {
         this.owner = owner;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
-        SetActive(true);
+        SetWeaponDirection(owner.MoveBody.LookDir);
+
+        AttackDelay = weaponInfo.Runtime;
+        ReloadDelay = weaponInfo.AfterRuntime;
+        damage = weaponInfo.Value;
+        attackRange = weaponInfo.Range;
+        projectileSpeed = 10f; // weaponInfo.ProjectileSpeed;
+        MaxAmmo = 10; // weaponInfo.MaxAmmo;
     }
 
-    public void SetActive(bool value)
+    public void SetVisibility(bool value)
     {
-        IsActived = value;
+        IsVisible = value;
         if (value)
         {
             sprite.enabled = true;
@@ -72,7 +68,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
 
     public void Attack()
     {
-        if (HasToBeReload)
+        if (CurrentAmmo <= 0)
         {
             return;
         }
@@ -88,17 +84,33 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         fireEffectRenderer.sortingOrder = sprite.sortingOrder;
         fireEffect.Play();
         projectile.Launch(dir, attackRange, projectileSpeed, owner);
-        currentAmmo--;
+        CurrentAmmo--;
     }
 
     public void Reload()
     {
         // 인벤에서 총알 빠져나가는 작업 필요
-        currentAmmo = maxAmmo;
+        CurrentAmmo = MaxAmmo;
     }
 
     private void SetWeaponDirection(Direction dir)
     {
         animator.SetInteger("Direction", (int)dir);
+    }
+
+    private void OnEnable()
+    {
+        if (owner != null)
+        {
+            animator.SetInteger("Direction", (int)owner.MoveBody.LookDir);
+        }
+    }
+
+    public void OnDisable ()
+    {
+        if (owner != null)
+        {
+            owner.MoveBody.OnLookDirChanged -= SetWeaponDirection;
+        }
     }
 }

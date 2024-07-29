@@ -7,6 +7,7 @@ public enum ActorState
     Walk,
     Dash,
     Interact,
+    UseItem,
     Die,
 }
 
@@ -42,6 +43,7 @@ public class ActorStateMachine
         stateDict.Add(ActorState.Walk, new ActorWalk(actor));
         stateDict.Add(ActorState.Dash, new ActorDash(actor));
         stateDict.Add(ActorState.Interact, new ActorInteract(actor));
+        stateDict.Add(ActorState.UseItem, new ActorUseItem(actor));
         stateDict.Add(ActorState.Die, new ActorDie(actor));
 
         CanSwitchStates = new List<ActorState> { ActorState.Idle, ActorState.Walk, ActorState.Interact, ActorState.Die };

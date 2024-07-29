@@ -8,4 +8,6 @@ public interface IInteractable
     void StopInteract();
     // UpdateState
     bool CanKeepInteracting();
+    // Show or hide the guide
+    void ShowGuide(bool onOff);
 }

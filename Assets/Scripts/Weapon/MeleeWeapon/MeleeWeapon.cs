@@ -1,3 +1,4 @@
+using ItemContainer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,23 +7,18 @@ using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
 {
-    #region Interface Properties
-
-    public bool IsActived { get; private set; }
+    public bool IsVisible { get; private set; }
     public Action OnAttack { get; set; }
-    [field:SerializeField]
+
+    // Weapon Info
     public float AttackDelay { get; private set; }
-    [field:SerializeField]
     public float AfterAttackDelay { get; private set; }
-
-    #endregion
-
-    [SerializeField] private float damage;
-    [SerializeField] private float attackRange;
+    private float damage;
+    private float attackRange;
 
     private Animator animator;
     private SpriteRenderer sprite;
-    private Collider2D hitBox;
+    private BoxCollider2D hitBox;
     private Actor owner;
     private ParticleSystem swingEffect;
     private ParticleSystem onHitEffect;
@@ -37,30 +33,35 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
     private Vector3 attackRotation;
     private float rotateTime;
 
-    private void Awake()
+    public void Init()
     {
         animator = Util.GetOrAddComponent<Animator>(gameObject);
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
-        hitBox = Util.GetOrAddComponent<Collider2D>(gameObject);
+        hitBox = Util.GetOrAddComponent<BoxCollider2D>(gameObject);
         swingEffect = Util.FindChild<ParticleSystem>(gameObject, "SwingEffect");
         onHitEffect = Util.FindChild<ParticleSystem>(gameObject, "OnHitEffect");
 
         var effectMain = swingEffect.main;
         effectMain.duration = AttackDelay;
         hitBox.enabled = false;
-        SetActive(false);
     }
 
-    public void Init(Actor owner)
+    public void Active(Actor owner, ItemEffect weaponInfo)
     {
         this.owner = owner;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
-        SetActive(true);
+
+        AttackDelay = weaponInfo.Runtime;
+        AfterAttackDelay = weaponInfo.AfterRuntime;
+        damage = weaponInfo.Value;
+        attackRange = weaponInfo.Range;
+
+        hitBox.size = new Vector2(attackRange, attackRange);
     }
 
-    public void SetActive(bool value)
+    public void SetVisibility(bool value)
     {
-        IsActived = value;
+        IsVisible = value;
         if (value)
         {
             sprite.enabled = true;
@@ -170,5 +171,9 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
             onHitEffect.Play();
             Debug.Log(onHitEffect.transform.position);
         }
+    }
+    public void OnDestroy()
+    {
+        owner.MoveBody.OnLookDirChanged -= SetWeaponDirection;
     }
 }
