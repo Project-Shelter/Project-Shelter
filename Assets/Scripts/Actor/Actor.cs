@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 {
@@ -16,7 +16,6 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
                 StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState) &&
                 AttackStateMachine.CanSwitchStates.Contains(AttackStateMachine.CurrentState) && 
                 !Managers.UI.IsPopupOn();
-                
         } 
     }
     public bool IsSwitching { get; private set; }
@@ -38,8 +37,9 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public ActorStat Stat { get; private set; } // = new ActorStat(); //추후 부활 (인스펙터에서 수치변동용)
     public WeaponSocket WeaponSocket { get; private set; }
     public IWeapon Weapon { get { if (WeaponSocket == null) return null; else return WeaponSocket.Weapon; } }
-    public Action<float, float> ReloadAction = null;
+    public Slider ReloadSlider { get; private set; }
     public ItemVO Item { get; private set; }
+    public Action<ItemVO> OnItemChanged;
     public ActorStateMachine StateMachine { get; private set; }
     public ActorAttackStateMachine AttackStateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
@@ -95,21 +95,24 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     public void SetItem(ItemVO item)
     {
-        if (item == null) return;
-
-        if(ItemDummyData.ItemDB.data.TryGetValue(item.id, out ItemData itemData))
+        if (item != null && item.id != 0)
         {
-            if (itemData.itemType == ItemType.EquipItem)
+            if (ItemDummyData.ItemDB.data.TryGetValue(item.id, out ItemData itemData))
             {
-                WeaponSocket.SetWeapon(itemData);
-                Item = null;
-            }
-            else if (itemData.itemType == ItemType.UseItem)
-            {
-                WeaponSocket.SetWeapon(null);
-                Item = item;
+                if (itemData.itemType == ItemType.EquipItem)
+                {
+                    WeaponSocket.SetWeapon(itemData);
+                    Item = null;
+                }
+                else if (itemData.itemType == ItemType.UseItem)
+                {
+                    WeaponSocket.SetWeapon(null);
+                    Item = item;
+                }
             }
         }
+
+        OnItemChanged?.Invoke(item);
     }
 
     public void Aim()
@@ -144,10 +147,12 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
         Stat = GetComponent<ActorStat>(); //추후 삭제 (인스펙터에서 수치변동용)
         MoveBody = GetComponent<ActorMoveBody>();
-        WeaponSocket = Util.FindChild<WeaponSocket>(this.gameObject, "WeaponSocket");
+        WeaponSocket = Util.FindChild<WeaponSocket>(gameObject, "WeaponSocket");
+        ReloadSlider = Util.FindChild<Slider>(gameObject, "ReloadSlider", true);
+        ReloadSlider.gameObject.SetActive(false);
         ActionRadius = new ActorActionRadius(this);
         Buff = new BuffAttacher(this);
-        ActorSwitchEffect = Util.FindChild<ParticleSystem>(this.gameObject, "ActorSwitchEffect");
+        ActorSwitchEffect = Util.FindChild<ParticleSystem>(gameObject, "ActorSwitchEffect");
     }
 
     private void LateInitVariables()

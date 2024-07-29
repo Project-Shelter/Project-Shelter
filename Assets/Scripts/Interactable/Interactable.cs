@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Interactable : MonoBehaviour, IInteractable
 {
     protected Actor actor;
-    private UI_InteractableGuide guide;
+    private Image guide;
 
 
     protected virtual void Awake()
     {
-        guide = Util.FindChild<UI_InteractableGuide>(gameObject, "UI_InteractableGuide", true);
+        guide = Util.FindChild<Image>(gameObject, "GuideImage", true);
+        guide.gameObject.SetActive(false);
     }
 
     public virtual void StartInteract(Actor actor)
@@ -26,6 +28,6 @@ public abstract class Interactable : MonoBehaviour, IInteractable
 
     public void ShowGuide(bool onOff)
     {
-        if (guide != null) { guide.ShowGuide(onOff); }
+        if (guide != null) { guide.gameObject.SetActive(onOff); }
     }
 }

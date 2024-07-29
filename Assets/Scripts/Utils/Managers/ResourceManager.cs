@@ -9,6 +9,17 @@ public class ResourceManager
         return Resources.Load<T>(path);
     }
 
+    public T[] LoadAll<T>(string path) where T : Object
+    {
+        T[] arr = Resources.LoadAll<T>(path);
+        if(arr == null || arr.Length == 0)
+        {
+            return null;
+        }
+
+        return arr;
+    }
+
     public GameObject Instantiate(string path, Transform parent = null)
     {
         GameObject original = Load<GameObject>($"Prefabs/{path}");

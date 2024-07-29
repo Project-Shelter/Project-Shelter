@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7696356607564487082
 Transform:
   m_ObjectHideFlags: 0
@@ -47,14 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdee8b8908847aa4dbe4d4556a429ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AttackDelay>k__BackingField: 0.5
-  <ReloadDelay>k__BackingField: 1
-  damage: 3
-  attackRange: 10
-  projectileSpeed: 10
-  maxAmmo: 10
-  currentAmmo: 10
-  firePos: {fileID: 80392067716782386}
 --- !u!212 &1481657099
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -200,9 +192,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1906851569
-  m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingLayerID: 1266401475
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0

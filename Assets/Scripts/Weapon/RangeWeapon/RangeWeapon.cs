@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
-    public bool IsActived { get; private set; }
+    public bool IsVisible { get; private set; }
+    public Action<int, int> OnAmmoChanged { get; set; }
     public Action OnAttack { get; set; }
-    public bool CanReload => currentAmmo < maxAmmo;
-    public bool HasToBeReload => currentAmmo <= 0;
 
     // Weapon Info
     public float AttackDelay { get; private set; }
@@ -15,9 +14,12 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     private float damage;
     private float attackRange;
     private float projectileSpeed;
-    private int maxAmmo;
-
+    public int MaxAmmo { get; private set; }
     private int currentAmmo;
+    public int CurrentAmmo { 
+        get { return currentAmmo; } 
+        private set { currentAmmo = value; OnAmmoChanged?.Invoke(MaxAmmo, value); } 
+    }
     private Transform firePos;
 
     private ParticleSystem fireEffect;
@@ -27,26 +29,17 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     private Animator animator;
     private Actor owner;
 
-    private void Awake()
+    public void Init()
     {
         firePos = Util.FindChild<Transform>(gameObject, "FirePos");
         fireEffect = Util.GetOrAddComponent<ParticleSystem>(firePos.gameObject);
         fireEffectRenderer = Util.GetOrAddComponent<ParticleSystemRenderer>(fireEffect.gameObject);
-        projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
+        projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Projectile/Projectile");
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
         animator = Util.GetOrAddComponent<Animator>(gameObject);
-        SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        if(owner != null)
-        {
-            animator.SetInteger("Direction", (int)owner.MoveBody.LookDir);
-        }
-    }
-
-    public void Init(Actor owner, ItemEffect weaponInfo)
+    public void Active(Actor owner, ItemEffect weaponInfo)
     {
         this.owner = owner;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
@@ -57,14 +50,12 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         damage = weaponInfo.Value;
         attackRange = weaponInfo.Range;
         projectileSpeed = 10f; // weaponInfo.ProjectileSpeed;
-        maxAmmo = 10; // weaponInfo.MaxAmmo;
-
-        SetActive(true);
+        MaxAmmo = 10; // weaponInfo.MaxAmmo;
     }
 
-    public void SetActive(bool value)
+    public void SetVisibility(bool value)
     {
-        IsActived = value;
+        IsVisible = value;
         if (value)
         {
             sprite.enabled = true;
@@ -77,7 +68,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
 
     public void Attack()
     {
-        if (HasToBeReload)
+        if (CurrentAmmo <= 0)
         {
             return;
         }
@@ -93,21 +84,33 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         fireEffectRenderer.sortingOrder = sprite.sortingOrder;
         fireEffect.Play();
         projectile.Launch(dir, attackRange, projectileSpeed, owner);
-        currentAmmo--;
+        CurrentAmmo--;
     }
 
     public void Reload()
     {
         // 인벤에서 총알 빠져나가는 작업 필요
-        currentAmmo = maxAmmo;
+        CurrentAmmo = MaxAmmo;
     }
 
     private void SetWeaponDirection(Direction dir)
     {
         animator.SetInteger("Direction", (int)dir);
     }
-    public void OnDestroy()
+
+    private void OnEnable()
     {
-        owner.MoveBody.OnLookDirChanged -= SetWeaponDirection;
+        if (owner != null)
+        {
+            animator.SetInteger("Direction", (int)owner.MoveBody.LookDir);
+        }
+    }
+
+    public void OnDisable ()
+    {
+        if (owner != null)
+        {
+            owner.MoveBody.OnLookDirChanged -= SetWeaponDirection;
+        }
     }
 }

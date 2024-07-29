@@ -96,6 +96,9 @@ namespace ItemContainer
 
             invenSlots[1].Add(1,
                 new ItemVO(203005, 1));
+
+            invenSlots[1].Add(2,
+                new ItemVO(203004, 1));
         }
 
         private void InitChests()
