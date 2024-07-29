@@ -15,13 +15,15 @@ public class ActorAttackReload : ActorAttackState
         reloadDelay = rangeWeapon.ReloadDelay;
         reloadDuration = 0f;
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsAttacking, true);
+        Actor.ReloadSlider.maxValue = reloadDelay;
+        Actor.ReloadSlider.gameObject.SetActive(true);
     }
 
     public override void UpdateState()
     {
         base.UpdateState();
         reloadDuration += Time.deltaTime;
-        Actor.ReloadAction?.Invoke(reloadDelay, reloadDuration);
+        Actor.ReloadSlider.value = reloadDuration;
     }
 
     public override void FixedUpdateState()
@@ -30,7 +32,7 @@ public class ActorAttackReload : ActorAttackState
 
     public override void ExitState()
     {
-        Actor.ReloadAction?.Invoke(reloadDelay, reloadDelay);
+        Actor.ReloadSlider.gameObject.SetActive(false);
         if (reloadDuration >= reloadDelay)
         {
             rangeWeapon.Reload();
