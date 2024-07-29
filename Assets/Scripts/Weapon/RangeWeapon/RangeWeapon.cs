@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
-    public bool IsActived { get; private set; }
+    public bool IsVisible { get; private set; }
     public Action<int, int> OnAmmoChanged { get; set; }
     public Action OnAttack { get; set; }
 
@@ -29,26 +29,17 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     private Animator animator;
     private Actor owner;
 
-    private void Awake()
+    public void Init()
     {
         firePos = Util.FindChild<Transform>(gameObject, "FirePos");
         fireEffect = Util.GetOrAddComponent<ParticleSystem>(firePos.gameObject);
         fireEffectRenderer = Util.GetOrAddComponent<ParticleSystemRenderer>(fireEffect.gameObject);
-        projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Weapon/Projectile");
+        projectilePrefab = Managers.Resources.Load<Projectile>("Prefabs/Projectile/Projectile");
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
         animator = Util.GetOrAddComponent<Animator>(gameObject);
-        SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        if(owner != null)
-        {
-            animator.SetInteger("Direction", (int)owner.MoveBody.LookDir);
-        }
-    }
-
-    public void Init(Actor owner, ItemEffect weaponInfo)
+    public void Active(Actor owner, ItemEffect weaponInfo)
     {
         this.owner = owner;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
@@ -60,13 +51,11 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         attackRange = weaponInfo.Range;
         projectileSpeed = 10f; // weaponInfo.ProjectileSpeed;
         MaxAmmo = 10; // weaponInfo.MaxAmmo;
-
-        SetActive(true);
     }
 
-    public void SetActive(bool value)
+    public void SetVisibility(bool value)
     {
-        IsActived = value;
+        IsVisible = value;
         if (value)
         {
             sprite.enabled = true;
@@ -108,8 +97,20 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     {
         animator.SetInteger("Direction", (int)dir);
     }
-    public void OnDestroy()
+
+    private void OnEnable()
     {
-        owner.MoveBody.OnLookDirChanged -= SetWeaponDirection;
+        if (owner != null)
+        {
+            animator.SetInteger("Direction", (int)owner.MoveBody.LookDir);
+        }
+    }
+
+    public void OnDisable ()
+    {
+        if (owner != null)
+        {
+            owner.MoveBody.OnLookDirChanged -= SetWeaponDirection;
+        }
     }
 }

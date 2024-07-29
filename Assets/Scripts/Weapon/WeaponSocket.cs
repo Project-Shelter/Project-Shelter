@@ -6,12 +6,13 @@ using UnityEngine;
 
 public class WeaponSocket : MonoBehaviour
 {
-    private GameObject weaponObject;
+    private Dictionary<string, GameObject> weaponDict = new();
+    private GameObject weaponObj;
     private IWeapon weapon;
     public IWeapon Weapon {
         get 
         {
-            if (weapon != null && weapon.IsActived) { return weapon; }
+            if (weapon != null && weaponObj.activeSelf) { return weapon; }
             else { return null; } 
         }
         private set 
@@ -23,9 +24,18 @@ public class WeaponSocket : MonoBehaviour
     private Actor owner;
     private bool isRange = false;
 
-    private void Start()
+    private void Awake()
     {
         owner = GetComponentInParent<Actor>();
+        GameObject[] weapons = Managers.Resources.LoadAll<GameObject>("Prefabs/Weapon");
+        foreach (var weaponObject in weapons)
+        {
+            GameObject tmpWeapon = Instantiate(weaponObject, transform);
+            weaponDict.Add(weaponObject.name, tmpWeapon);
+            IWeapon weapon = tmpWeapon.GetComponent<IWeapon>();
+            weapon.Init();
+            weaponObject.SetActive(false);
+        }
     }
 
     public void Init()
@@ -44,12 +54,14 @@ public class WeaponSocket : MonoBehaviour
     // 나중엔 인자로 받아서 무기 변경 가능하게
     public void SetWeapon(ItemData weaponData)
     {
-        if(weaponData == null) { DestroyWeapon(); return; }
-        weaponObject = Instantiate(Managers.Resources.Load<GameObject>("Prefabs/Weapon/" + weaponData.name), transform);
-        weapon = weaponObject.GetComponent<IWeapon>();
+        DeactiveWeapon();
+        if (weaponData == null) { return; }
+
+        weaponObj = weaponDict[weaponData.name];
+        weaponObj.SetActive(true);
+        weapon = weaponDict[weaponData.name].GetComponent<IWeapon>(); ;
         int effectID = ItemDummyData.ItemEffectRelations[weaponData.ID][0];
-        weapon.Init(owner, ItemDummyData.ItemEffects[effectID]);
-        weapon.SetActive(true);
+        weapon.Active(owner, ItemDummyData.ItemEffects[effectID]);
 
         if(weapon is IRangeWeapon)
         {
@@ -63,10 +75,10 @@ public class WeaponSocket : MonoBehaviour
         }
     }
 
-    private void DestroyWeapon()
+    private void DeactiveWeapon()
     {
         if(weapon == null) { return; }
-        Destroy(weaponObject);
+        weaponObj.SetActive(false);
         weapon = null;
     }
 
@@ -82,7 +94,7 @@ public class WeaponSocket : MonoBehaviour
 
     public void SetWeaponActive(bool value)
     {
-        if (weapon != null) { weapon.SetActive(value); }
+        if (weapon != null) { weapon.SetVisibility(value); }
     }
 
     public void RotateToMousePos()

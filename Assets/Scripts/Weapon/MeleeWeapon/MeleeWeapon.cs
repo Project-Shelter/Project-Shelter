@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
 {
-    public bool IsActived { get; private set; }
+    public bool IsVisible { get; private set; }
     public Action OnAttack { get; set; }
 
     // Weapon Info
@@ -33,7 +33,7 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
     private Vector3 attackRotation;
     private float rotateTime;
 
-    private void Awake()
+    public void Init()
     {
         animator = Util.GetOrAddComponent<Animator>(gameObject);
         sprite = Util.GetOrAddComponent<SpriteRenderer>(gameObject);
@@ -44,10 +44,9 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
         var effectMain = swingEffect.main;
         effectMain.duration = AttackDelay;
         hitBox.enabled = false;
-        SetActive(false);
     }
 
-    public void Init(Actor owner, ItemEffect weaponInfo)
+    public void Active(Actor owner, ItemEffect weaponInfo)
     {
         this.owner = owner;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
@@ -58,12 +57,11 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
         attackRange = weaponInfo.Range;
 
         hitBox.size = new Vector2(attackRange, attackRange);
-        SetActive(true);
     }
 
-    public void SetActive(bool value)
+    public void SetVisibility(bool value)
     {
-        IsActived = value;
+        IsVisible = value;
         if (value)
         {
             sprite.enabled = true;

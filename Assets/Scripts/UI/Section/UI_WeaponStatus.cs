@@ -88,6 +88,7 @@ public class UI_WeaponStatus : UI_Section
         weaponImage.sprite = Managers.Resources.Load<Sprite>($"Arts/Items/{name}");
         weaponImage.color = Color.white;
         ammoText.text = "∞";
+        ammoText.color = Color.white;
     }
 
     private void UpdateRangeWeapon(string name, int maxAmmo, int currentAmmo)
