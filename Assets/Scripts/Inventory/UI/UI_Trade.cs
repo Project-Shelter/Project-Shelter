@@ -22,7 +22,7 @@ namespace ItemContainer
             if(gameObject.name.Substring(gameObject.name.Length - 3) == "YOU")
             {
                 trader = 1;
-                itemTableNumber = DayNight.Instance.dayCount + 700;
+                itemTableNumber = ServiceLocator.GetService<DayNight>().dayCount;
                 Debug.Log(itemTableNumber);
             }
         }
