@@ -24,6 +24,7 @@ public class Chest : Interactable
 
         chestNum = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
         timeSlider.maxValue = chestOpenTime;
+        timeSlider.gameObject.SetActive(false);
         chest ??= root.transform.GetChild(3).GetComponent<PopupContainer>();
         inventory ??= root.transform.GetChild(2).GetComponent<PopupContainer>();
     }
@@ -31,10 +32,18 @@ public class Chest : Interactable
     private void Update()
     {
         bool isOpened = chest.popup.gameObject.activeSelf;
-        if (!(isOpening || isOpened) && openingTime > 0) 
+        if (!(isOpening || isOpened)) 
         {
-            openingTime = Mathf.MoveTowards(openingTime, 0f, Time.deltaTime); 
-            timeSlider.value = openingTime;
+            if (openingTime > 0)
+            {
+                openingTime = Mathf.MoveTowards(openingTime, 0f, Time.deltaTime);
+                timeSlider.value = openingTime;
+            }
+            else
+            {
+                timeSlider.value = 0;
+                timeSlider.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -42,6 +51,7 @@ public class Chest : Interactable
     {
         base.StartInteract(actor);
         isOpening = true;
+        timeSlider.gameObject.SetActive(true);
     }
 
     public override void Interacting()
