@@ -1,4 +1,5 @@
 using ItemContainer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class WeaponSocket : MonoBehaviour
         {
             weapon = value;
         } 
-    } 
+    }
     // 추후 무기 변경 방식에 따라 바뀔 수 있음
     private Actor owner;
     private bool isRange = false;

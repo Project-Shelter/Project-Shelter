@@ -16,7 +16,6 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
                 StateMachine.CanSwitchStates.Contains(StateMachine.CurrentState) &&
                 AttackStateMachine.CanSwitchStates.Contains(AttackStateMachine.CurrentState) && 
                 !Managers.UI.IsPopupOn();
-                
         } 
     }
     public bool IsSwitching { get; private set; }
@@ -40,6 +39,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     public IWeapon Weapon { get { if (WeaponSocket == null) return null; else return WeaponSocket.Weapon; } }
     public Slider ReloadSlider { get; private set; }
     public ItemVO Item { get; private set; }
+    public Action<ItemVO> OnItemChanged;
     public ActorStateMachine StateMachine { get; private set; }
     public ActorAttackStateMachine AttackStateMachine { get; private set; }
     public ActorAnimController Anim { get; private set; }
@@ -95,21 +95,24 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     public void SetItem(ItemVO item)
     {
-        if (item == null) return;
-
-        if(ItemDummyData.ItemDB.data.TryGetValue(item.id, out ItemData itemData))
+        if (item != null && item.id != 0)
         {
-            if (itemData.itemType == ItemType.EquipItem)
+            if (ItemDummyData.ItemDB.data.TryGetValue(item.id, out ItemData itemData))
             {
-                WeaponSocket.SetWeapon(itemData);
-                Item = null;
-            }
-            else if (itemData.itemType == ItemType.UseItem)
-            {
-                WeaponSocket.SetWeapon(null);
-                Item = item;
+                if (itemData.itemType == ItemType.EquipItem)
+                {
+                    WeaponSocket.SetWeapon(itemData);
+                    Item = null;
+                }
+                else if (itemData.itemType == ItemType.UseItem)
+                {
+                    WeaponSocket.SetWeapon(null);
+                    Item = item;
+                }
             }
         }
+
+        OnItemChanged?.Invoke(item);
     }
 
     public void Aim()

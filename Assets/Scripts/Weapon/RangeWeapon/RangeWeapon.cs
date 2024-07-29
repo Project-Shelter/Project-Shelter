@@ -5,9 +5,8 @@ using UnityEngine;
 public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
     public bool IsActived { get; private set; }
+    public Action<int, int> OnAmmoChanged { get; set; }
     public Action OnAttack { get; set; }
-    public bool CanReload => currentAmmo < maxAmmo;
-    public bool HasToBeReload => currentAmmo <= 0;
 
     // Weapon Info
     public float AttackDelay { get; private set; }
@@ -15,9 +14,12 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     private float damage;
     private float attackRange;
     private float projectileSpeed;
-    private int maxAmmo;
-
+    public int MaxAmmo { get; private set; }
     private int currentAmmo;
+    public int CurrentAmmo { 
+        get { return currentAmmo; } 
+        private set { currentAmmo = value; OnAmmoChanged?.Invoke(MaxAmmo, value); } 
+    }
     private Transform firePos;
 
     private ParticleSystem fireEffect;
@@ -57,7 +59,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         damage = weaponInfo.Value;
         attackRange = weaponInfo.Range;
         projectileSpeed = 10f; // weaponInfo.ProjectileSpeed;
-        maxAmmo = 10; // weaponInfo.MaxAmmo;
+        MaxAmmo = 10; // weaponInfo.MaxAmmo;
 
         SetActive(true);
     }
@@ -77,7 +79,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
 
     public void Attack()
     {
-        if (HasToBeReload)
+        if (CurrentAmmo <= 0)
         {
             return;
         }
@@ -93,13 +95,13 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         fireEffectRenderer.sortingOrder = sprite.sortingOrder;
         fireEffect.Play();
         projectile.Launch(dir, attackRange, projectileSpeed, owner);
-        currentAmmo--;
+        CurrentAmmo--;
     }
 
     public void Reload()
     {
         // 인벤에서 총알 빠져나가는 작업 필요
-        currentAmmo = maxAmmo;
+        CurrentAmmo = MaxAmmo;
     }
 
     private void SetWeaponDirection(Direction dir)

@@ -32,7 +32,7 @@ public class ActorAttackIdle : ActorAttackState
 
         if (Actor.CanAttack)
         {
-            if (Actor.Weapon is IRangeWeapon range && !range.HasToBeReload)
+            if (Actor.Weapon is IRangeWeapon range && range.CurrentAmmo > 0)
             {
                 Actor.AttackStateMachine.SetState(AttackState.Range);
                 return;
@@ -47,7 +47,7 @@ public class ActorAttackIdle : ActorAttackState
 
         if (Actor.CanReload)
         {
-            if (Actor.Weapon is IRangeWeapon range && range.CanReload)
+            if (Actor.Weapon is IRangeWeapon range && range.MaxAmmo > range.CurrentAmmo)
             {
                 Actor.AttackStateMachine.SetState(AttackState.Reload);
                 return;
