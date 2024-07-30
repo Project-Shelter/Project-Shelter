@@ -23532,7 +23532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1854936983
 Transform:
   m_ObjectHideFlags: 0
@@ -25374,10 +25374,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1105624180, guid: 38ac1b20b4458df4f8186d1d4afc8ea2, type: 3}
-      propertyPath: m_Name
-      value: HUDCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 1799745555, guid: 38ac1b20b4458df4f8186d1d4afc8ea2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -25880,21 +25876,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zombie
       objectReference: {fileID: 0}
-    - target: {fileID: 3257586895599169776, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3257586895599169783, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3257586895599169783, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.52
+      value: -1.34
       objectReference: {fileID: 0}
     - target: {fileID: 3257586895599169783, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.74
+      value: -5.23
       objectReference: {fileID: 0}
     - target: {fileID: 3257586895599169783, guid: 0aae5fa1c9cb48648b81c4a32e817e6c, type: 3}
       propertyPath: m_LocalPosition.z

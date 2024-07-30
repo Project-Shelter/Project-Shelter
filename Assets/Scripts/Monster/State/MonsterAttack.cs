@@ -4,30 +4,35 @@ using UnityEngine;
 
 public class MonsterAttack : MonsterBaseState
 {
-    Coroutine attackCoroutine;
     bool canAttack;
+    bool isAttacking;
 
-    public MonsterAttack(MonsterStateMachine stateMachine) : base(stateMachine) {}
+    public MonsterAttack(MonsterStateMachine stateMachine) : base(stateMachine) 
+    {
+        StateMachine.Owner.Attacker.OnAttackEnded += () => StateMachine.Owner.StartCoroutine(DelayAttack());
+    }
 
     public override void EnterState()
     {
-        //StateMachine.Owner.Anim.SetBool("Attack", true);
+        StateMachine.Owner.Anim.SetBool("Attack", true);
         StateMachine.Owner.MoveBody.Stop();
         canAttack = CanFindTarget();
-        attackCoroutine = StateMachine.Owner.StartCoroutine(Attack());
+        isAttacking = true;
+
     }
-
-    private IEnumerator Attack()
+    public override void UpdateState()
     {
-        yield return null;
-
-        WaitForSeconds attackDelay = new(StateMachine.Owner.Stat.attackDelay.GetValue());
-        while (canAttack)
-        {
-            bool isAttackSucceeded = StateMachine.Owner.Attacker.Attack(StateMachine.Owner.AttackTarget);
-            yield return attackDelay;
-            canAttack = CanFindTarget() && isAttackSucceeded;
+        if (!isAttacking) 
+        { 
+            canAttack = CanFindTarget() && IsTargetInAttackRange();
+            if(canAttack)
+            {
+                isAttacking = true;
+                StateMachine.Owner.Anim.Play("Attack", -1, 0f);
+            }
         }
+        base.UpdateState();
+
     }
 
     private bool CanFindTarget()
@@ -43,40 +48,55 @@ public class MonsterAttack : MonsterBaseState
         return true;
     }
 
+    private bool IsTargetInAttackRange()
+    {
+        Direction dir = StateMachine.Owner.MoveBody.MoveDir;
+        Collider2D[] colls = StateMachine.Owner.Attacker.GetCollsInAttackRange(dir);
+        foreach (Collider2D coll in colls)
+        {
+            if (coll == StateMachine.Owner.AttackTarget.Coll)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private IEnumerator DelayAttack()
+    {
+        WaitForSeconds attackDelay = new(StateMachine.Owner.Stat.attackDelay.GetValue());
+        yield return attackDelay;
+        isAttacking = false;
+    }
+
     public override void ExitState()
     {
-        //StateMachine.Owner.Anim.SetBool("Attack", false);
+        StateMachine.Owner.Anim.SetBool("Attack", false);
         StateMachine.Owner.AttackTarget = null;
-        StateMachine.Owner.StopCoroutine(attackCoroutine);
     }
 
-    public override void UpdateState()
-    {
-        base.UpdateState();
-    }
-
-    public override void FixedUpdateState()
-    {
-    }
+    public override void FixedUpdateState() { }
 
     protected override void ChangeFromState()
     {
-        if(!canAttack)
-        {
-            if(StateMachine.Owner.DetectedTarget != null)
-            {
-                StateMachine.SetState("Chase");
-            }
-            else
-            {
-                StateMachine.SetState("Move");
-            }
-        }
-
         if (StateMachine.Owner.IsDead)
         {
             StateMachine.SetState("Die");
             return;
+        }
+
+        if (!canAttack)
+        {
+            if(StateMachine.Owner.DetectedTarget != null)
+            {
+                StateMachine.SetState("Chase");
+                return;
+            }
+            else
+            {
+                StateMachine.SetState("Move");
+                return;
+            }
         }
     }
 }

@@ -76,4 +76,16 @@ public partial class Monster : MonoBehaviour, ILivingEntity, IMovable
     {
         return MoveBody.Velocity;
     }
+
+    public void Attack()
+    {
+        if(StateMachine.CurrentState == "ObjAttack")
+        {
+            Attacker.Attack(ObstacleTarget);
+        }
+        else if(StateMachine.CurrentState == "Attack")
+        {
+            Attacker.Attack(AttackTarget);
+        }
+    }
 }

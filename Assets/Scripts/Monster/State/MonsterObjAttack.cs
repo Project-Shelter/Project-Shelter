@@ -5,31 +5,35 @@ using UnityEngine.AI;
 
 public class MonsterObjAttack : MonsterBaseState
 {
-    Coroutine attackCoroutine;
     bool canAttack;
+    bool isAttacking;
 
-    public MonsterObjAttack(MonsterStateMachine stateMachine) : base(stateMachine) {
+    public MonsterObjAttack(MonsterStateMachine stateMachine) : base(stateMachine) 
+    {
+        StateMachine.Owner.Attacker.OnAttackEnded += () => StateMachine.Owner.StartCoroutine(DelayAttack());
     }
+
     public override void EnterState()
     {
-        //StateMachine.Owner.Anim.SetBool("Attack", true);
+        StateMachine.Owner.Anim.SetBool("Attack", true);
         StateMachine.Owner.MoveBody.Stop();
-        attackCoroutine = StateMachine.Owner.StartCoroutine(Attack());
         NavMeshController.Instance.ChangeAgentType(StateMachine.Owner.MoveBody.Agent, Agent.WithoutObjects);
         canAttack = true;
+        isAttacking = true;
     }
 
-    private IEnumerator Attack()
+    public override void UpdateState()
     {
-        yield return null;
-
-        WaitForSeconds attackDelay = new(StateMachine.Owner.Stat.attackDelay.GetValue());
-        while (canAttack)
+        if (!isAttacking)
         {
-            bool attackSucceeded = StateMachine.Owner.Attacker.Attack(StateMachine.Owner.ObstacleTarget);
-            yield return attackDelay;
-            canAttack = CanFindTarget();
+            canAttack = CanFindTarget() && IsTargetInAttackRange();
+            if (canAttack)
+            {
+                isAttacking = true;
+                StateMachine.Owner.Anim.Play("Attack", -1, 0f);
+            }
         }
+        base.UpdateState();
     }
 
     private bool CanFindTarget()
@@ -59,16 +63,31 @@ public class MonsterObjAttack : MonsterBaseState
         return true;
     }
 
-    public override void ExitState()
+    private bool IsTargetInAttackRange()
     {
-        //StateMachine.Owner.Anim.SetBool("Attack", false);
-        StateMachine.Owner.ObstacleTarget = null;
-        StateMachine.Owner.StopCoroutine(attackCoroutine);
+        Direction dir = StateMachine.Owner.MoveBody.MoveDir;
+        Collider2D[] colls = StateMachine.Owner.Attacker.GetCollsInAttackRange(dir);
+        foreach (Collider2D coll in colls)
+        {
+            if (coll == StateMachine.Owner.ObstacleTarget.Coll)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public override void UpdateState()
+    private IEnumerator DelayAttack()
     {
-        base.UpdateState();
+        WaitForSeconds attackDelay = new(StateMachine.Owner.Stat.attackDelay.GetValue());
+        yield return attackDelay;
+        isAttacking = false;
+    }
+
+    public override void ExitState()
+    {
+        StateMachine.Owner.Anim.SetBool("Attack", false);
+        StateMachine.Owner.ObstacleTarget = null;
     }
 
     public override void FixedUpdateState() {}
