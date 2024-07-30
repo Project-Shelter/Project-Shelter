@@ -27,7 +27,7 @@ public class MonsterChase : MonsterBaseState
     {
         StateMachine.Owner.MoveBody.Stop();
         StateMachine.Owner.Anim.SetBool("IsMoving", true);
-        StateMachine.Owner.Anim.speed = 1f;
+        StateMachine.Owner.Anim.speed = 1.5f;
         InitVariables();
     }
 

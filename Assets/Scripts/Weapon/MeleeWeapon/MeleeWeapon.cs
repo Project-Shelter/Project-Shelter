@@ -49,6 +49,7 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
     public void Active(Actor owner, ItemEffect weaponInfo)
     {
         this.owner = owner;
+        gameObject.layer = owner.gameObject.layer;
         owner.MoveBody.OnLookDirChanged += SetWeaponDirection;
 
         AttackDelay = weaponInfo.Runtime;

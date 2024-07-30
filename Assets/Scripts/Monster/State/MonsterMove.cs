@@ -44,7 +44,7 @@ public class MonsterMove : MonsterBaseState
     public override void EnterState()
     {
         StateMachine.Owner.Anim.SetBool("IsMoving", true);
-        StateMachine.Owner.Anim.speed = 0.5f;
+        StateMachine.Owner.Anim.speed = 1f;
         NavMeshController.Instance.ChangeAgentType(StateMachine.Owner.MoveBody.Agent, Agent.WithObjects);
     }
 
