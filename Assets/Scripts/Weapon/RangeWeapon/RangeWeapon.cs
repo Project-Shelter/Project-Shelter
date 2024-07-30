@@ -1,5 +1,6 @@
 using ItemContainer;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RangeWeapon : MonoBehaviour, IRangeWeapon
@@ -28,6 +29,9 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
     private SpriteRenderer sprite;
     private Animator animator;
     private Actor owner;
+
+    private readonly int projectileID = 202006;
+    List<ItemVO> availableAmmo = new();
 
     public void Init()
     {
@@ -69,10 +73,24 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
 
     public void Attack()
     {
-        if (CurrentAmmo <= 0)
+        if (CurrentAmmo <= 0 || availableAmmo.Count == 0)
         {
             return;
         }
+
+        ItemVO ammo = null;
+        foreach(ItemVO item in availableAmmo)
+        {
+            if(item.Count > 0)
+            {
+                ammo = item;
+                break;
+            }
+        }
+
+        ammo.Count--;
+        CurrentAmmo--;
+
         OnAttack?.Invoke();
         Projectile projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
         projectile.gameObject.layer = owner.gameObject.layer;
@@ -85,13 +103,44 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         fireEffectRenderer.sortingOrder = sprite.sortingOrder;
         fireEffect.Play();
         projectile.Launch(dir, attackRange, projectileSpeed, owner);
-        CurrentAmmo--;
     }
 
     public void Reload()
     {
-        // 인벤에서 총알 빠져나가는 작업 필요
-        CurrentAmmo = MaxAmmo;
+        int ammoCount = 0;
+        for (int i = 1; i >= 0; i--)
+        {
+            foreach (ItemVO item in ItemDummyData.invenSlots[i].Values)
+            {
+                if (item.id == projectileID)
+                {
+                    availableAmmo.Add(item);
+                    ammoCount += item.Count;
+                    item.OnRemove += () => 
+                        { 
+                            int restAmmo = GetAvailableAmmoCount() - item.Count; 
+                            if (restAmmo < CurrentAmmo) CurrentAmmo = restAmmo; 
+                        };
+                }
+            }
+        }
+
+        if(ammoCount > 0 && ammoCount < MaxAmmo)
+        {
+            CurrentAmmo = ammoCount;
+            return;
+        }
+        else if(ammoCount >= MaxAmmo) { CurrentAmmo = MaxAmmo; }
+    }
+
+    private int GetAvailableAmmoCount()
+    {
+        int ammoCount = 0;
+        foreach (ItemVO item in availableAmmo)
+        {
+            ammoCount += item.Count;
+        }
+        return ammoCount;
     }
 
     private void SetWeaponDirection(Direction dir)
