@@ -8,10 +8,12 @@ public class UI_InvenBar_below : UI_Container
 {
     //선택한 슬롯
     public int selectedSlot = 0;
+    private ContainerModel model;
 
     public void Start()
     {
-        base.StartContainer();
+        model = ContainerInjector.InjectContainer(1);
+        SetContainerToStart(model);
 
         for (int i = 0; i < 6; i++)
         {
