@@ -16,9 +16,11 @@ public class InventorySetting : MonoBehaviour
     void Start()
     {
         actor = ServiceLocator.GetService<ActorController>();
-        
+
         actor.BeforeSwitchActorAction -= SaveActorInventory;
         actor.BeforeSwitchActorAction += SaveActorInventory;
+        actor.BeforeSwitchActorAction -= Managers.UI.DisableAllPopupUI;
+        actor.BeforeSwitchActorAction += Managers.UI.DisableAllPopupUI;
 
         actor.SwitchActorAction -= ChangeActorInventory;
         actor.SwitchActorAction += ChangeActorInventory;
