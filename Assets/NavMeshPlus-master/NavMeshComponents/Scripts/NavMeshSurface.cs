@@ -77,8 +77,8 @@ namespace NavMeshPlus.Components
         public bool buildHeightMesh { get { return m_BuildHeightMesh; } set { m_BuildHeightMesh = value; } }
 
         [SerializeField]
-        bool m_HideEditorLogs;
-        public bool hideEditorLogs { get { return m_HideEditorLogs; } set { m_HideEditorLogs = value; } }
+        bool m_HideEditorLogs = true;
+        public bool hideEditorLogs { get { return true; } set { m_HideEditorLogs = value; } }
 
         // Reference to whole scene navmesh data asset.
         [UnityEngine.Serialization.FormerlySerializedAs("m_BakedNavMeshData")]
