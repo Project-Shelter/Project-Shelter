@@ -22,7 +22,6 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        print(other.gameObject.name);
         if (other.gameObject.layer == (int)Define.Layer.EnemyTrigger)
         {
             countCollidingEnemy++;
