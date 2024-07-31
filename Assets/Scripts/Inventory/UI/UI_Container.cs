@@ -96,6 +96,7 @@ namespace ItemContainer
         
         protected void OpenInventory()
         {
+            if (containerID == -1) return;
             Model?.SetContainer(containerID);
             InitView();
         }
