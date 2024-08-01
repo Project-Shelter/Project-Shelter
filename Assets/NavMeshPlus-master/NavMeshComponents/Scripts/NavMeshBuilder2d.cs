@@ -1,4 +1,4 @@
-﻿using NavMeshPlus.Components;
+using NavMeshPlus.Components;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -256,7 +256,14 @@ namespace NavMeshPlus.Extensions
         { 
             if (collider.usedByComposite)
             {
-                collider = collider.GetComponent<CompositeCollider2D>();
+                if(collider.TryGetComponent(out CompositeCollider2D composite))
+                {
+                    collider = composite;
+                }
+                else
+                {
+                    collider = collider.transform.parent.GetComponent<CompositeCollider2D>();
+                }
             }
 
             Mesh mesh;

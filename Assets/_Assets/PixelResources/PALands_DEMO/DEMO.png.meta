@@ -16820,7 +16820,7 @@ TextureImporter:
         width: 30
         height: 67
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -16849,6 +16849,27 @@ TextureImporter:
       bones: []
       spriteID: 9517447de2092e24e957cdd6df44f888
       internalID: 58689280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TrashCan
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 98
+        width: 16
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab65c3ce84786d147898ba54bd1d0097
+      internalID: -1246228054
       vertices: []
       indices: 
       edges: []
@@ -17661,6 +17682,7 @@ TextureImporter:
       DEMO_97: 424709805
       DEMO_98: 1283928882
       DEMO_99: -580596277
+      TrashCan: -1246228054
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

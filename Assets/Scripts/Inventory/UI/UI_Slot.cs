@@ -33,7 +33,7 @@ namespace ItemContainer
         {
             LoadItem(item);
 
-            if (Item.id is 0)
+            if (Item.id is 0 || Item.Count is 0)
             {
                 ClearSlot();
                 return;

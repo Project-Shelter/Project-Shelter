@@ -84,6 +84,7 @@ namespace ItemContainer
 
         private void SlotDoubleClick(int slot)
         {
+            if (!Model.container.slots.ContainsKey(slot)) return;
             GiveItem(Model.container.slots[slot].Count, slot, 1);
         }
         

@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
 public class MonsterAttacker
 {
     private Monster owner;
+    public event Action OnAttackEnded;
 
     public MonsterAttacker(Monster owner)
     {
@@ -87,7 +88,7 @@ public class MonsterAttacker
         }
     }
 
-    public bool Attack(ILivingEntity target)
+    public void Attack(ILivingEntity target)
     {
         Direction attackDir = GetDirectionToTarget(target);
         Collider2D[] hits = GetCollsInAttackRange(attackDir);
@@ -99,11 +100,9 @@ public class MonsterAttacker
         {
             if (hit == target.Coll)
             {
-                Debug.Log("Attack to " + target);
                 target.OnDamage(owner.Stat.attackDamage.GetValue(), hitPoint, hitNormal, owner);
-                return true;
             }
         }
-        return false;
+        OnAttackEnded?.Invoke();
     }
 }

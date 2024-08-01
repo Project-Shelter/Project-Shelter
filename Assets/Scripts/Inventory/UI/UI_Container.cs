@@ -94,8 +94,10 @@ namespace ItemContainer
             }
         }
         
-        protected virtual void OpenInventory()
+        protected void OpenInventory()
         {
+            if (containerID == -1) return;
+            Model?.SetContainer(containerID);
             InitView();
         }
         

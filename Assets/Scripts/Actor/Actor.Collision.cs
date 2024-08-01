@@ -69,7 +69,20 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     {
         Tr.position = new Vector3(Tr.position.x, Tr.position.y, GetZPosition(floor));
         SetViewByFloorChange(gameObject.layer, (int)floor);
-        gameObject.layer = (int)floor;
+        SetLayerRecursive(gameObject, (int)floor);
+    }
+
+    private void SetLayerRecursive(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+        foreach (Transform child in obj.transform)
+        {
+            child.gameObject.layer = layer;
+
+            Transform grandChild = child.GetComponentInChildren<Transform>();
+            if (grandChild != null) { SetLayerRecursive(grandChild.gameObject, layer); }
+
+        }
     }
 
     private int GetZPosition(Define.Layer floor)
