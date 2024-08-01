@@ -14,7 +14,7 @@ public class MonsterChase : MonsterBaseState
     {
         get
         {
-            if (ServiceLocator.GetService<DayNight>().isDay)
+            if (ServiceLocator.GetService<DayNight>().IsDay)
                 return StateMachine.Owner.Stat.dayChaseSpeed.GetValue();
             else
                 return StateMachine.Owner.Stat.nightChaseSpeed.GetValue();

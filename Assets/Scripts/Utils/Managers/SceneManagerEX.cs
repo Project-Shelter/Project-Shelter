@@ -10,7 +10,7 @@ public class SceneManagerEX
     public void LoadScene(Define.Scene type)
     {
         CurrentScene.Clear();
-        SceneManager.LoadScene(GetSceneName(type));
+        LoadingScene.LoadScene(GetSceneName(type));
     }
 
     string GetSceneName(Define.Scene type)
