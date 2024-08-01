@@ -14,6 +14,10 @@ public class UI_InvenBar_below : UI_Container
     {
         model = ContainerInjector.InjectContainer(1);
         SetContainerToStart(model);
+        Model.AddItemAction -= CheckUpdate;
+        Model.AddItemAction += CheckUpdate;
+        Model.AddItemAction -= SetActorItem;
+        Model.AddItemAction += SetActorItem;
 
         for (int i = 0; i < 6; i++)
         {
@@ -29,11 +33,36 @@ public class UI_InvenBar_below : UI_Container
         };
     }
 
+    private void CheckUpdate()
+    {
+        for (int i = 0; i < maxCapacity; i++)
+        {
+            if (Model.container.slots.ContainsKey(i))
+            {
+                slots[i].Item.OnCountChanged -= (_) => { UpdateAllSlot(); };
+                slots[i].Item.OnCountChanged += (_) => { UpdateAllSlot(); };
+            }
+        }
+    }
+
+    private void UpdateAllSlot()
+    {
+        for (int i = 0; i < maxCapacity; i++)
+        {
+            UpdateSlot(i);
+        }
+    }
+
+    private void SetActorItem()
+    {
+        ServiceLocator.GetService<ActorController>().CurrentActor.SetItem(GetSelectedItem());
+    }
+
     private void ChangeSlot(bool isOn, int slotNumber)
     {
         if (!isOn) return;
         selectedSlot = slotNumber;
-        ServiceLocator.GetService<ActorController>().CurrentActor.SetItem(GetSelectedItem());
+        SetActorItem();
     }
 
     //좌우 select 이동

@@ -45,9 +45,10 @@ namespace ItemContainer{
                     return;
                 }
                 count = value;
+                OnCountChanged?.Invoke(value);
             }
         }
-        public Action OnRemove;
+        public Action<int> OnCountChanged;
         public ItemVO(int id, int count)
         {
             this.id = id;
