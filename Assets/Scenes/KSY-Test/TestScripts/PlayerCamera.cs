@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using Input = UnityEngine.Windows.Input;
 
 public class PlayerCamera : MonoBehaviour
@@ -26,6 +27,9 @@ public class PlayerCamera : MonoBehaviour
     private ActorController actorController;
     private Actor Actor { get => actorController.CurrentActor; }
 
+    private Light2D globalLight;
+    private Light2D circleLight;
+
     enum OffsetType
     {
         None,
@@ -38,11 +42,15 @@ public class PlayerCamera : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         tr = gameObject.transform;
+        globalLight = Util.FindChild<Light2D>(gameObject, "GlobalLight");
+        circleLight = Util.FindChild<Light2D>(gameObject, "CircleLight");
     }
 
     private void Start()
     {
         actorController = ServiceLocator.GetService<ActorController>();
+        ServiceLocator.GetService<DayNight>().WhenDayBegins += SetDayLight;
+        ServiceLocator.GetService<DayNight>().WhenNightBegins += SetNightLight;
     }
 
     private void Update()
@@ -138,5 +146,39 @@ public class PlayerCamera : MonoBehaviour
                 movingOffsetY = Mathf.Lerp(movingOffsetY, 0, LerpTime * Time.deltaTime);
                 break;
         }
+    }
+
+    private void SetDayLight()
+    {
+        StartCoroutine(DayLightCoroutine());
+    }
+
+    private IEnumerator DayLightCoroutine()
+    {
+        while(globalLight.intensity < 0.8f - 0.01f && circleLight.intensity > 0.2f + 0.01f)
+        {
+            globalLight.intensity = Mathf.Lerp(globalLight.intensity, 0.8f, Time.deltaTime);
+            circleLight.intensity = Mathf.Lerp(circleLight.intensity, 0.2f, Time.deltaTime);
+            yield return null;
+        }
+        globalLight.intensity = 0.8f;
+        circleLight.intensity = 0.2f;
+    }
+
+    private void SetNightLight()
+    {
+        StartCoroutine(NightLightCoroutine());
+    }
+
+    private IEnumerator NightLightCoroutine()
+    {
+        while (globalLight.intensity > 0.1f + 0.01f && circleLight.intensity < 0.7f - 0.01f)
+        {
+            globalLight.intensity = Mathf.Lerp(globalLight.intensity, 0.1f, Time.deltaTime);
+            circleLight.intensity = Mathf.Lerp(circleLight.intensity, 0.7f, Time.deltaTime);
+            yield return null;
+        }
+        globalLight.intensity = 0.1f;
+        circleLight.intensity = 0.7f;
     }
 }

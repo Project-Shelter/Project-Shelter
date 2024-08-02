@@ -18,8 +18,8 @@ public class UI_DroppableSlot : UI_Slot, IPointerEnterHandler, IPointerExitHandl
     private bool isDraging = false;
 
     private Image image;
-    
 
+    public bool canDrag = true;
     
     void Awake()
     {
@@ -31,6 +31,7 @@ public class UI_DroppableSlot : UI_Slot, IPointerEnterHandler, IPointerExitHandl
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!canDrag) return;
         isDraging = true;
         originPosition = transform.position;
         image.raycastTarget = false;
@@ -38,12 +39,13 @@ public class UI_DroppableSlot : UI_Slot, IPointerEnterHandler, IPointerExitHandl
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isNull) return;
+        if (isNull || !canDrag) return;
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!canDrag) return;
         DropItem.Invoke(SlotNumber);
         transform.position = originPosition;
         isDraging = false;

@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc13af5d3541f264a9afb06b8135e11e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHumanActor: 0
 --- !u!114 &6834625161972356244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,9 +182,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d05f79862395a24983b698211d2809b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHumanPlayer: 0
-  minHP: 0
-  maxHP: 100
+  monsterViewRadius:
+    baseValue: 0
+  minHP:
+    baseValue: 0
+  maxHP:
+    baseValue: 0
   headAttackedChance:
     baseValue: 0.03
   trunkAttackedChance:
@@ -194,28 +198,31 @@ MonoBehaviour:
     baseValue: 0.15
   moveSpeed:
     baseValue: 5
-  moveOnLadderSpeed:
-    baseValue: 3
-  jumpForce:
-    baseValue: 5
-  defaultGravity:
-    baseValue: 3
+  dashCoolTime:
+    baseValue: 0
+  dashTime:
+    baseValue: 0
+  dashSpeed:
+    baseValue: 0
   attackDamage:
     baseValue: 10
-  minSatiety: 0
-  maxSatiety: 100
-  satietyIndex: 3
-  hpDebuffValue:
-    baseValue: 1
-  moveSpeedDebuffValue:
-    baseValue: 0.2
-  overloadDebuffValue:
-    baseValue: 10
-  damageDebuffValue:
-    baseValue: 0.3
-  collidingEnemyDebuffValue:
-    baseValue: 0.32
-  hpRecoveryBuffValue:
-    baseValue: 1
-  bleedingDebuffValue:
-    baseValue: 1
+  minSatiety:
+    baseValue: 0
+  maxSatiety:
+    baseValue: 0
+  satietyIndex:
+    baseValue: 0
+  hpDebuffVal:
+    baseValue: 0
+  slowDebuffVal:
+    baseValue: 0
+  overloadDebuffVal:
+    baseValue: 0
+  damageDebuffVal:
+    baseValue: 0
+  collidingEnemyDebuffVal:
+    baseValue: 0
+  hpRecoveryBuffVal:
+    baseValue: 0
+  bleedingDebuffVal:
+    baseValue: 0

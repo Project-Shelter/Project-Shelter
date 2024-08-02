@@ -31,6 +31,7 @@ namespace ItemContainer
         protected void StartContainer()
         {
             if (containerID == -1) containerID = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+            if (containerID > 3) containerID = 2;
             Model ??= ContainerInjector.InjectContainer(containerID);
             
             maxCapacity = ItemDummyData.MaxCapacity[containerID];

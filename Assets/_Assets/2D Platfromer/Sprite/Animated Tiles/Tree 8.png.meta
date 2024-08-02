@@ -3,7 +3,7 @@ guid: 06b04b2c020ff9c458fd6d6a5ea83987
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -100,6 +101,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -111,8 +124,8 @@ TextureImporter:
         y: 144
         width: 48
         height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.1666667}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -534,26 +547,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Tree 8_14: 201502115
       Tree 8_0: 1167068718
+      Tree 8_1: -1333877664
       Tree 8_10: 1660714005
+      Tree 8_11: -1802819046
+      Tree 8_12: -331687672
+      Tree 8_13: -1790045059
+      Tree 8_14: 201502115
       Tree 8_15: -269918868
-      Tree 8_7: 1493721739
       Tree 8_16: 1823580339
+      Tree 8_17: -1800929432
+      Tree 8_18: -1205494107
+      Tree 8_19: 378846157
+      Tree 8_2: 614849531
       Tree 8_3: 1585417462
       Tree 8_4: 338966243
-      Tree 8_19: 378846157
-      Tree 8_18: -1205494107
-      Tree 8_9: 1499947853
-      Tree 8_17: -1800929432
-      Tree 8_13: -1790045059
-      Tree 8_6: 222951585
       Tree 8_5: 671865053
-      Tree 8_11: -1802819046
+      Tree 8_6: 222951585
+      Tree 8_7: 1493721739
       Tree 8_8: -1756761379
-      Tree 8_1: -1333877664
-      Tree 8_2: 614849531
-      Tree 8_12: -331687672
+      Tree 8_9: 1499947853
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -3,7 +3,7 @@ guid: dfb8d9770086c1849bbdec6342ca2c98
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -100,6 +101,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -111,8 +124,8 @@ TextureImporter:
         y: 192
         width: 48
         height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -534,26 +547,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Tree 4_6: -1784071213
-      Tree 4_16: 2134788548
-      Tree 4_4: 353332447
-      Tree 4_11: 1087848811
-      Tree 4_8: -247427708
-      Tree 4_13: -1452789493
       Tree 4_0: 192185055
-      Tree 4_2: -519936673
-      Tree 4_7: 809674958
-      Tree 4_3: 942264357
-      Tree 4_18: -570449314
-      Tree 4_15: -168579578
       Tree 4_1: 6961442
-      Tree 4_17: -1923250637
-      Tree 4_19: 1895519801
-      Tree 4_14: -1865891625
-      Tree 4_5: 1074508357
-      Tree 4_12: 2020024536
-      Tree 4_9: -303488985
       Tree 4_10: 624054061
+      Tree 4_11: 1087848811
+      Tree 4_12: 2020024536
+      Tree 4_13: -1452789493
+      Tree 4_14: -1865891625
+      Tree 4_15: -168579578
+      Tree 4_16: 2134788548
+      Tree 4_17: -1923250637
+      Tree 4_18: -570449314
+      Tree 4_19: 1895519801
+      Tree 4_2: -519936673
+      Tree 4_3: 942264357
+      Tree 4_4: 353332447
+      Tree 4_5: 1074508357
+      Tree 4_6: -1784071213
+      Tree 4_7: 809674958
+      Tree 4_8: -247427708
+      Tree 4_9: -303488985
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

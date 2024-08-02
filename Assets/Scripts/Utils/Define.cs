@@ -27,6 +27,8 @@ public class Define : MonoBehaviour
     public enum Scene
     {
         Unknown,
+        Lobby,
+        Loading,
         Game,
     }
 }

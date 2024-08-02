@@ -48,7 +48,7 @@ public class MonsterMoveBody
 
     private void InitSpeed()
     {
-        if(ServiceLocator.GetService<DayNight>().isDay)
+        if(ServiceLocator.GetService<DayNight>().IsDay)
             Agent.speed = owner.Stat.dayMoveSpeed.GetValue();
         else
             Agent.speed = owner.Stat.nightMoveSpeed.GetValue();
