@@ -1,0 +1,58 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ActorController
+{
+    private int nextActor = 0;
+    public Actor CurrentActor { get; private set; } = null;
+    private List<Actor> actorsList = new List<Actor>();
+
+    public Action BeforeSwitchActorAction = null;
+    public Action SwitchActorAction = null;
+
+    public void Init()
+    {
+        InitActors();
+        InitSwitchActorAction();
+    }
+    public void Update()
+    {
+        CurrentActor.ActorUpdate();
+    }
+
+    public void FixedUpdate()
+    {
+        CurrentActor.ActorFixedUpdate();
+    }
+    
+    #region ActorSwitching
+
+    private void InitActors()
+    {
+        Actor[] temp = UnityEngine.Object.FindObjectsOfType<Actor>();
+        foreach (var act in temp)
+        {
+            actorsList.Add(act);
+        }
+
+        CurrentActor = actorsList[0];
+        nextActor = 1 % actorsList.Count;
+    }
+    private void InitSwitchActorAction()
+    {
+        BeforeSwitchActorAction += () => { CurrentActor.ExitControl(); };
+        SwitchActorAction += () => { CurrentActor.EnterControl(); };
+    }
+
+    public void SwitchActor()
+    {
+        BeforeSwitchActorAction?.Invoke();
+        CurrentActor = actorsList[nextActor];
+        nextActor = (nextActor + 1) % actorsList.Count;
+        SwitchActorAction?.Invoke();
+    }
+    
+    #endregion
+}

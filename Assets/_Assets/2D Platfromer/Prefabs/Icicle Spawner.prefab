@@ -100,7 +100,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!95 &2912102159468592311
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,7 +117,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &5672060490531095498
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -138,7 +139,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -215,8 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8f358b6ee78e44db191c6398b3b5a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IciclePrefab: {fileID: 4200582393508267742, guid: d720b8851516d4f4c9d2ca6b340436ad,
-    type: 3}
+  IciclePrefab: {fileID: 4200582393508267742, guid: d720b8851516d4f4c9d2ca6b340436ad, type: 3}
   Icicle: {fileID: 1254744099496524952}
   spawnPoint: {x: 0, y: 0, z: 0}
   Speed: 0.16

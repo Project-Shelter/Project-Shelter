@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using Input = UnityEngine.Windows.Input;
 
 public class PlayerCamera : MonoBehaviour
@@ -10,24 +11,174 @@ public class PlayerCamera : MonoBehaviour
     [Header("Camera Position")]
     [SerializeField] private float actorOffsetY;
     [SerializeField] private float movingMaxOffsetX;
+    [SerializeField] private float movingMaxOffsetY;
     [SerializeField] private float LerpTime;
 
+    [Header("Camera Zoom")]
+    [SerializeField] private float zoomSpeed;
+    [SerializeField] private float originSize;
+    [SerializeField] private float zoomSize;
+    private bool canZoom = false;
+
     private float movingOffsetX = 0;
+    private float movingOffsetY = 0;
+    private Camera cam;
     private Transform tr;
+    private ActorController actorController;
+    private Actor Actor { get => actorController.CurrentActor; }
+
+    private Light2D globalLight;
+    private Light2D circleLight;
+
+    enum OffsetType
+    {
+        None,
+        Aim,
+        Moving
+    }
+    private OffsetType offsetType = OffsetType.None;
 
     private void Awake()
     {
+        cam = GetComponent<Camera>();
         tr = gameObject.transform;
+        globalLight = Util.FindChild<Light2D>(gameObject, "GlobalLight");
+        circleLight = Util.FindChild<Light2D>(gameObject, "CircleLight");
     }
 
-    void Start()
+    private void Start()
     {
+        actorController = ServiceLocator.GetService<ActorController>();
+        ServiceLocator.GetService<DayNight>().WhenDayBegins += SetDayLight;
+        ServiceLocator.GetService<DayNight>().WhenNightBegins += SetNightLight;
     }
 
-    void Update()
+    private void Update()
     {
-        if(InputHandler.ButtonD) movingOffsetX = Mathf.Lerp(movingOffsetX, movingMaxOffsetX, LerpTime * Time.deltaTime);
-        if(InputHandler.ButtonA) movingOffsetX = Mathf.Lerp(movingOffsetX, -movingMaxOffsetX, LerpTime * Time.deltaTime);
-        tr.position = ActorController.Instance.CurrentActor.Tr.position + new Vector3(movingOffsetX, actorOffsetY, -10);
+        if (canZoom) { ZoomByInteract(); }
+        else { ResetZoom(); }
+
+        if (actorController.CurrentActor.IsAiming)
+        {
+            offsetType = OffsetType.Aim;
+            SetOffsetByAim();
+        }
+        else if (Actor.MoveBody.Velocity != Vector2.zero)
+        {
+            offsetType = OffsetType.Moving;
+            SetOffsetByMoving();
+        }
+        else
+        {
+            ResetOffSet();
+        }
+
+        tr.position = Actor.Tr.position + new Vector3(movingOffsetX, movingOffsetY + actorOffsetY, -10);
+    }
+
+    private void ZoomByInteract()
+    {
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, zoomSize, zoomSpeed * Time.deltaTime);
+    }
+
+    private void ResetZoom()
+    {
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, originSize, zoomSpeed * Time.deltaTime);
+    }
+
+    public void SetZoom(bool canZoom)
+    {
+        this.canZoom = canZoom;
+    }
+
+    private void SetOffsetByAim()
+    {
+        Vector2 mousePosition = InputHandler.MousePosition;
+        Direction direction = InputHandler.MouseSection;
+        float x = mousePosition.x - Screen.width / 2;
+        float y = mousePosition.y - Screen.height / 2;
+
+        if (direction == Direction.Up)
+        {
+            float ratio = movingMaxOffsetY / y;
+            movingOffsetX = x * ratio;
+            movingOffsetY = movingMaxOffsetY;
+        }
+        else if (direction == Direction.Down)
+        {
+            float ratio = -movingMaxOffsetY / y;
+            movingOffsetX = x * ratio;
+            movingOffsetY = -movingMaxOffsetY;
+        }
+        else if (direction == Direction.Left)
+        {
+            float ratio = -movingMaxOffsetX / x;
+            movingOffsetX = -movingMaxOffsetX;
+            movingOffsetY = y * ratio;
+        }
+        else if (direction == Direction.Right)
+        {
+            float ratio = movingMaxOffsetX / x;
+            movingOffsetX = movingMaxOffsetX;
+            movingOffsetY = y * ratio;
+        }
+    }
+
+    private void SetOffsetByMoving()
+    {
+        Vector2 velocity = Actor.MoveBody.Velocity;
+        if (velocity.x > 0) { movingOffsetX = Mathf.Lerp(movingOffsetX, movingMaxOffsetX, LerpTime * Time.deltaTime); }
+        else if (velocity.x < 0) { movingOffsetX = Mathf.Lerp(movingOffsetX, -movingMaxOffsetX, LerpTime * Time.deltaTime); }
+        if (velocity.y > 0) { movingOffsetY = Mathf.Lerp(movingOffsetY, movingMaxOffsetY, LerpTime * Time.deltaTime); }
+        else if (velocity.y < 0) { movingOffsetY = Mathf.Lerp(movingOffsetY, -movingMaxOffsetY, LerpTime * Time.deltaTime); }
+    }
+
+    private void ResetOffSet()
+    {
+        switch(offsetType)
+        {
+            case OffsetType.Aim:
+                movingOffsetX = 0;
+                movingOffsetY = 0;
+                break;
+            case OffsetType.Moving:
+                movingOffsetX = Mathf.Lerp(movingOffsetX, 0, LerpTime * Time.deltaTime);
+                movingOffsetY = Mathf.Lerp(movingOffsetY, 0, LerpTime * Time.deltaTime);
+                break;
+        }
+    }
+
+    private void SetDayLight()
+    {
+        StartCoroutine(DayLightCoroutine());
+    }
+
+    private IEnumerator DayLightCoroutine()
+    {
+        while(globalLight.intensity < 0.8f - 0.01f && circleLight.intensity > 0.2f + 0.01f)
+        {
+            globalLight.intensity = Mathf.Lerp(globalLight.intensity, 0.8f, Time.deltaTime);
+            circleLight.intensity = Mathf.Lerp(circleLight.intensity, 0.2f, Time.deltaTime);
+            yield return null;
+        }
+        globalLight.intensity = 0.8f;
+        circleLight.intensity = 0.2f;
+    }
+
+    private void SetNightLight()
+    {
+        StartCoroutine(NightLightCoroutine());
+    }
+
+    private IEnumerator NightLightCoroutine()
+    {
+        while (globalLight.intensity > 0.1f + 0.01f && circleLight.intensity < 0.7f - 0.01f)
+        {
+            globalLight.intensity = Mathf.Lerp(globalLight.intensity, 0.1f, Time.deltaTime);
+            circleLight.intensity = Mathf.Lerp(circleLight.intensity, 0.7f, Time.deltaTime);
+            yield return null;
+        }
+        globalLight.intensity = 0.1f;
+        circleLight.intensity = 0.7f;
     }
 }

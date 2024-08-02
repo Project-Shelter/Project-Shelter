@@ -10,10 +10,11 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+        if(Init())
+            Destroy(gameObject);
     }
 
-    static void Init()
+    static bool Init()
     {
         if (_instance == null)
         {
@@ -22,15 +23,17 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
             
             if (_instance == null)
             {
-                obj = new GameObject { name = "@" + typeof(T).ToString() + "(MonoSingleton)" };
+                obj = new GameObject { name = typeof(T).ToString() + "(MonoSingleton)" };
                 _instance = obj.AddComponent<T>();
+                DontDestroyOnLoad(obj);
+                return true;
             }
-            else
-            {
-                obj = _instance.gameObject;
-            }
-            
+
+            obj = _instance.gameObject;
             DontDestroyOnLoad(obj);
+            return false;
         }
+
+        return true;
     }
 }
