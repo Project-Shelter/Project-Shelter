@@ -75,6 +75,7 @@ public class ActorDie : ActorBaseState
 
         Actor.gameObject.SetActive(false);
         GameScene scene = Managers.SceneManager.CurrentScene as GameScene;
-        scene.GameOverAction?.Invoke();
+
+        if(Actor.Controller.CurrentActor == Actor) scene.GameOverAction?.Invoke();
     }
 }
