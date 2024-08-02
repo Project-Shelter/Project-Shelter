@@ -72,7 +72,7 @@ namespace ItemContainer{
         public ItemEntity(int id, int itemId, int count)
         {
             ID = id;
-            this.item_id = item_id;
+            this.item_id = itemId;
             this.count = count;
         }
 

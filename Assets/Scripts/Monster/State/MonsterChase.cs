@@ -75,6 +75,7 @@ public class MonsterChase : MonsterBaseState
 
     private void FindAttackTarget()
     {
+        if (chaseTarget == null) { return; }
         Direction attackDir = StateMachine.Owner.Attacker.GetDirectionToTarget(chaseTarget);
         Collider2D[] hits = StateMachine.Owner.Attacker.GetCollsInAttackRange(attackDir);
         foreach (Collider2D hit in hits)
@@ -90,6 +91,7 @@ public class MonsterChase : MonsterBaseState
 
     private void CanKeepChasing()
     {
+        if (chaseTarget == null) { return; }
         float distance = Vector3.Distance(StateMachine.Owner.Tr.position, StateMachine.Owner.DetectedTarget.Coll.bounds.center);
         if(distance > chaseRadius)
         {

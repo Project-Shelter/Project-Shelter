@@ -19,11 +19,11 @@ public class GameScene : BaseScene
         ServiceLocator.RegisterService(ActorController);
         ServiceLocator.RegisterService(DayNight);
         ServiceLocator.RegisterService(PlayerCamera);
-        /*
+        
         GameOverAction += () =>
         {
             Managers.SceneManager.LoadScene(Define.Scene.Lobby);
-        };*/
+        };
     }
 
     public override void Clear()

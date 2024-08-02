@@ -78,7 +78,7 @@ namespace ItemContainer
         { 
             //개선 요망
             Dictionary<int, ItemVO> dict = new Dictionary<int, ItemVO>();
-            Dictionary<int, ItemEntity> temp = DataManager.Instance.JsonToDict<ItemEntity>("/Data/ItemSetting.json")[0];
+            Dictionary<int, ItemEntity> temp = DataManager.Instance.JsonToDict<ItemEntity>("Data/ItemSetting")[0];
             foreach (var entity in temp)
             {
                 dict.Add(entity.Key, entity.Value.CreateItemVo());
@@ -91,66 +91,64 @@ namespace ItemContainer
         {
             invenSlots[1] = new Dictionary<int, ItemVO>();
             
-            invenSlots[1].Add(0,
-                new ItemVO(200001, 1));
-
-            invenSlots[1].Add(1,
-                new ItemVO(203005, 1));
-
-            invenSlots[1].Add(2,
-                new ItemVO(203004, 1));
         }
 
         private void InitChests()
         {
-            invenSlots[2] = new Dictionary<int, ItemVO>();
-            invenSlots[3] = new Dictionary<int, ItemVO>();
+            for(int i = 2; i <= 40; i++)
+            {
+               invenSlots[i] = new Dictionary<int, ItemVO>();
+            }
+
+            invenSlots[8].Add(0,
+                new ItemVO(203005, 1));
 
             invenSlots[2].Add(0,
-                new ItemVO(200001, 2));
-            
+                new ItemVO(200001, 1));
             invenSlots[2].Add(1,
-                new ItemVO(200010, 8));
-            
-            invenSlots[2].Add(2,
-                new ItemVO(202005, 1));
-            
-            invenSlots[2].Add(4,
-                new ItemVO(200001, 1));
-            
-            invenSlots[2].Add(5,
-                new ItemVO(200001, 2));
-            
-            invenSlots[2].Add(6,
-                new ItemVO(200010, 8));
-            
-            invenSlots[2].Add(7,
-                new ItemVO(202006, 50));
-            
-            invenSlots[2].Add(8,
-                new ItemVO(200001, 1));
-            
-            invenSlots[2].Add(9,
-                new ItemVO(200001, 1));
-            
-            invenSlots[2].Add(10,
-                new ItemVO(200010, 8));
-            
-            invenSlots[2].Add(11,
-                new ItemVO(202006, 18));
-            
-            invenSlots[3].Add(0,
-                new ItemVO(202005, 20));
-            
-            invenSlots[3].Add(1,
-                new ItemVO(200010, 8));
+                new ItemVO(203004, 1));
+
+            invenSlots[13].Add(0,
+                new ItemVO(202006, 30));
+
+            List<int> excludeNum = new()
+            {
+                8,
+                2,
+                13
+            };
+            for (int i = 0; i < 16; i++)
+            {
+                int randomNum = Random.Range(2, 40);
+                while (excludeNum.Contains(randomNum))
+                {
+                    randomNum = Random.Range(2, 40);
+                }
+                excludeNum.Add(randomNum);
+                Debug.Log(randomNum);
+                int meatNum = Random.Range(1, 2);
+                invenSlots[randomNum].Add(0, new ItemVO(200001, meatNum));
+            }
+
+            for (int i = 0; i < 16; i++)
+            {
+                int randomNum = Random.Range(2, 40);
+                while (excludeNum.Contains(randomNum))
+                {
+                    randomNum = Random.Range(2, 40);
+                }
+                excludeNum.Add(randomNum);
+                Debug.Log(randomNum);
+                int bulletNum = Random.Range(5, 15);
+                invenSlots[randomNum].Add(0, new ItemVO(202006, bulletNum));
+            }
         }
 
         private void InitItemDB()
         {
-            ItemDB = new ItemDB(DataManager.Instance.JsonToDict<ItemData>("/Data/ItemTable.json")[0]);
-            ItemEffects = DataManager.Instance.JsonToDict<ItemEffect>("/Data/SkillTable.json")[0];
-            Dictionary<int, ItemEffectRelation> effectRelation = DataManager.Instance.JsonToDict<ItemEffectRelation>("/Data/SkillTable.json")[1];
+            ItemDB = new ItemDB(DataManager.Instance.JsonToDict<ItemData>("Data/ItemTable")[0]);
+            ItemEffects = DataManager.Instance.JsonToDict<ItemEffect>("Data/SkillTable")[0];
+            Dictionary<int, ItemEffectRelation> effectRelation = DataManager.Instance.JsonToDict<ItemEffectRelation>("Data/SkillTable")[1];
             ItemEffectRelations = new Dictionary<int, List<int>>();
             foreach (var data in effectRelation)
             {

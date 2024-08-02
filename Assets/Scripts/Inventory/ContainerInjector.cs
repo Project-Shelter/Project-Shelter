@@ -20,6 +20,7 @@ namespace ItemContainer
 
         public static ContainerModel InjectContainer(int num)
         {
+            if (num > 2) num = 2;
             return _containers[num];
         }
     }

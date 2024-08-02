@@ -51,6 +51,15 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
         }
     }
 
+    /*void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            MoveBody.Stop();
+        }
+    }*/
+
+
     public void EnterBuilding(GameObject roof)
     {
         if (roof == null) return;
