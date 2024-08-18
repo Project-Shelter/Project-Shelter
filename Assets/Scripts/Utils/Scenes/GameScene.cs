@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class GameScene : BaseScene
     public DayNight DayNight { get; private set; } = new DayNight();
     public ActorController ActorController { get; private set; } = new ActorController();
     public PlayerCamera PlayerCamera { get; private set; }
+    public Action GameOverAction;
 
     protected override void Init()
     {
@@ -17,6 +19,11 @@ public class GameScene : BaseScene
         ServiceLocator.RegisterService(ActorController);
         ServiceLocator.RegisterService(DayNight);
         ServiceLocator.RegisterService(PlayerCamera);
+        
+        GameOverAction += () =>
+        {
+            Managers.SceneManager.LoadScene(Define.Scene.Lobby);
+        };
     }
 
     public override void Clear()
@@ -24,6 +31,7 @@ public class GameScene : BaseScene
         ServiceLocator.UnregisterService<ActorController>();
         ServiceLocator.UnregisterService<DayNight>();
         ServiceLocator.UnregisterService<PlayerCamera>();
+        Destroy(FindAnyObjectByType<NavMeshController>().gameObject);
     }
 
     private void FixedUpdate()

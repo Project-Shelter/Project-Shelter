@@ -22,11 +22,12 @@ public class Chest : Interactable
     {
         GameObject root = Util.FindChild(Managers.UI.Root, "UI_Inventory", true);
 
-        chestNum = int.Parse(gameObject.name.Substring(gameObject.name.Length - 1));
+        chestNum = int.Parse(gameObject.name.Substring(6));
         timeSlider.maxValue = chestOpenTime;
         timeSlider.gameObject.SetActive(false);
-        chest ??= root.transform.GetChild(3).GetComponent<PopupContainer>();
-        inventory ??= root.transform.GetChild(2).GetComponent<PopupContainer>();
+
+        chest = Util.FindChild(root, "UI_OpenInventory").GetComponent<PopupContainer>();
+        inventory = Util.FindChild(root, "UI_OpenChest").GetComponent<PopupContainer>();
     }
 
     private void Update()

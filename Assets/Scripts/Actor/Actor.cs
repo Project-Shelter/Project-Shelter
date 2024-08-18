@@ -91,7 +91,7 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
     {
         IsSwitching = false;
         if (gameObject.layer != (int)Define.Layer.Ground) Camera.main.cullingMask &= ~(1 << gameObject.layer);
-        if(roof != null) roof.SetActive(true);
+        if (roof != null) roof.SetActive(true);
     }
 
     public void SetItem(ItemVO item)

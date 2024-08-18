@@ -25,7 +25,7 @@ public class MonsterMove : MonsterBaseState
     {
         get
         {
-            if (ServiceLocator.GetService<DayNight>().isDay)
+            if (ServiceLocator.GetService<DayNight>().IsDay)
                 return StateMachine.Owner.Stat.dayMoveSpeed.GetValue();
             else
                 return StateMachine.Owner.Stat.nightMoveSpeed.GetValue();

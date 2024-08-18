@@ -10,7 +10,6 @@ public class BreakableObject : MonoBehaviour, ILivingEntity
 
     public Transform Tr { get; private set; }
     public Collider2D Coll { get; private set; }
-    public Animator Anim { get; private set; }
     public ObjectStateMachine StateMachine { get; private set; }
     private LivingEntity livingEntity;
     public bool IsDead => livingEntity.IsDead;
@@ -26,7 +25,6 @@ public class BreakableObject : MonoBehaviour, ILivingEntity
     {
         Tr = transform;
         Coll = Util.GetOrAddComponent<Collider2D>(gameObject);
-        Anim = Util.GetOrAddComponent<Animator>(gameObject);
         StateMachine = new ObjectStateMachine(this);
         livingEntity = new LivingEntity(0f, 30f);
     }

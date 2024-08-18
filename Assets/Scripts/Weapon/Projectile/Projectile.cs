@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private float range;
-    public int damage = 1;
+    public int damage = 50;
 
     private Vector2 direction;
     private Vector3 startPos;

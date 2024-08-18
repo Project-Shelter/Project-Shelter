@@ -7,7 +7,7 @@ public class Satiety
     public Stat MinSatiety { get; private set; } = new Stat();
     public float Value { get; private set; }
     public Stat MaxSatiety { get; private set; } = new Stat();
-    private readonly float TIME_BET_DECREASE = 3;
+    private readonly float TIME_BET_DECREASE = 15;
 
     public Dictionary<float, IBuff> DebuffsByBelow { get; private set; } = new Dictionary<float, IBuff>();
     public Dictionary<float, IBuff> BuffsByAbove { get; private set; } = new Dictionary<float, IBuff>();

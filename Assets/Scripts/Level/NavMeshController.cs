@@ -38,7 +38,6 @@ public class NavMeshController : MonoSingleton<NavMeshController>
                     agentTypeId[agent] = settings.agentTypeID;
                     agents[agent] = navMeshAgent;
                     surfaces[agent] = Util.FindChild<NavMeshSurface>(gameObject, agent.ToString() + "Mesh");
-                    surfaces[agent].BuildNavMesh();
                     break;
                 }
             }

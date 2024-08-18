@@ -4,7 +4,6 @@ public class ActorIdle : ActorBaseState
     
     public override void EnterState()
     {
-        Actor.MoveBody.Stop();
     }
 
     public override void UpdateState() 
@@ -21,6 +20,7 @@ public class ActorIdle : ActorBaseState
 
     public override void UpdateWithNoCtrl() 
     {
+        Actor.MoveBody.Stop();
         if (Actor.IsDead) Actor.StateMachine.SetState(ActorState.Die);
         Actor.ActionRadius.AlertForMonstersInRadius(); 
     }

@@ -12,7 +12,7 @@ public class DataManager : MonoSingleton<DataManager>
     private const string DataPattern = @"\{[^}]*\}";
     public Dictionary<int, T>[] JsonToDict<T>(string filePath) where T : DBData
     {
-        string jsonData = File.ReadAllText(Application.dataPath + filePath);
+        string jsonData = Managers.Resources.Load<TextAsset>(filePath).text;
         jsonData =  jsonData.Substring(1, jsonData.Length - 2);
         List<string> tableList = ExtractString(jsonData, TablePattern);
         Dictionary<int, T>[] returnDict = new Dictionary<int, T>[tableList.Count];

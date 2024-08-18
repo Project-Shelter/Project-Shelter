@@ -8,8 +8,8 @@ public class DayNight
     
     public event Action WhenDayBegins;
     public event Action WhenNightBegins;
-    public bool isDay; // 낮 = true, 밤 = false
-    public int dayCount; // 날짜 수
+    public bool IsDay { get; private set; } // 낮 = true, 밤 = false
+    public int DayCount { get; private set; } // 날짜 수
     private HourMinute midNight0 = new HourMinute(0, 0); // 자정 0시
     private HourMinute midNight24 = new HourMinute(24, 0); // 자정 24시
     
@@ -17,22 +17,22 @@ public class DayNight
     private HourMinute timeWhenDayBegins;
     [Header("Day Begin")]
     [Range(0, 23)]
-    public int hourWhenDayBegins;
+    public int hourWhenDayBegins = 8;
     [Range(0, 59)]
-    public int minuteWhenDayBegins;
+    public int minuteWhenDayBegins = 0;
 
     // 밤이 시작하는 시간
     private HourMinute timeWhenNightBegins;
     [Header("Night Begin")]
     [Range(0, 23)]
-    public int hourWhenNightBegins;
+    public int hourWhenNightBegins = 20;
     [Range(0, 59)]
-    public int minuteWhenNightBegins;
+    public int minuteWhenNightBegins = 0;
 
     private int durationOfDay; // 낮이 지속되는 분 수
     private int durationOfNight; // 밤이 지속되는 분 수
 
-    public float realSecondsForTimePass = 4.0f; // 시간이 흐를 때까지의 실제 초 수
+    public float realSecondsForTimePass = 4f; // 시간이 흐를 때까지의 실제 초 수
     private float realSeconds; // 실제 초 수 저장
     private int minutesAfterDayNightChanged; // 낮밤이 바뀐 후의 분 수
     private readonly int TIME_PASS_MINUTES = 10; // 시간이 흐르는 분 간격
@@ -63,8 +63,8 @@ public class DayNight
 
     private void InitTime()
     {
-        isDay = true;
-        dayCount = 0;
+        IsDay = true;
+        DayCount = 1;
         realSeconds = 0;
     }
 
@@ -77,16 +77,16 @@ public class DayNight
             PassTime();
         }
 
-        if (isDay && minutesAfterDayNightChanged >= durationOfDay)
+        if (IsDay && minutesAfterDayNightChanged >= durationOfDay)
         {
-            isDay = false;
+            IsDay = false;
             minutesAfterDayNightChanged = 0;
             WhenNightBegins?.Invoke();
         }
-        else if (!isDay && minutesAfterDayNightChanged >= durationOfNight)
+        else if (!IsDay && minutesAfterDayNightChanged >= durationOfNight)
         {
-            dayCount++;
-            isDay = true;
+            DayCount++;
+            IsDay = true;
             minutesAfterDayNightChanged = 0;
             WhenDayBegins?.Invoke();
         }
@@ -103,8 +103,8 @@ public class DayNight
     public string GetTimerText()
     {
         string text = "";
-        text += "Day" + dayCount;
-        if (isDay)
+        text += "Day" + DayCount;
+        if (IsDay)
         {
             text += dayText;
         }

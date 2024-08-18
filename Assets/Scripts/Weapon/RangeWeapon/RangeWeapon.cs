@@ -116,12 +116,13 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
                 {
                     availableAmmo.Add(item);
                     ammoCount += item.Count;
-                    Action reviewAmmo = () => {
+                    Action<int> reviewAmmo = (count) => {
+                        if (count > 0) { return; }
                         int restAmmo = GetAvailableAmmoCount() - item.Count;
                         if (restAmmo < CurrentAmmo) CurrentAmmo = restAmmo; 
                     };
-                    item.OnRemove -= reviewAmmo;
-                    item.OnRemove += reviewAmmo;
+                    item.OnCountChanged -= reviewAmmo;
+                    item.OnCountChanged += reviewAmmo;
                 }
             }
         }

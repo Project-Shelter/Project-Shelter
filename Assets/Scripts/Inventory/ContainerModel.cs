@@ -115,7 +115,6 @@ namespace ItemContainer
             }
 
             container.slots[slot].Count -= count;
-            container.slots[slot].OnRemove?.Invoke();
 
             if (container.slots[slot].Count == 0)
             {

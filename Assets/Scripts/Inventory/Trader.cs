@@ -7,8 +7,9 @@ namespace ItemContainer
         private PopupTrade trade;
         private bool isTradeOpen = false;
 
-        public void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             trade = Util.FindChild(Managers.UI.Root, "Pop_Trade", true).GetComponent<PopupTrade>();
         }
         

@@ -22,7 +22,6 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        print(other.gameObject.name);
         if (other.gameObject.layer == (int)Define.Layer.EnemyTrigger)
         {
             countCollidingEnemy++;
@@ -51,6 +50,15 @@ public partial class Actor : MonoBehaviour, ILivingEntity, IMovable
             Interactable = null;
         }
     }
+
+    /*void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            MoveBody.Stop();
+        }
+    }*/
+
 
     public void EnterBuilding(GameObject roof)
     {

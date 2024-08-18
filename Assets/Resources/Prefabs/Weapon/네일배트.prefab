@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -305,7 +305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19973542, guid: 73a2cd7932ea7074aba3fdfe9137fcc7, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 19973542, guid: 73a2cd7932ea7074aba3fdfe9137fcc7, type: 3}
       propertyPath: m_SortingLayerID
@@ -408,6 +408,22 @@ PrefabInstance:
     - target: {fileID: 19805762, guid: 8fa792556b2db4f4eb7c2adb0f4fa4a1, type: 3}
       propertyPath: emitterVelocityMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19805762, guid: 8fa792556b2db4f4eb7c2adb0f4fa4a1, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19805762, guid: 8fa792556b2db4f4eb7c2adb0f4fa4a1, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19805762, guid: 8fa792556b2db4f4eb7c2adb0f4fa4a1, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19805762, guid: 8fa792556b2db4f4eb7c2adb0f4fa4a1, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 19809114, guid: 8fa792556b2db4f4eb7c2adb0f4fa4a1, type: 3}
       propertyPath: playOnAwake

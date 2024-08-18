@@ -2,7 +2,6 @@ using ItemContainer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
@@ -164,13 +163,11 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
             Vector2 hitPoint = hitBox.ClosestPoint(targetCenter);
             Vector2 hitNormal = (targetCenter - (Vector2)owner.Tr.position).normalized;
             target.OnDamage(damage, hitPoint, hitNormal, owner);
-            Debug.Log(hitPoint);
 
             Vector2 onHitPos = targetCenter - hitNormal * 0.1f;
 
             onHitEffect.transform.position = hitPoint;
             onHitEffect.Play();
-            Debug.Log(onHitEffect.transform.position);
         }
     }
     public void OnDestroy()
