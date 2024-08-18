@@ -17,12 +17,10 @@ namespace ItemContainer
         {
             itemTable = transform.GetChild(0).GetComponent<UI_Container>();
             tradeTable = transform.GetChild(1).GetComponent<UI_Container>();
-            //현재 invenSlots에서 하드코딩으로 가져오고 있는데 Day 따라서 가져오는 것으로 수정할 것.
-            //-> 거래 시스템이 Day에 종속되어 있음.
             if(gameObject.name.Substring(gameObject.name.Length - 3) == "YOU")
             {
                 trader = 1;
-                itemTableNumber = ServiceLocator.GetService<DayNight>().DayCount;
+                itemTableNumber = ServiceLocator.GetService<DayNight>().DayCount + 700;
                 Debug.Log(itemTableNumber);
             }
         }
@@ -115,7 +113,9 @@ namespace ItemContainer
             {
                 otherValue += ItemDummyData.ItemDB.data[item.Value.id].weight * item.Value.Count;
             }
-
+            
+            Debug.Log(otherValue + name);
+            
             return playerValue >= otherValue;
         }
 
