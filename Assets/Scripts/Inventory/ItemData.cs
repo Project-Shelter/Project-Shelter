@@ -20,6 +20,12 @@ public enum EffectType
     Damage,
 }
 
+public enum ItemKind
+{
+    Weapons,
+    Tools,
+    Buildings,
+}
 
 //정적 데이터: 마지막에 Data
 //동적 데이터: 마지막에 VO
@@ -146,6 +152,7 @@ namespace ItemContainer{
         [JsonProperty("Item_OvelapCount")]
         public int overlapCount { get; private set; }
         public Sprite image;
+        public ItemKind kind;
 
         public ItemData(int id, string name, string description, ItemType itemType, int weight, int skill_id, int min_damage, int max_damage, int overlapCount, Sprite image)
         {

@@ -41,6 +41,7 @@ namespace ItemContainer
             }
         }
         
+        //이거... ContainerVO로 바꿔야하는데...
         public static Dictionary<int, ItemVO>[] invenSlots = new Dictionary<int, ItemVO>[countContainer];
         public static int[] MaxCapacity= {18, 6, 12, 8};
         void Awake()
@@ -55,6 +56,31 @@ namespace ItemContainer
             
             //Init 용도 - Awake 겹쳐서 따로 뺐음.
             ContainerInjector.ContainerInit();
+        }
+
+        public static bool HasItem(ItemVO itemVo)
+        {
+            int count = itemVo.Count;
+            foreach (var item in invenSlots[0])
+            {
+                if (item.Key == itemVo.id)
+                {
+                    count -= item.Value.Count;
+                    if (count <= 0)
+                        return true;
+                }
+            }
+            foreach (var item in invenSlots[1])
+            {
+                if (item.Key == itemVo.id)
+                {
+                    count -= item.Value.Count;
+                    if (count <= 0)
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         private void InitTrade()
