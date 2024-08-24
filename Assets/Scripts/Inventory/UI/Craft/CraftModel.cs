@@ -22,6 +22,7 @@ public class CraftItem
 
 public class CraftModel
 {
+    private ContainerModel inventory = ContainerInjector.InjectContainer(0);
     public List<CraftItem> GetCraftList(ItemKind itemKind)
     {
         List<CraftItem> list = new List<CraftItem>();
@@ -38,12 +39,13 @@ public class CraftModel
     public void MakeCraftItem(int itemID)
     {
         if (!CanCraftItem(itemID)) return;
-        //InvenSlot을 ContainerModel로 리팩토링 해야 함... 그래야 구현 가능.
+        //inventory.RemoveItem(); 아이템 삭제
+        inventory.AddItem(itemID, 1);
     }
 
     public bool CanCraftItem(int itemID)
     {
-        if (ItemDummyData.HasItem(new ItemVO(itemID, 1))) return true;
+        if (inventory.HasItem(new ItemVO(itemID, 1))) return true;
         return false;
     }
 }
