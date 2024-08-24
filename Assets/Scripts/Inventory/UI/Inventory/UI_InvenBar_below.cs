@@ -37,7 +37,7 @@ public class UI_InvenBar_below : UI_Container
     {
         for (int i = 0; i < maxCapacity; i++)
         {
-            if (Model.container.slots.ContainsKey(i))
+            if (Model.slots.ContainsKey(i))
             {
                 slots[i].Item.OnCountChanged -= (_) => { UpdateAllSlot(); };
                 slots[i].Item.OnCountChanged += (_) => { UpdateAllSlot(); };

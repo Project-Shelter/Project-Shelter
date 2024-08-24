@@ -84,12 +84,12 @@ namespace ItemContainer
         public void Trade()
         {
             //아이템 이동
-            foreach (var item in otherTradeTable.Model.container.slots)
+            foreach (var item in otherTradeTable.Model.slots)
             {
                 itemTable.Model.AddItem(item.Value.id, item.Value.Count);
             }
             //이동 후 UI TradeTable 비우기
-            otherTradeTable.Model.container.slots.Clear();
+            otherTradeTable.Model.slots.Clear();
             //테이블 변화 UI 반영
             otherTradeTable.InitView();
             itemTable.InitView();
@@ -97,7 +97,7 @@ namespace ItemContainer
             //플레이어일 시, 인벤토리(DB)에 반영
             if (trader == 0)
             {
-                ItemDummyData.invenSlots[0] = itemTable.Model.container.slots;
+                ItemDummyData.invenSlots[0] = itemTable.Model.slots;
             }
         }
 
@@ -105,11 +105,11 @@ namespace ItemContainer
         {
             int playerValue = 0;
             int otherValue = 0;
-            foreach (var item in tradeTable.Model.container.slots)
+            foreach (var item in tradeTable.Model.slots)
             {
                 playerValue += ItemDummyData.ItemDB.data[item.Value.id].weight * item.Value.Count;
             }
-            foreach (var item in otherTradeTable.Model.container.slots)
+            foreach (var item in otherTradeTable.Model.slots)
             {
                 otherValue += ItemDummyData.ItemDB.data[item.Value.id].weight * item.Value.Count;
             }

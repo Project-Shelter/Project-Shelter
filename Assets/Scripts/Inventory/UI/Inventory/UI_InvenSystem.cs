@@ -59,7 +59,7 @@ namespace ItemContainer
         //아이템 전송
         public void GiveItem(int count, int slot, int receiver)
         {
-            bool temp = containers[receiver].GetItem(new ItemVO(Model.container.slots[slot].id, count));
+            bool temp = containers[receiver].GetItem(new ItemVO(Model.slots[slot].id, count));
             if(temp) ThrowItem(count, slot);
         }
 
@@ -67,11 +67,11 @@ namespace ItemContainer
         {
             if (dropedContainer is -1)
             {
-                ThrowItem(Model.container.slots[slot].Count, slot);
+                ThrowItem(Model.slots[slot].Count, slot);
                 return;
             }
             Debug.Log(dropedContainer);
-            GiveItem(Model.container.slots[slot].Count, slot, dropedContainer);
+            GiveItem(Model.slots[slot].Count, slot, dropedContainer);
             dropedContainer = -1;
         }
 
@@ -81,7 +81,7 @@ namespace ItemContainer
             {
                 if (slots[i].IsOn)
                 {
-                    GiveItem(Model.container.slots[i].Count, i, receiver);
+                    GiveItem(Model.slots[i].Count, i, receiver);
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace ItemContainer
             {
                 if (slots[i].IsOn)
                 {
-                    ThrowItem(Model.container.slots[i].Count, i);
+                    ThrowItem(Model.slots[i].Count, i);
                 }
             }
         }
@@ -162,7 +162,7 @@ namespace ItemContainer
                 tempSlot.subBtn.onClick.AddListener(delegate
                 {
                     int receiver = (sendNumber == 2) ? 0 : 2;
-                    if (receiver is 0 && containers[0].Model.container.slots.Count == maxCapacity) receiver = 1;
+                    if (receiver is 0 && containers[0].Model.slots.Count == maxCapacity) receiver = 1;
                     GiveItem(1, slot, receiver);
                 });
                 

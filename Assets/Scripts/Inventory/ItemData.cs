@@ -169,31 +169,4 @@ namespace ItemContainer{
             if (sprite is not null) this.image = sprite;
         }
     }
-
-    //인벤토리(아이템 컨테이너) 데이터
-    public class ContainerVO
-    {
-        public ContainerVO(int maxCapacity)
-        {
-            this.maxCapacity = maxCapacity;
-        }
-        public ContainerVO(Dictionary<int, ItemVO> slots, int maxCapacity)
-        {
-            this.slots = slots;
-            this.maxCapacity = maxCapacity;
-        }
-        public int maxCapacity { get; set; }
-        //key: slot number
-        public Dictionary<int, ItemVO> slots;
-
-        public bool fullSlot
-        {
-            get
-            {
-                Debug.Log(slots.Keys.Count + ", " + maxCapacity);
-                if (slots.Count == maxCapacity - 1) return true;
-                return false;
-            }
-        }
-    }
 }

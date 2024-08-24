@@ -16,7 +16,7 @@ namespace ItemContainer
         public void SetContainerToStart(ContainerModel model)
         {
             Model = model;
-            maxCapacity = model.container.maxCapacity;
+            maxCapacity = model.maxCapacity;
             slots = new UI_Slot[maxCapacity];
             Init();
             InitView();
@@ -118,8 +118,8 @@ namespace ItemContainer
         protected void UpdateSlot(int slot)
         {
             if (slot is -1) return;
-            if(Model.container.slots.ContainsKey(slot))
-                slots[slot].UpdateSlot(Model.container.slots[slot]);
+            if(Model.slots.ContainsKey(slot))
+                slots[slot].UpdateSlot(Model.slots[slot]);
             else slots[slot].UpdateSlot(ItemDummyData.NullItem);
         }
         

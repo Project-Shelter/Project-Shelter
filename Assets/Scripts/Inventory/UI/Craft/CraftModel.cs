@@ -38,7 +38,7 @@ public class CraftModel
     public void MakeCraftItem(int itemID)
     {
         if (!CanCraftItem(itemID)) return;
-        
+        //InvenSlot을 ContainerModel로 리팩토링 해야 함... 그래야 구현 가능.
     }
 
     public bool CanCraftItem(int itemID)

@@ -16,7 +16,7 @@ namespace ItemContainer
             {
                 if (slots[i].Item.id is not 0)
                 {
-                    GiveItem(Model.container.slots[i].Count, i, receiver);
+                    GiveItem(Model.slots[i].Count, i, receiver);
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace ItemContainer
         
         private void SlotDoubleClick(int slot)
         {
-            GiveItem(Model.container.slots[slot].Count, slot, 0);
+            GiveItem(Model.slots[slot].Count, slot, 0);
         }
     }
 }
