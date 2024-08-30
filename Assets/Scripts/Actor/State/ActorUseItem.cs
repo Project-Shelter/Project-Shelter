@@ -85,6 +85,7 @@ public class ActorUseItem : ActorBaseState
         if(itemEffect.Type == EffectType.Heal)
         {
             Actor.RestoreHP(itemEffect.Value);
+            SoundManager.Instance.PlaySound2D("HealItem");
         }
         else if(itemEffect.Type == EffectType.HealHunger)
         {

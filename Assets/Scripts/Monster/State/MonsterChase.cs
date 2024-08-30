@@ -29,6 +29,8 @@ public class MonsterChase : MonsterBaseState
         StateMachine.Owner.Anim.SetBool("IsMoving", true);
         StateMachine.Owner.Anim.speed = 1.5f;
         InitVariables();
+
+        SoundManager.Instance.PlaySound2D("ZombieChase");
     }
 
     private void InitVariables()

@@ -103,6 +103,7 @@ public class MonsterAttacker
                 target.OnDamage(owner.Stat.attackDamage.GetValue(), hitPoint, hitNormal, owner);
             }
         }
+        SoundManager.Instance.PlaySound2D("ZombieAttack");
         OnAttackEnded?.Invoke();
     }
 }

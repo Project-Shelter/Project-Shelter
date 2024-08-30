@@ -124051,6 +124051,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!1001 &693173526
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753774743952758300, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7972053190584816371, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
+      propertyPath: m_Name
+      value: SoundManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 151d226afc6481149821e7e51cf2cf0b, type: 3}
 --- !u!1001 &693453100
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -650635,8 +650692,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.00030001998, y: 0.0012499988, z: 0}
-    m_Extent: {x: 0.99660003, y: 0.99735, z: 0}
+    m_Center: {x: 0.0039999783, y: -0.00075000525, z: 0}
+    m_Extent: {x: 1.0016, y: 0.99615, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

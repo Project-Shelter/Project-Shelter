@@ -7,6 +7,7 @@ public class ActorWalk : ActorBaseState
     public override void EnterState()
     {
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsWalking, true);
+        SoundManager.Instance.PlaySound2D("FootStep", 0, true);
     }
 
     public override void UpdateState()
@@ -34,6 +35,7 @@ public class ActorWalk : ActorBaseState
     public override void ExitState() 
     {
         Actor.Anim.SetAnimParamter(ActorAnimParameter.IsWalking, false);
+        SoundManager.Instance.StopLoopSound("FootStep");
     }
 
     protected override void ChangeFromState()
