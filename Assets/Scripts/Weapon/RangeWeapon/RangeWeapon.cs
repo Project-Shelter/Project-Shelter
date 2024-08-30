@@ -102,6 +102,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
         fireEffectRenderer.sortingLayerID = sprite.sortingLayerID;
         fireEffectRenderer.sortingOrder = sprite.sortingOrder;
         fireEffect.Play();
+        SoundManager.Instance.PlaySound2D("PistolAttack");
         projectile.Launch(dir, attackRange, projectileSpeed, owner);
     }
 
@@ -127,6 +128,7 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
             }
         }
 
+        SoundManager.Instance.PlaySound2D("PistolReload");
         if(ammoCount > 0 && ammoCount < MaxAmmo)
         {
             CurrentAmmo = ammoCount;

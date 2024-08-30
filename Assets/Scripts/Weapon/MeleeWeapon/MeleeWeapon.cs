@@ -84,6 +84,7 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon
 
         swingVector = GetSwingVector(attackDir);
         rotateTime = 0;
+        SoundManager.Instance.PlaySound2D("NailBatAttack");
     }
 
     public void AfterAttack()
