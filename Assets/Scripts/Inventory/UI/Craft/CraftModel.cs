@@ -28,7 +28,7 @@ public class CraftModel
         List<CraftItem> list = new List<CraftItem>();
         foreach (var item in ItemDummyData.ItemDB.data)
         {
-            if (item.Value.kind == itemKind)
+            if (item.Value.itemKind == itemKind)
             {
                 list.Add(new CraftItem(item.Value));
             }

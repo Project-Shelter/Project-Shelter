@@ -22,9 +22,10 @@ public enum EffectType
 
 public enum ItemKind
 {
-    Weapons,
-    Tools,
-    Buildings,
+    Food,
+    Weapon,
+    Tool,
+    Building,
 }
 
 //정적 데이터: 마지막에 Data
@@ -139,6 +140,10 @@ namespace ItemContainer{
         public string name { get; private set; }
         [JsonProperty("Item_Description")]
         public string description{ get; private set; }
+        
+        [JsonProperty("Item_Kind")]
+        public ItemKind itemKind { get; private set; }
+        
         [JsonProperty("Item_Type")]
         public ItemType itemType { get; private set; }
         [JsonProperty("Item_Weight")]
@@ -149,10 +154,10 @@ namespace ItemContainer{
         public int min_damage { get; private set; }
         [JsonProperty("Item_Max_Dmg")]
         public int max_damage { get; private set; }
-        [JsonProperty("Item_OvelapCount")]
+        [JsonProperty("Item_OverlapCount")]
         public int overlapCount { get; private set; }
+        
         public Sprite image;
-        public ItemKind kind;
 
         public ItemData(int id, string name, string description, ItemType itemType, int weight, int skill_id, int min_damage, int max_damage, int overlapCount, Sprite image)
         {
@@ -169,4 +174,6 @@ namespace ItemContainer{
             if (sprite is not null) this.image = sprite;
         }
     }
+    
+    
 }
