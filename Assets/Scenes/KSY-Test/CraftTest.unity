@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 105611615}
   - component: {fileID: 105611616}
   m_Layer: 5
-  m_Name: Weapons
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -480,10 +480,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Buildings
+  m_text: "\uAC74\uBB3C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
+  m_sharedMaterial: {fileID: -3384665231084169172, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -615,10 +615,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tools
+  m_text: "\uB3C4\uAD6C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
+  m_sharedMaterial: {fileID: -3384665231084169172, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -795,7 +795,7 @@ GameObject:
   - component: {fileID: 643050631}
   - component: {fileID: 643050632}
   m_Layer: 5
-  m_Name: Tools
+  m_Name: Tool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1349,8 +1349,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -66, y: 69}
-  m_SizeDelta: {x: 231.4582, y: 50}
+  m_AnchoredPosition: {x: -100.84277, y: 69}
+  m_SizeDelta: {x: 161.7726, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1288130647
 MonoBehaviour:
@@ -1372,10 +1372,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Crafting Materials
+  m_text: "\uC81C\uC791 \uC7AC\uB8CC"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
+  m_sharedMaterial: {fileID: -3384665231084169172, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2205,10 +2205,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Weapons
+  m_text: "\uBB34\uAE30"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
+  m_sharedMaterial: {fileID: -3384665231084169172, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2719,10 +2719,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Craft
+  m_text: "\uC81C\uC791"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
+  m_sharedMaterial: {fileID: -3384665231084169172, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2854,10 +2854,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Crafting List
+  m_text: "\uC81C\uC791 \uB9AC\uC2A4\uD2B8"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
+  m_sharedMaterial: {fileID: -3384665231084169172, guid: 8c8fa966a54171c47ab189be8e934862, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3112,7 +3112,7 @@ GameObject:
   - component: {fileID: 2075061615}
   - component: {fileID: 2075061616}
   m_Layer: 5
-  m_Name: Buildings
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3293,7 +3293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 765549538458169910, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0004644091
+      value: 0.00043294617
       objectReference: {fileID: 0}
     - target: {fileID: 3298278340755236530, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3487,7 +3487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 765549538458169910, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0004644091
+      value: 0.00043294617
       objectReference: {fileID: 0}
     - target: {fileID: 3298278340755236530, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3676,7 +3676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 765549538458169910, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0004644091
+      value: 0.00043294617
       objectReference: {fileID: 0}
     - target: {fileID: 3298278340755236530, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.y
