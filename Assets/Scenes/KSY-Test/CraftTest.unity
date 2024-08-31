@@ -3195,12 +3195,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1591284486}
     m_Modifications:
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 765549537985441942, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
@@ -3289,7 +3305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 765549537985441943, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_Name
-      value: ToolsCraftList
+      value: ToolCraftList
       objectReference: {fileID: 0}
     - target: {fileID: 765549538458169910, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3389,12 +3405,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1591284486}
     m_Modifications:
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 765549537985441942, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
@@ -3483,7 +3515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 765549537985441943, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_Name
-      value: WeaponsCraftList
+      value: WeaponCraftList
       objectReference: {fileID: 0}
     - target: {fileID: 765549538458169910, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3578,12 +3610,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1591284486}
     m_Modifications:
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537791465900, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 765549537927745685, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 765549537985441942, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
@@ -3672,7 +3720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 765549537985441943, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_Name
-      value: BuildingsCraftList
+      value: BuildingCraftList
       objectReference: {fileID: 0}
     - target: {fileID: 765549538458169910, guid: 64d5d483bd7f8f34789faebb386e2bad, type: 3}
       propertyPath: m_AnchoredPosition.y
