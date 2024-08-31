@@ -33,6 +33,22 @@ namespace ItemContainer
             DoubleClick();
         }
 
+        public void OnEnable()
+        {
+            int beforeTradeNumber = itemTableNumber;
+            if (trader == 1)
+            {
+                itemTableNumber = ServiceLocator.GetService<DayNight>().DayCount + 700;
+            }
+
+            if (beforeTradeNumber == itemTableNumber) return;
+            
+            itemTable.SetContainerToStart(new ContainerModel(SetInventory(), ItemDummyData.MaxCapacity[0]));
+            tradeTable.SetContainerToStart(new ContainerModel(new Dictionary<int, ItemVO>(), ItemDummyData.MaxCapacity[3]));
+
+            DoubleClick();
+        }
+
         private Dictionary<int, ItemVO> SetInventory()
         {
             Dictionary<int, ItemVO> returnDictionary = new Dictionary<int, ItemVO>();
@@ -113,9 +129,9 @@ namespace ItemContainer
             {
                 otherValue += ItemDummyData.ItemDB.data[item.Value.id].weight * item.Value.Count;
             }
-            
-            Debug.Log(otherValue + name);
-            
+
+            if (trader == 1)
+                return otherValue >= playerValue;
             return playerValue >= otherValue;
         }
 
