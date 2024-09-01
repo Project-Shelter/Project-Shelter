@@ -9,6 +9,7 @@ namespace ItemContainer
         public static ItemDB ItemDB { get; private set; }
         public static Dictionary<int, ItemEffect> ItemEffects{ get; private set; }
         public static Dictionary<int, List<int>> ItemEffectRelations{ get; private set; }
+        public static Dictionary<int, CraftItemData> CraftItemDatas { get; private set; }
         public static Sprite PlainImage;
 
         public static ItemVO NullItem = new ItemVO();
@@ -53,6 +54,7 @@ namespace ItemContainer
             InitInventory();
             InitChests();
             InitTrade();
+            InitCraft();
             
             //Init 용도 - Awake 겹쳐서 따로 뺐음.
             ContainerInjector.ContainerInit();
@@ -98,6 +100,42 @@ namespace ItemContainer
                 { 1, new ItemVO(200010, 8) },
                 { 2, new ItemVO(202005, 1) }
             };
+        }
+
+        private void InitCraft()
+        {
+            CraftItemDatas = new Dictionary<int, CraftItemData>();
+            
+            List<ItemVO> list = new List<ItemVO>();
+            list.Add(new ItemVO(202004, 4));
+            list.Add(new ItemVO(202005, 2));
+            CraftItemDatas.Add(203007, new CraftItemData(203007, 1, "못 박힌 방망이", 30, list));
+
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202002, 5));
+            CraftItemDatas.Add(204003, new CraftItemData(204003, 1, "K5권총", 150, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202002, 1));
+            CraftItemDatas.Add(204007, new CraftItemData(204007, 5, "K5권총탄환", 20, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202005, 2));
+            CraftItemDatas.Add(204004, new CraftItemData(204004, 1, "나무도끼", 30, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202005, 1));
+            list.Add(new ItemVO(202006, 2));
+            CraftItemDatas.Add(204005, new CraftItemData(204005, 1, "돌도끼", 35, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202002, 2));
+            list.Add(new ItemVO(202005, 1));
+            CraftItemDatas.Add(204006, new CraftItemData(204006, 1, "철도끼", 40, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202006, 3));
+            CraftItemDatas.Add(204008, new CraftItemData(204008, 1, "벽", 20, list));
         }
 
         private void InitInventory()

@@ -218,6 +218,18 @@
  },
  {
   "ID": 202006,
+  "Item_Name": "돌",
+  "Item_Description": 212006,
+  "Item_Kind": "ETC",
+  "Item_Type": "EtcItem",
+  "Item_Weight": 20,
+  "Item_Skill_ID": 0,
+  "Item_Min_Dmg": 0,
+  "Item_Max_Dmg": 0,
+  "Item_OverlapCount": 5
+ },
+ {
+  "ID": 203001,
   "Item_Name": "총알",
   "Item_Description": 212006,
   "Item_Kind": "Weapon",
@@ -283,6 +295,18 @@
   "Item_Kind": "Weapon",
   "Item_Type": "EquipItem",
   "Item_Weight": 200,
+  "Item_Skill_ID": 0,
+  "Item_Min_Dmg": 0,
+  "Item_Max_Dmg": 0,
+  "Item_OverlapCount": 1
+ },
+ {
+  "ID": 203007,
+  "Item_Name": "못 박힌 방망이",
+  "Item_Description": 213007,
+  "Item_Kind": "Weapon",
+  "Item_Type": "EquipItem",
+  "Item_Weight": 100,
   "Item_Skill_ID": 0,
   "Item_Min_Dmg": 0,
   "Item_Max_Dmg": 0,
@@ -359,6 +383,30 @@
   "Item_Min_Dmg": 0,
   "Item_Max_Dmg": 0,
   "Item_OverlapCount": 1
+ },
+ {
+  "ID": 204007,
+  "Item_Name": "K5권총탄환",
+  "Item_Description": 213007,
+  "Item_Kind": "Weapon",
+  "Item_Type": "EtcItem",
+  "Item_Weight": 3,
+  "Item_Skill_ID": 0,
+  "Item_Min_Dmg": 0,
+  "Item_Max_Dmg": 0,
+  "Item_OverlapCount": 20
+ },
+ {
+  "ID": 204008,
+  "Item_Name": "벽",
+  "Item_Description": 213008,
+  "Item_Kind": "Weapon",
+  "Item_Type": "EtcItem",
+  "Item_Weight": 100,
+  "Item_Skill_ID": 0,
+  "Item_Min_Dmg": 0,
+  "Item_Max_Dmg": 0,
+  "Item_OverlapCount": 5
  }
 ]
 }

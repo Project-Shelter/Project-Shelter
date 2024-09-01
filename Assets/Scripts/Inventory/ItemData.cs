@@ -26,6 +26,7 @@ public enum ItemKind
     Weapon,
     Tool,
     Building,
+    ETC,
 }
 
 //정적 데이터: 마지막에 Data
@@ -131,6 +132,27 @@ namespace ItemContainer{
     {
         [JsonProperty("Item_ID")]
         public int ItemID;
+    }
+
+    public class CraftItemData : DBData
+    {
+        [JsonProperty("Item_IDCount")]
+        public int count { get; private set; }
+        [JsonProperty("Item_Name")]
+        public string name { get; private set; }
+        [JsonProperty("CraftTime")]
+        public int craftingTime { get; private set; }
+        [JsonProperty("Materials")]
+        public List<ItemVO> materials { get; private set; }
+
+        public CraftItemData(int id, int count, string name, int craftingTime, List<ItemVO> materials)
+        {
+            ID = id;
+            this.count = count;
+            this.name = name;
+            this.craftingTime = craftingTime;
+            this.materials = materials;
+        }
     }
 
     //추후 리팩할게요...(Rename...ㅠ)
