@@ -8,10 +8,11 @@ using UnityEngine.UI;
     public class UI_CraftItem : UI_Section
     {
         public int ID { get; private set; }
-        private TextMeshProUGUI name;
+        private TextMeshProUGUI itemName;
         private TextMeshProUGUI comment;
         private Image icon;
         private Button button;
+        public Action<int> ClickCraftItem = null;
 
         enum Texts
         {
@@ -22,6 +23,11 @@ using UnityEngine.UI;
         {
             ItemIcon,
         }
+        
+        void Awake()
+        {
+            Init();
+        }
 
         public override void Init()
         {
@@ -29,22 +35,30 @@ using UnityEngine.UI;
             Bind<TextMeshProUGUI>(typeof(Texts));
             Bind<Image>(typeof(Images));
 
-            name = GetText((int)Texts.ItemName);
+            itemName = GetText((int)Texts.ItemName);
             comment = GetText((int)Texts.ItemComment);
             icon = GetImage((int)Images.ItemIcon);
+            
+            button = gameObject.GetComponent<Button>();
+            
+            button?.onClick.AddListener(delegate
+            {
+                ClickCraftItem.Invoke(ID);
+            });
         }
 
         public void UpdateView(CraftItem item)
         {
             ID = item.ID;
-            name.text = item.Name;
+            itemName.text = item.Name;
             comment.text = item.Comment;
             icon.sprite = item.Icon;
         }
 
-        public void BindEvent(UnityAction action)
+        public void BindEvent(Action<int> action)
         {
-            button.onClick.AddListener(action);
+            ClickCraftItem -= action;
+            ClickCraftItem += action;
         }
         
     }

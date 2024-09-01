@@ -22,10 +22,15 @@ public class UI_Crafting : UI_Section
         BindInstances();
     }
 
-    //UI_CraftItem 업데이트, 제작 재료 업데이트
-    public void UpdateCraftItem(CraftItem item, Sprite[] materials)
+    void Start()
     {
-        this.item.UpdateView(item);
+        Init();
+    }
+
+    //UI_CraftItem 업데이트, 제작 재료 업데이트
+    public void UpdateCraftItem(CraftItem craftItem, Sprite[] materials)
+    {
+        item.UpdateView(craftItem);
         for (int i = 0; i < countMaterials; i++)
         {
             this.materials[i].sprite = materials[i];
@@ -47,6 +52,8 @@ public class UI_Crafting : UI_Section
         
         Bind<Button>(typeof(Buttons));
         Bind<Image>(materialIcons);
+
+        item = Util.FindChild<UI_CraftItem>(gameObject, "CraftItem", false);//transform.FindObjectOfType<UI_CraftItem>();
 
         craftButton = GetButton((int)Buttons.CraftButton);
         for (int i = 0; i < countMaterials; i++)

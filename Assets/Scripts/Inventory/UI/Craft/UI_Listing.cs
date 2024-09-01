@@ -8,16 +8,22 @@ using UnityEngine.Events;
 //Craft 제작 리스트 - 아이템 리스트 View
 public class UI_Listing : MonoBehaviour
 {
+    //리스트 아이템 ID - UI 오브젝트
     private Dictionary<int, UI_CraftItem> ItemList = new Dictionary<int, UI_CraftItem>();
+    private Transform content;
 
+    void Awake()
+    {
+        content = Util.FindChild<Transform>(gameObject, "Content", true);
+    }
     public void UpdateCraftListView(List<CraftItem> data)
     {
         foreach (var item in data)
         {
-            UI_CraftItem instance = Managers.Resources.Instantiate("Prefabs/UI/Subitem/CraftItem", transform)
+            UI_CraftItem instance = Managers.Resources.Instantiate("UI/Subitem/CraftItem", content)
                 .GetComponent<UI_CraftItem>();
             instance.UpdateView(item);
-            ItemList.Add(GetInstanceID(), instance);
+            ItemList.Add(item.ID, instance);
         }
     }
 
@@ -26,7 +32,7 @@ public class UI_Listing : MonoBehaviour
     {
         foreach (var item in ItemList)
         {
-            item.Value.BindEvent(delegate { action(item.Key);});
+            item.Value.BindEvent(action);
         }
     }
 }

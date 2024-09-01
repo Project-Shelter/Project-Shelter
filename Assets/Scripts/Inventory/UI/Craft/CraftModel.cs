@@ -23,14 +23,16 @@ public class CraftItem
 public class CraftModel
 {
     private ContainerModel inventory = ContainerInjector.InjectContainer(0);
+    
     public List<CraftItem> GetCraftList(ItemKind itemKind)
     {
         List<CraftItem> list = new List<CraftItem>();
-        foreach (var item in ItemDummyData.ItemDB.data)
+        foreach (var item in ItemDummyData.CraftItemDatas)
         {
-            if (item.Value.itemKind == itemKind)
+            ItemData itemData = ItemDummyData.ItemDB.data[item.Value.ID];
+            if (itemData.itemKind == itemKind)
             {
-                list.Add(new CraftItem(item.Value));
+                list.Add(new CraftItem(itemData));
             }
         }
         return list;
@@ -39,7 +41,10 @@ public class CraftModel
     public void MakeCraftItem(int itemID)
     {
         if (!CanCraftItem(itemID)) return;
-        //inventory.RemoveItem(); 아이템 삭제
+        foreach (var material in ItemDummyData.CraftItemDatas[itemID].materials)
+        {
+            inventory.RemoveItem(material);
+        }
         inventory.AddItem(itemID, 1);
     }
 
@@ -47,5 +52,25 @@ public class CraftModel
     {
         if (inventory.HasItem(new ItemVO(itemID, 1))) return true;
         return false;
+    }
+
+    public Sprite[] MaterialsIcon(int itemID)
+    {
+        int count = 8;
+        Sprite[] Icons = new Sprite[count];
+
+        int iconSlot = 0;
+        for (int i = 0; i < ItemDummyData.CraftItemDatas[itemID].materials.Count; i++)
+        {
+            int materialCount = ItemDummyData.CraftItemDatas[itemID].materials[i].Count;
+            Sprite sprite = ItemDummyData.ItemDB.data[ItemDummyData.CraftItemDatas[itemID].materials[i].id].image;
+            for (int j = 0; j < materialCount; j++)
+            {
+                Icons[iconSlot] = sprite;
+                iconSlot++;
+            }
+        }
+
+        return Icons;
     }
 }
