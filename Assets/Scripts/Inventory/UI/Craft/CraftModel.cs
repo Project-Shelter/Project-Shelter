@@ -18,6 +18,14 @@ public class CraftItem
         Comment = data.description;
         Icon = data.image;
     }
+
+    public CraftItem()
+    {
+        ID = 0;
+        Name = "";
+        Comment = "";
+        Icon = null;
+    }
 }
 
 public class CraftModel
@@ -50,8 +58,12 @@ public class CraftModel
 
     public bool CanCraftItem(int itemID)
     {
-        if (inventory.HasItem(new ItemVO(itemID, 1))) return true;
-        return false;
+        foreach (var material in ItemDummyData.CraftItemDatas[itemID].materials)
+        {
+            if (inventory.HasItem(material)) continue;
+            return false;
+        }
+        return true;
     }
 
     public Sprite[] MaterialsIcon(int itemID)

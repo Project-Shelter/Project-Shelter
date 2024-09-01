@@ -65,7 +65,7 @@ namespace ItemContainer
             int count = itemVo.Count;
             foreach (var item in invenSlots[0])
             {
-                if (item.Key == itemVo.id)
+                if (item.Value.id == itemVo.id)
                 {
                     count -= item.Value.Count;
                     if (count <= 0)
@@ -74,7 +74,7 @@ namespace ItemContainer
             }
             foreach (var item in invenSlots[1])
             {
-                if (item.Key == itemVo.id)
+                if (item.Value.id == itemVo.id)
                 {
                     count -= item.Value.Count;
                     if (count <= 0)
@@ -171,6 +171,11 @@ namespace ItemContainer
                 new ItemVO(200001, 1));
             invenSlots[2].Add(1,
                 new ItemVO(203004, 1));
+            
+            invenSlots[2].Add(2,
+                new ItemVO(202004, 5));
+            invenSlots[2].Add(3,
+                new ItemVO(202005, 5));
 
             invenSlots[13].Add(0,
                 new ItemVO(202006, 30));

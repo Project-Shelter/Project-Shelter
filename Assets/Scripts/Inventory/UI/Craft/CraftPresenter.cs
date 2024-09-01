@@ -47,6 +47,11 @@ public class CraftPresenter : UI_Popup
         Init();
     }
 
+    public void OnEnable()
+    {
+        craftView?.UpdateCraftItem(new CraftItem(), new Sprite[8]);
+    }
+
     //리스트 초기화
     private void InitCraftList()
     {

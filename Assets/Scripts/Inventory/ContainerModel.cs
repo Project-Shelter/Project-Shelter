@@ -133,11 +133,8 @@ namespace ItemContainer
             int count = itemVo.Count;
             foreach (var item in slots)
             {
-                if (item.Key == itemVo.id)
+                if (item.Value.id == itemVo.id)
                 {
-                    //if count가 더 많은 경우 -> count에서 Count를 빼고 Count = 0 만들고 반복
-                    // 5, 3 -> -2 count = 2;
-                    //if count가 더 적은 경우 -> Count에서 count를 빼고 종료.
                     item.Value.Count -= count;
                     if (item.Value.Count < 0)
                     {
@@ -156,7 +153,7 @@ namespace ItemContainer
             int count = itemVo.Count;
             foreach (var item in slots)
             {
-                if (item.Key == itemVo.id)
+                if (item.Value.id == itemVo.id)
                 {
                     count -= item.Value.Count;
                     if (count <= 0)
