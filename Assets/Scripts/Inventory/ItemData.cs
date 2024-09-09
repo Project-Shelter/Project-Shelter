@@ -20,6 +20,14 @@ public enum EffectType
     Damage,
 }
 
+public enum ItemKind
+{
+    Food,
+    Weapon,
+    Tool,
+    Building,
+    ETC,
+}
 
 //정적 데이터: 마지막에 Data
 //동적 데이터: 마지막에 VO
@@ -126,6 +134,27 @@ namespace ItemContainer{
         public int ItemID;
     }
 
+    public class CraftItemData : DBData
+    {
+        [JsonProperty("Item_IDCount")]
+        public int count { get; private set; }
+        [JsonProperty("Item_Name")]
+        public string name { get; private set; }
+        [JsonProperty("CraftTime")]
+        public int craftingTime { get; private set; }
+        [JsonProperty("Materials")]
+        public List<ItemVO> materials { get; private set; }
+
+        public CraftItemData(int id, int count, string name, int craftingTime, List<ItemVO> materials)
+        {
+            ID = id;
+            this.count = count;
+            this.name = name;
+            this.craftingTime = craftingTime;
+            this.materials = materials;
+        }
+    }
+
     //추후 리팩할게요...(Rename...ㅠ)
     public class ItemData : DBData
     {
@@ -133,6 +162,10 @@ namespace ItemContainer{
         public string name { get; private set; }
         [JsonProperty("Item_Description")]
         public string description{ get; private set; }
+        
+        [JsonProperty("Item_Kind")]
+        public ItemKind itemKind { get; private set; }
+        
         [JsonProperty("Item_Type")]
         public ItemType itemType { get; private set; }
         [JsonProperty("Item_Weight")]
@@ -143,8 +176,9 @@ namespace ItemContainer{
         public int min_damage { get; private set; }
         [JsonProperty("Item_Max_Dmg")]
         public int max_damage { get; private set; }
-        [JsonProperty("Item_OvelapCount")]
+        [JsonProperty("Item_OverlapCount")]
         public int overlapCount { get; private set; }
+        
         public Sprite image;
 
         public ItemData(int id, string name, string description, ItemType itemType, int weight, int skill_id, int min_damage, int max_damage, int overlapCount, Sprite image)
@@ -162,31 +196,6 @@ namespace ItemContainer{
             if (sprite is not null) this.image = sprite;
         }
     }
-
-    //인벤토리(아이템 컨테이너) 데이터
-    public class ContainerVO
-    {
-        public ContainerVO(int maxCapacity)
-        {
-            this.maxCapacity = maxCapacity;
-        }
-        public ContainerVO(Dictionary<int, ItemVO> slots, int maxCapacity)
-        {
-            this.slots = slots;
-            this.maxCapacity = maxCapacity;
-        }
-        public int maxCapacity { get; set; }
-        //key: slot number
-        public Dictionary<int, ItemVO> slots;
-
-        public bool fullSlot
-        {
-            get
-            {
-                Debug.Log(slots.Keys.Count + ", " + maxCapacity);
-                if (slots.Count == maxCapacity - 1) return true;
-                return false;
-            }
-        }
-    }
+    
+    
 }

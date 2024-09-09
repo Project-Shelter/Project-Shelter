@@ -85,6 +85,7 @@ public class Chest : Interactable
 
     private void OpenChest()
     {
+        SoundManager.Instance.PlaySound2D("ChestOpen");
         UI_Chest.ChangeChest(chestNum);
         chest.Open();
         inventory.Open();

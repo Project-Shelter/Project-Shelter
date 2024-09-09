@@ -17,18 +17,32 @@ namespace ItemContainer
         {
             itemTable = transform.GetChild(0).GetComponent<UI_Container>();
             tradeTable = transform.GetChild(1).GetComponent<UI_Container>();
-            //현재 invenSlots에서 하드코딩으로 가져오고 있는데 Day 따라서 가져오는 것으로 수정할 것.
-            //-> 거래 시스템이 Day에 종속되어 있음.
             if(gameObject.name.Substring(gameObject.name.Length - 3) == "YOU")
             {
                 trader = 1;
-                itemTableNumber = ServiceLocator.GetService<DayNight>().DayCount;
+                itemTableNumber = ServiceLocator.GetService<DayNight>().DayCount + 700;
                 Debug.Log(itemTableNumber);
             }
         }
 
         public void Start()
         {
+            itemTable.SetContainerToStart(new ContainerModel(SetInventory(), ItemDummyData.MaxCapacity[0]));
+            tradeTable.SetContainerToStart(new ContainerModel(new Dictionary<int, ItemVO>(), ItemDummyData.MaxCapacity[3]));
+
+            DoubleClick();
+        }
+
+        public void OnEnable()
+        {
+            int beforeTradeNumber = itemTableNumber;
+            if (trader == 1)
+            {
+                itemTableNumber = ServiceLocator.GetService<DayNight>().DayCount + 700;
+            }
+
+            if (beforeTradeNumber == itemTableNumber) return;
+            
             itemTable.SetContainerToStart(new ContainerModel(SetInventory(), ItemDummyData.MaxCapacity[0]));
             tradeTable.SetContainerToStart(new ContainerModel(new Dictionary<int, ItemVO>(), ItemDummyData.MaxCapacity[3]));
 
@@ -86,12 +100,12 @@ namespace ItemContainer
         public void Trade()
         {
             //아이템 이동
-            foreach (var item in otherTradeTable.Model.container.slots)
+            foreach (var item in otherTradeTable.Model.slots)
             {
                 itemTable.Model.AddItem(item.Value.id, item.Value.Count);
             }
             //이동 후 UI TradeTable 비우기
-            otherTradeTable.Model.container.slots.Clear();
+            otherTradeTable.Model.slots.Clear();
             //테이블 변화 UI 반영
             otherTradeTable.InitView();
             itemTable.InitView();
@@ -99,7 +113,7 @@ namespace ItemContainer
             //플레이어일 시, 인벤토리(DB)에 반영
             if (trader == 0)
             {
-                ItemDummyData.invenSlots[0] = itemTable.Model.container.slots;
+                ItemDummyData.invenSlots[0] = itemTable.Model.slots;
             }
         }
 
@@ -107,15 +121,17 @@ namespace ItemContainer
         {
             int playerValue = 0;
             int otherValue = 0;
-            foreach (var item in tradeTable.Model.container.slots)
+            foreach (var item in tradeTable.Model.slots)
             {
                 playerValue += ItemDummyData.ItemDB.data[item.Value.id].weight * item.Value.Count;
             }
-            foreach (var item in otherTradeTable.Model.container.slots)
+            foreach (var item in otherTradeTable.Model.slots)
             {
                 otherValue += ItemDummyData.ItemDB.data[item.Value.id].weight * item.Value.Count;
             }
 
+            if (trader == 1)
+                return otherValue >= playerValue;
             return playerValue >= otherValue;
         }
 

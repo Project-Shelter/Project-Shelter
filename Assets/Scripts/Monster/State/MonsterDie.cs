@@ -12,6 +12,7 @@ public class MonsterDie : MonsterBaseState
     {
         StateMachine.Owner.Coll.enabled = false;
         // FallDown -> Blink -> SetActive(false)
+        SoundManager.Instance.PlaySound2D("ZombieDie");
         StateMachine.Owner.StartCoroutine(FallDown(5f));
     }
 

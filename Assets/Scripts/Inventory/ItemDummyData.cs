@@ -9,6 +9,7 @@ namespace ItemContainer
         public static ItemDB ItemDB { get; private set; }
         public static Dictionary<int, ItemEffect> ItemEffects{ get; private set; }
         public static Dictionary<int, List<int>> ItemEffectRelations{ get; private set; }
+        public static Dictionary<int, CraftItemData> CraftItemDatas { get; private set; }
         public static Sprite PlainImage;
 
         public static ItemVO NullItem = new ItemVO();
@@ -41,6 +42,7 @@ namespace ItemContainer
             }
         }
         
+        //이거... ContainerVO로 바꿔야하는데...
         public static Dictionary<int, ItemVO>[] invenSlots = new Dictionary<int, ItemVO>[countContainer];
         public static int[] MaxCapacity= {18, 6, 12, 8};
         void Awake()
@@ -52,19 +54,39 @@ namespace ItemContainer
             InitInventory();
             InitChests();
             InitTrade();
+            InitCraft();
             
             //Init 용도 - Awake 겹쳐서 따로 뺐음.
             ContainerInjector.ContainerInit();
         }
 
+        public static bool HasItem(ItemVO itemVo)
+        {
+            int count = itemVo.Count;
+            foreach (var item in invenSlots[0])
+            {
+                if (item.Value.id == itemVo.id)
+                {
+                    count -= item.Value.Count;
+                    if (count <= 0)
+                        return true;
+                }
+            }
+            foreach (var item in invenSlots[1])
+            {
+                if (item.Value.id == itemVo.id)
+                {
+                    count -= item.Value.Count;
+                    if (count <= 0)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
         private void InitTrade()
         {
-            invenSlots[700] = new Dictionary<int, ItemVO>()
-            {
-                { 0, new ItemVO(200001, 2) },
-                { 1, new ItemVO(200010, 8) },
-                { 2, new ItemVO(202005, 1) }
-            };
             invenSlots[701] = new Dictionary<int, ItemVO>()
             {
                 { 0, new ItemVO(200001, 2) },
@@ -72,6 +94,48 @@ namespace ItemContainer
                 { 2, new ItemVO(202005, 1) },
                 { 3, new ItemVO(200001, 1) }
             };
+            invenSlots[702] = new Dictionary<int, ItemVO>()
+            {
+                { 0, new ItemVO(200001, 2) },
+                { 1, new ItemVO(200010, 8) },
+                { 2, new ItemVO(202005, 1) }
+            };
+        }
+
+        private void InitCraft()
+        {
+            CraftItemDatas = new Dictionary<int, CraftItemData>();
+            
+            List<ItemVO> list = new List<ItemVO>();
+            list.Add(new ItemVO(202004, 4));
+            list.Add(new ItemVO(202005, 2));
+            CraftItemDatas.Add(203007, new CraftItemData(203007, 1, "못 박힌 방망이", 30, list));
+
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202002, 5));
+            CraftItemDatas.Add(204003, new CraftItemData(204003, 1, "K5권총", 150, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202002, 1));
+            CraftItemDatas.Add(204007, new CraftItemData(204007, 5, "K5권총탄환", 20, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202005, 2));
+            CraftItemDatas.Add(204004, new CraftItemData(204004, 1, "나무도끼", 30, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202005, 1));
+            list.Add(new ItemVO(202006, 2));
+            CraftItemDatas.Add(204005, new CraftItemData(204005, 1, "돌도끼", 35, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202002, 2));
+            list.Add(new ItemVO(202005, 1));
+            CraftItemDatas.Add(204006, new CraftItemData(204006, 1, "철도끼", 40, list));
+            
+            list = new List<ItemVO>();
+            list.Add(new ItemVO(202006, 3));
+            CraftItemDatas.Add(204008, new CraftItemData(204008, 1, "벽", 20, list));
         }
 
         private void InitInventory()
@@ -107,6 +171,11 @@ namespace ItemContainer
                 new ItemVO(200001, 1));
             invenSlots[2].Add(1,
                 new ItemVO(203004, 1));
+            
+            invenSlots[2].Add(2,
+                new ItemVO(202004, 5));
+            invenSlots[2].Add(3,
+                new ItemVO(202005, 5));
 
             invenSlots[13].Add(0,
                 new ItemVO(202006, 30));

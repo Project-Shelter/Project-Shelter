@@ -239,12 +239,28 @@
   "RunningTime": 0,
   "CoolTime": 1,
   "Durability": 2
+ },
+ {
+  "ID": 203007,
+  "Runtime": 0.3,
+  "AfterRuntime": 0.3,
+  "Effect_Type": "Damage",
+  "EffectValue": 70,
+  "Effect_Range": 2,
+  "Effect_Range2": 8,
+  "RunningTime": 0,
+  "CoolTime": 1,
+  "Durability": 2
  }
 ],
 "Item_RelationTable":[
  {
   "ID": 102001,
   "Item_ID": 200001
+ },
+ {
+  "ID": 203007,
+  "Item_ID": 203007
  },
  {
   "ID": 102002,
